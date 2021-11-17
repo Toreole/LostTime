@@ -2,18 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FPSController : PortalTraveller {
+public class FPSController : PortalTraveller 
+{
+#region SerializedSettings
+    [SerializeField]
+    private float walkSpeed = 3;
+    [SerializeField]
+    private float runSpeed = 6;
+    [SerializeField]
+    private float smoothMoveTime = 0.1f;
+    [SerializeField]
+    private float jumpForce = 8;
+    [SerializeField]
+    private float gravity = 18;
 
-    public float walkSpeed = 3;
-    public float runSpeed = 6;
-    public float smoothMoveTime = 0.1f;
-    public float jumpForce = 8;
-    public float gravity = 18;
+    [SerializeField]
+    private bool lockCursor;
+    [SerializeField]
+    private float mouseSensitivity = 10;
+    [SerializeField]
+    private Vector2 pitchMinMax = new Vector2 (-40, 85);
+    [SerializeField]
+    private float rotationSmoothTime = 0.1f;
 
-    public bool lockCursor;
-    public float mouseSensitivity = 10;
-    public Vector2 pitchMinMax = new Vector2 (-40, 85);
-    public float rotationSmoothTime = 0.1f;
+#endregion
 
     CharacterController controller;
     Camera cam;
@@ -34,9 +46,11 @@ public class FPSController : PortalTraveller {
     float lastGroundedTime;
     bool disabled;
 
-    void Start () {
+    void Start () 
+    {
         cam = Camera.main;
-        if (lockCursor) {
+        if (lockCursor) 
+        {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
@@ -49,19 +63,23 @@ public class FPSController : PortalTraveller {
         smoothPitch = pitch;
     }
 
-    void Update () {
-        if (Input.GetKeyDown (KeyCode.P)) {
+    void Update () 
+    {
+        if (Input.GetKeyDown (KeyCode.P)) 
+        {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Debug.Break ();
         }
-        if (Input.GetKeyDown (KeyCode.O)) {
+        if (Input.GetKeyDown (KeyCode.O)) 
+        {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             disabled = !disabled;
         }
 
-        if (disabled) {
+        if (disabled) 
+        {
             return;
         }
 
@@ -78,15 +96,18 @@ public class FPSController : PortalTraveller {
         velocity = new Vector3 (velocity.x, verticalVelocity, velocity.z);
 
         var flags = controller.Move (velocity * Time.deltaTime);
-        if (flags == CollisionFlags.Below) {
+        if (flags == CollisionFlags.Below) 
+        {
             jumping = false;
             lastGroundedTime = Time.time;
             verticalVelocity = 0;
         }
 
-        if (Input.GetKeyDown (KeyCode.Space)) {
+        if (Input.GetKeyDown (KeyCode.Space)) 
+        {
             float timeSinceLastTouchedGround = Time.time - lastGroundedTime;
-            if (controller.isGrounded || (!jumping && timeSinceLastTouchedGround < 0.15f)) {
+            if (controller.isGrounded || (!jumping && timeSinceLastTouchedGround < 0.15f)) 
+            {
                 jumping = true;
                 verticalVelocity = jumpForce;
             }
@@ -113,7 +134,8 @@ public class FPSController : PortalTraveller {
 
     }
 
-    public override void Teleport (Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot) {
+    public override void Teleport (Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot) 
+    {
         transform.position = pos;
         Vector3 eulerRot = rot.eulerAngles;
         float delta = Mathf.DeltaAngle (smoothYaw, eulerRot.y);
