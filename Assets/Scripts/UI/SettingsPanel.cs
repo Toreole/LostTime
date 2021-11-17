@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 
 namespace LostTime.UI
 {
-    public class SettingsPanel : MonoBehaviour
+    public class SettingsPanel : UIPanel
     {
         [SerializeField]
         private AudioMixer audioMixer;
