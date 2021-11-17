@@ -9,18 +9,19 @@ namespace LostTime.UI.Test
     {
         public PauseMenu pauseMenu;
 
-        bool paused = false;
+        public bool paused = false;
+
+        void Start()
+        {
+            PauseMenu.OnMenuClosed += () => paused = false;
+        }
 
         private void Update()
         {
             bool input = Input.GetKeyDown(KeyCode.Escape);
             if(paused && input)
             {
-                paused = !pauseMenu.Close();
-                if(paused is false)
-                {
-                    Debug.Log("Pause Menu Closed.");
-                }
+                pauseMenu.Close();
             }   
             else if (input)
             {
