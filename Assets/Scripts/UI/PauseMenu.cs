@@ -61,9 +61,28 @@ namespace LostTime.UI
             layeredPanels.Push(panel);
         }
 
+        public void PopLayer()
+        {
+            if(layeredPanels.Count > 0)
+            {
+                var topPanel = layeredPanels.Pop();
+                topPanel.SetActive(false);
+                if(topPanel.DeactivatePrevious)
+                {
+                    if(layeredPanels.Count == 0)
+                        mainPanel.SetActive(true);
+                    else 
+                        layeredPanels.Peek().SetActive(true);
+                }
+                if(layeredPanels.Count > 0)
+                    layeredPanels.Peek().Interactable = false;
+            }
+        }
+
         ///<summary>
         ///"Closes" the menu in steps/layers.
         ///Returns true if every aspect of the Menu is closed, and control should be returned to the player.
+        ///</summary>
         public bool Close()
         {
             //if any layered UIPanels are active, pop them.
@@ -88,6 +107,14 @@ namespace LostTime.UI
             pauseMenuGroup.alpha = 0;
             pauseMenuGroup.blocksRaycasts = false;
             return true;
+        }
+
+        public void ClosePauseMenu()
+        {
+            OnMenuClosed?.Invoke();
+            pauseMenuGroup.interactable = false;
+            pauseMenuGroup.alpha = 0;
+            pauseMenuGroup.blocksRaycasts = false;
         }
     }
 }
