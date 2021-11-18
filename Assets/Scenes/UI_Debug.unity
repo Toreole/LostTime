@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 1492820721}
+  paused: 0
 --- !u!1 &333399610
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,11 +403,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1968402051 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3796559507004520196, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-  m_PrefabInstance: {fileID: 3796559507731093895}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3796559507731093895
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -414,34 +410,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 333399614}
     m_Modifications:
-    - target: {fileID: 124405626323970, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 124405626323970, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 124405626323970, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1492820721}
-    - target: {fileID: 124405626323970, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 124405626323970, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PopLayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 124405626323970, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LostTime.UI.PauseMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 124405626323970, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3796559506239601514, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -530,38 +498,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ingame Pause Menu
       objectReference: {fileID: 0}
-    - target: {fileID: 3796559506239601526, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: mainPanel
-      value: 
-      objectReference: {fileID: 1968402051}
-    - target: {fileID: 3796559506497823795, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559506497823795, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559506497823795, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1492820721}
-    - target: {fileID: 3796559506497823795, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559506497823795, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ClosePauseMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559506497823795, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LostTime.UI.PauseMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559506497823795, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3796559506497823796, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -601,34 +537,6 @@ PrefabInstance:
     - target: {fileID: 3796559507489982354, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559507510178636, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559507510178636, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559507510178636, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1492820721}
-    - target: {fileID: 3796559507510178636, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559507510178636, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GotoSettingsPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559507510178636, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LostTime.UI.PauseMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3796559507510178636, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3796559507510178637, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
       propertyPath: m_AnchorMax.y
