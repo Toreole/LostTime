@@ -120,5 +120,10 @@ namespace LostTime.UI
             pauseMenuGroup.alpha = 0;
             pauseMenuGroup.blocksRaycasts = false;
         }
+
+        public void QuitToTitle()
+        {
+            throw new NotImplementedException("Big doofus gotta implement the Scene Management first for this to work.");
+        }
     }
 }
