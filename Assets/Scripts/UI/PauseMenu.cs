@@ -19,6 +19,7 @@ namespace LostTime.UI
         private GameObject mainPanel;
 
         private Stack<UIPanel> layeredPanels = new Stack<UIPanel>(3); //max of 3 layers.
+        private float lastTimeScale = 1;
 
         void Start()
         {
@@ -32,6 +33,8 @@ namespace LostTime.UI
 
         public void Open()
         {
+            lastTimeScale = Time.timeScale;
+            Time.timeScale = 0;
             pauseMenuGroup.interactable = true;
             pauseMenuGroup.alpha = 1;
             pauseMenuGroup.blocksRaycasts = true;
@@ -106,6 +109,7 @@ namespace LostTime.UI
             pauseMenuGroup.interactable = false;
             pauseMenuGroup.alpha = 0;
             pauseMenuGroup.blocksRaycasts = false;
+            Time.timeScale = lastTimeScale;
             return true;
         }
 
