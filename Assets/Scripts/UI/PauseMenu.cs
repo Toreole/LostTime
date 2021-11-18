@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LostTime.Core;
 
 namespace LostTime.UI
 {
@@ -16,7 +17,9 @@ namespace LostTime.UI
         [SerializeField]
         private SettingsPanel settingsPanel;
         [SerializeField]
-        private GameObject mainPanel;
+        private UIPanel mainPanel;
+        [SerializeField]
+        private string titleMenuScene = "MainMenu";
 
         private Stack<UIPanel> layeredPanels = new Stack<UIPanel>(3); //max of 3 layers.
         private float lastTimeScale = 1;
@@ -41,26 +44,18 @@ namespace LostTime.UI
             OnMenuOpened?.Invoke();
         }
 
-        public void GotoSettingsPanel()
-        {
-            AddPanelLayer(settingsPanel);
-        }
-
         ///<summary>
         ///Adds a UIPanel as a Layer on top of the PauseMenu.
         ///</summary>
-        private void AddPanelLayer(UIPanel panel)
+        public void AddPanelLayer(UIPanel panel)
         {
             panel.SetActive(true);
+            panel.Interactable = true;
+            var previousPanel = layeredPanels.Count == 0 ? mainPanel : layeredPanels.Peek();
             if(panel.DeactivatePrevious)
-            {
-                if(layeredPanels.Count == 0)
-                    mainPanel.SetActive(false);
-                else
-                    layeredPanels.Peek().SetActive(false);
-            }
-            if(layeredPanels.Count > 0)
-                layeredPanels.Peek().Interactable = false;
+                previousPanel.SetActive(false);
+            //activate is just for visibility, interactable is seperate
+            previousPanel.Interactable = false;
             layeredPanels.Push(panel);
         }
 
@@ -70,15 +65,10 @@ namespace LostTime.UI
             {
                 var topPanel = layeredPanels.Pop();
                 topPanel.SetActive(false);
-                if(topPanel.DeactivatePrevious)
-                {
-                    if(layeredPanels.Count == 0)
-                        mainPanel.SetActive(true);
-                    else 
-                        layeredPanels.Peek().SetActive(true);
-                }
-                if(layeredPanels.Count > 0)
-                    layeredPanels.Peek().Interactable = false;
+                var bottompanel = layeredPanels.Count == 0 ? mainPanel : layeredPanels.Peek();
+                if (topPanel.DeactivatePrevious)
+                    bottompanel.SetActive(true);
+                bottompanel.Interactable = true;
             }
         }
 
@@ -93,15 +83,10 @@ namespace LostTime.UI
             {
                 var topPanel = layeredPanels.Pop();
                 topPanel.SetActive(false);
-                if(topPanel.DeactivatePrevious)
-                {
-                    if(layeredPanels.Count == 0)
-                        mainPanel.SetActive(true);
-                    else 
-                        layeredPanels.Peek().SetActive(true);
-                }
-                if(layeredPanels.Count > 0)
-                    layeredPanels.Peek().Interactable = false;
+                var bottompanel = layeredPanels.Count == 0 ? mainPanel : layeredPanels.Peek();
+                if (topPanel.DeactivatePrevious)
+                    bottompanel.SetActive(true);
+                bottompanel.Interactable = true;
                 return false;
             }
             //menu is fully closed now.
@@ -123,7 +108,7 @@ namespace LostTime.UI
 
         public void QuitToTitle()
         {
-            throw new NotImplementedException("Big doofus gotta implement the Scene Management first for this to work.");
+            SceneManagement.GotoScene(titleMenuScene);
         }
     }
 }

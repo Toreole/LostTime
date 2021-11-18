@@ -1172,11 +1172,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deactivatePrevious: 1
-  canvasGroup: {fileID: 0}
+  canvasGroup: {fileID: 7030652211690462697}
   audioMixer: {fileID: 24100000, guid: 2a7b91e6ec3a65e45b974085c288da23, type: 2}
   masterVolumeSlider: {fileID: 2565695385736699345}
   sfxVolumeSlider: {fileID: 2565695386330352231}
   musicVolumeSlider: {fileID: 2565695386964025600}
+  voiceVolumeSlider: {fileID: 2347599417592904335}
 --- !u!225 &7030652211690462697
 CanvasGroup:
   m_ObjectHideFlags: 0
