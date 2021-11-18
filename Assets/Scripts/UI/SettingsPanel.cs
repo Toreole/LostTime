@@ -16,10 +16,12 @@ namespace LostTime.UI
         private Slider sfxVolumeSlider;
         [SerializeField]
         private Slider musicVolumeSlider;
+        [SerializeField]
+        private Slider voiceVolumeSlider;
 
         //runtime buffers for the different volume settings.
-        private float masterVolume = 0, sfxVolume = 0, musicVolume = 0;
-        private float savedMasterVolume = 0, savedSfxVolume = 0, savedMusicVolume = 0;
+        private float masterVolume = 0, sfxVolume = 0, musicVolume = 0, voiceVolume = 0;
+        private float savedMasterVolume = 0, savedSfxVolume = 0, savedMusicVolume = 0, savedVoiceVolume = 0;
 
         internal void Initialize()
         {
@@ -41,14 +43,17 @@ namespace LostTime.UI
             savedMasterVolume = masterVolume = PlayerPrefs.GetFloat(nameof(masterVolume), 0);
             savedSfxVolume    = sfxVolume    = PlayerPrefs.GetFloat(nameof(sfxVolume),    0);
             savedMusicVolume  = musicVolume  = PlayerPrefs.GetFloat(nameof(musicVolume),  0);
+            savedVoiceVolume  = voiceVolume  = PlayerPrefs.GetFloat(nameof(voiceVolume),  0);
             //apply to audioMixer.
             audioMixer.SetFloat(nameof(masterVolume), masterVolume);
             audioMixer.SetFloat(nameof(sfxVolume),    sfxVolume);
             audioMixer.SetFloat(nameof(musicVolume),  musicVolume);
+            audioMixer.SetFloat(nameof(voiceVolume),  voiceVolume);
             //update sliders.
             masterVolumeSlider.value = masterVolume;
             sfxVolumeSlider.value    = sfxVolume;
             musicVolumeSlider.value  = musicVolume;
+            voiceVolumeSlider.value  = voiceVolume;
         }
 
         private void RegisterSliderChangeEvents()
@@ -61,6 +66,9 @@ namespace LostTime.UI
             );
             musicVolumeSlider.onValueChanged.AddListener(
                 (value) => UpdateVolume(value, ref musicVolume, nameof(musicVolume))
+            );
+            voiceVolumeSlider.onValueChanged.AddListener(
+                (value) => UpdateVolume(value, ref voiceVolume, nameof(voiceVolume))
             );
             void UpdateVolume(float value, ref float volume, string name)
             {
@@ -91,6 +99,12 @@ namespace LostTime.UI
             {
                 PlayerPrefs.SetFloat(nameof(musicVolume), musicVolume);
                 savedMusicVolume = musicVolume;
+                changesMade = true;
+            }
+            if( !Mathf.Approximately(savedVoiceVolume, voiceVolume))
+            {
+                PlayerPrefs.SetFloat(nameof(voiceVolume), voiceVolume);
+                savedVoiceVolume = voiceVolume;
                 changesMade = true;
             }
 

@@ -93,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuGroup: {fileID: 3796559506239601527}
   settingsPanel: {fileID: 3796559506220757672}
+  mainPanel: {fileID: 3796559507004520196}
 --- !u!225 &3796559506239601527
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -493,7 +494,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3796559506497823794}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3796559506239601526}
+        m_TargetAssemblyTypeName: LostTime.UI.PauseMenu, Assembly-CSharp
+        m_MethodName: ClosePauseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3796559506614578502
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,7 +955,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3796559507510178635}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3796559506239601526}
+        m_TargetAssemblyTypeName: LostTime.UI.PauseMenu, Assembly-CSharp
+        m_MethodName: GotoSettingsPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3796559507658315449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,6 +1174,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3796559506239601514}
     m_Modifications:
+    - target: {fileID: 1669509144977574817, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669509144977574817, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669509144977574817, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3796559506239601526}
+    - target: {fileID: 1669509144977574817, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669509144977574817, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PopLayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669509144977574817, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LostTime.UI.PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669509144977574817, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2565695385574523699, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1325,6 +1378,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2565695386436402443, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+      propertyPath: voiceVolumeSlider
+      value: 
+      objectReference: {fileID: 4017036761686619436}
     - target: {fileID: 2565695386880876243, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1377,5 +1434,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa34b746744d3d346acee037eee006ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4017036761686619436 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2347599417592904335, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+  m_PrefabInstance: {fileID: 1669490337028886435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
