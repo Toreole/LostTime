@@ -13,7 +13,12 @@ namespace LostTime.UI.Test
 
         void Start()
         {
-            PauseMenu.OnMenuClosed += () => paused = false;
+            PauseMenu.OnMenuClosed += () =>
+            {
+                Cursor.visible = false;
+                paused = false;
+            };
+            Cursor.visible = false;
         }
 
         private void Update()
@@ -26,6 +31,7 @@ namespace LostTime.UI.Test
             else if (input)
             {
                 paused = true;
+                Cursor.visible = true;
                 pauseMenu.Open();
             } 
         }   
