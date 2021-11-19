@@ -77,6 +77,7 @@ namespace LostTime.Audio
                 }
             }
             //everything has been "dequeued" / handled.
+            textElement.text = "";
             isPlaying = false;
         }
 

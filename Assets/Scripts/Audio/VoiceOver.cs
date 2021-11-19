@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace LostTime.Audio
 {
+    [CreateAssetMenu(menuName = "CustomAsset/VoiceOver")]
     public class VoiceOver : ScriptableObject
     {
         [SerializeField]
