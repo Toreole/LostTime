@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SebLague.Portals;
-using LostTime.UI;
 
 namespace LostTime
 {
@@ -30,12 +29,7 @@ namespace LostTime
         [SerializeField]
         private float rotationSmoothTime = 0.1f;
 
-        [SerializeField]
-        PauseMenu pauseMenu;
-
     #endregion
-
-        private ControlMode currentControlMode = ControlMode.Player;
 
         CharacterController controller;
         Camera cam;
@@ -74,23 +68,9 @@ namespace LostTime
 
         void Update () 
         {
-            if(currentControlMode == ControlMode.Player)
-            {
-                MovementAndRotation();
-            }
-            else if(currentControlMode == ControlMode.Menu)
-            {
-                if(pauseMenu is null)
-                {
-                    currentControlMode = ControlMode.Player;
-                    return;
-                }
-                if(Input.GetKeyDown(KeyCode.Escape) && pauseMenu.Close())
-                {
-                    currentControlMode = ControlMode.Player;
-                }
-            }
-
+            MovementAndRotation();
+            
+            //Probably remove this aswell
             if (Input.GetKeyDown (KeyCode.P)) 
             {
                 Cursor.lockState = CursorLockMode.None;
@@ -166,13 +146,6 @@ namespace LostTime
             transform.eulerAngles = Vector3.up * smoothYaw;
             velocity = toPortal.TransformVector (fromPortal.InverseTransformVector (velocity));
             Physics.SyncTransforms ();
-        }
-
-        private enum ControlMode 
-        {
-            NoControl = 0,
-            Player = 1,
-            Menu = 2
         }
     }
 }
