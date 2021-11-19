@@ -12,9 +12,6 @@ namespace LostTime.UI
         public static event Action OnMenuClosed;
 
         [SerializeField]
-        CanvasGroup pauseMenuGroup;
-
-        [SerializeField]
         private SettingsPanel settingsPanel;
         [SerializeField]
         private UIPanel mainPanel;
@@ -29,18 +26,14 @@ namespace LostTime.UI
             settingsPanel.Initialize();
 
             //Hide the pause menu by default.
-            pauseMenuGroup.interactable = false;
-            pauseMenuGroup.alpha = 0;
-            pauseMenuGroup.blocksRaycasts = false;
+            mainPanel.SetActive(false);
         }
 
         public void Open()
         {
             lastTimeScale = Time.timeScale;
             Time.timeScale = 0;
-            pauseMenuGroup.interactable = true;
-            pauseMenuGroup.alpha = 1;
-            pauseMenuGroup.blocksRaycasts = true;
+            mainPanel.SetActive(true);
             OnMenuOpened?.Invoke();
         }
 
@@ -91,9 +84,7 @@ namespace LostTime.UI
             }
             //menu is fully closed now.
             OnMenuClosed?.Invoke();
-            pauseMenuGroup.interactable = false;
-            pauseMenuGroup.alpha = 0;
-            pauseMenuGroup.blocksRaycasts = false;
+            mainPanel.SetActive(false);
             Time.timeScale = lastTimeScale;
             return true;
         }
@@ -101,9 +92,8 @@ namespace LostTime.UI
         public void ClosePauseMenu()
         {
             OnMenuClosed?.Invoke();
-            pauseMenuGroup.interactable = false;
-            pauseMenuGroup.alpha = 0;
-            pauseMenuGroup.blocksRaycasts = false;
+            mainPanel.SetActive(false);
+            Time.timeScale = lastTimeScale;
         }
 
         public void QuitToTitle()

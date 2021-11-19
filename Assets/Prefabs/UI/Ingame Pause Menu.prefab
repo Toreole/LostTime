@@ -249,9 +249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3796559506239601514}
   - component: {fileID: 3796559506239601512}
-  - component: {fileID: 3796559506239601513}
   - component: {fileID: 3796559506239601526}
-  - component: {fileID: 3796559506239601527}
   m_Layer: 5
   m_Name: Ingame Pause Menu
   m_TagString: Untagged
@@ -289,36 +287,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3796559506239601515}
   m_CullTransparentMesh: 1
---- !u!114 &3796559506239601513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3796559506239601515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0.392}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &3796559506239601526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,22 +299,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be1a9b8e34b609448cac8c5aa738ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuGroup: {fileID: 3796559506239601527}
   settingsPanel: {fileID: 3796559506220757672}
   mainPanel: {fileID: 1249178703218548273}
   titleMenuScene: MainMenu
---- !u!225 &3796559506239601527
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3796559506239601515}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &3796559506357032108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,6 +981,8 @@ GameObject:
   - component: {fileID: 3796559507004520195}
   - component: {fileID: 1249178703218548273}
   - component: {fileID: 1551158314921507813}
+  - component: {fileID: 897703182}
+  - component: {fileID: 897703184}
   m_Layer: 5
   m_Name: Container_PauseMenu
   m_TagString: Untagged
@@ -1052,7 +1009,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 500}
+  m_SizeDelta: {x: 796.86, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1249178703218548273
 MonoBehaviour:
@@ -1080,6 +1037,44 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!222 &897703182
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796559507004520196}
+  m_CullTransparentMesh: 1
+--- !u!114 &897703184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796559507004520196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3796559507510178638
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,11 +1198,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3796559506239601526}
         m_TargetAssemblyTypeName: LostTime.UI.PauseMenu, Assembly-CSharp
-        m_MethodName: GotoSettingsPanel
-        m_Mode: 1
+        m_MethodName: AddPanelLayer
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 3796559506220757672}
+          m_ObjectArgumentAssemblyTypeName: LostTime.UI.UIPanel, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2200,6 +2195,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+--- !u!1 &3796559506220757674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2565695386436402441, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
+  m_PrefabInstance: {fileID: 1669490337028886435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3796559506220757673 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2565695386436402442, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
@@ -2210,7 +2210,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2565695386436402443, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
   m_PrefabInstance: {fileID: 1669490337028886435}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3796559506220757674}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa34b746744d3d346acee037eee006ff, type: 3}
@@ -2227,3 +2227,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!222 &1596185044
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796559506220757674}
+  m_CullTransparentMesh: 1
+--- !u!114 &1596185043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796559506220757674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

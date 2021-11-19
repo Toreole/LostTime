@@ -63,6 +63,7 @@ namespace LostTime.Audio
         /// </summary>
         private IEnumerator DoPlay()
         {
+            BGMHandler.SuppressBGM();
             while(queueLength > 0)
             {
                 VoiceOver vo = voiceOverQueue[queueLength-1];
@@ -76,6 +77,7 @@ namespace LostTime.Audio
                     yield return new WaitForSeconds(transcript.duration); 
                 }
             }
+            BGMHandler.FreeBGM();
             //everything has been "dequeued" / handled.
             textElement.text = "";
             isPlaying = false;

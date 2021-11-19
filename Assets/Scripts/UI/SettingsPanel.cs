@@ -50,10 +50,10 @@ namespace LostTime.UI
             audioMixer.SetFloat(nameof(musicVolume),  musicVolume);
             audioMixer.SetFloat(nameof(voiceVolume),  voiceVolume);
             //update sliders.
-            masterVolumeSlider.value = masterVolume;
-            sfxVolumeSlider.value    = sfxVolume;
-            musicVolumeSlider.value  = musicVolume;
-            voiceVolumeSlider.value  = voiceVolume;
+            masterVolumeSlider.value = Mathf.Pow(10, masterVolume / 20.0f);
+            sfxVolumeSlider.value    = Mathf.Pow(10, sfxVolume / 20.0f);
+            musicVolumeSlider.value  = Mathf.Pow(10, musicVolume / 20.0f);
+            voiceVolumeSlider.value  = Mathf.Pow(10, voiceVolume / 20.0f);
         }
 
         private void RegisterSliderChangeEvents()
@@ -72,6 +72,7 @@ namespace LostTime.UI
             );
             void UpdateVolume(float value, ref float volume, string name)
             {
+                value = Mathf.Log10(value) * 20;
                 volume = value;
                 audioMixer.SetFloat(name, value);
             }
