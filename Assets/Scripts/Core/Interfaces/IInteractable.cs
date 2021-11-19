@@ -8,6 +8,6 @@ namespace LostTime.Core
 {
     public interface IInteractable
     {
-        void Interact(FPSController player);
+        void Interact(Player player);
     }
 }

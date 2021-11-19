@@ -31,7 +31,8 @@ namespace LostTime.Core
             {
                 currentControlMode = value;
                 bool playerActive = currentControlMode == ControlMode.Player;
-                controller.enabled = playerActive;
+                if(controller)
+                    controller.enabled = playerActive;
                 ingameOverlay.SetActive(playerActive);
             }
         }
@@ -46,6 +47,8 @@ namespace LostTime.Core
         void Update()
         {
             EscapeFunctionality();
+            if(ActiveControlMode is ControlMode.Player)
+                CheckInteraction();
         }
 
         private void EscapeFunctionality()
@@ -73,14 +76,23 @@ namespace LostTime.Core
 
         private void CheckInteraction()
         {
-            if(Physics.SphereCast(camera.position, 0.2f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                var interactable = hit.collider.GetComponent<IInteractable>();
-                if (interactable != null)
+                if (Physics.SphereCast(camera.position, 0.2f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
                 {
-                    interactable.Interact(this);
+                    var interactable = hit.collider.GetComponent<IInteractable>();
+                    if (interactable != null)
+                    {
+                        interactable.Interact(this);
+                    }
                 }
             }
+        }
+
+        public void InspectObject(Mesh mesh, Material[] sharedMaterials, string objectName, string description)
+        {
+            itemInspector.StartInspecting(mesh, sharedMaterials, objectName, description);
+            ActiveControlMode = ControlMode.InspectItem;
         }
 
         private enum ControlMode
