@@ -58,6 +58,12 @@ namespace LostTime.Core
         public static void LoadScene(string sceneName)
             => SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
+        public static void LoadScene(string sceneName, System.Action onLoadComplete)
+        {
+            var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            op.completed += (x) => onLoadComplete();
+        }
+
         /// <summary>
         /// Asynchronously unloads the target scene.
         /// </summary>
