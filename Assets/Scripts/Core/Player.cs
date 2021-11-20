@@ -14,6 +14,8 @@ namespace LostTime.Core
         GameObject ingameOverlay;
         [SerializeField]
         ItemInspector itemInspector;
+        [SerializeField]
+        GameObject inventoryUI;
 
         [SerializeField]
         private new Transform camera;
@@ -47,13 +49,14 @@ namespace LostTime.Core
         // Update is called once per frame
         void Update()
         {
-            EscapeFunctionality();
+            MenuFunctionality();
             if(ActiveControlMode is ControlMode.Player)
                 CheckInteraction();
         }
 
-        private void EscapeFunctionality()
+        private void MenuFunctionality()
         {
+            //Escape: exiting open menus, pause menu.
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 switch (ActiveControlMode)
@@ -69,7 +72,26 @@ namespace LostTime.Core
                         itemInspector.StopInspecting();
                         ActiveControlMode = ControlMode.Player;
                         break;
+                    case ControlMode.Inventory:
+                        inventoryUI.SetActive(false);
+                        ActiveControlMode = ControlMode.Player;
+                        break;
                     case ControlMode.None:
+                        break;
+                }
+            }
+            //I: inventory keybind.
+            if(Input.GetKeyDown(KeyCode.I))
+            {
+                switch(ActiveControlMode)
+                {
+                    case ControlMode.Player:
+                        inventoryUI.SetActive(true);
+                        ActiveControlMode = ControlMode.Inventory;
+                        break;
+                    case ControlMode.Inventory:
+                        inventoryUI.SetActive(false);
+                        ActiveControlMode = ControlMode.Player;
                         break;
                 }
             }
@@ -113,7 +135,7 @@ namespace LostTime.Core
             Player = 1,
             PauseMenu = 2,
             InspectItem = 3,
-
+            Inventory = 4
         }
     }
 }
