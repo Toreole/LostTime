@@ -15,6 +15,8 @@ public class ComplexItemContainer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        float phi = Mathf.PI * (3f - Mathf.Sqrt(5f)); //golden angle in rad
+
         for(int i = 0; i < itemTransforms.Length; i++)
         {
             var go = new GameObject("Item");
@@ -25,9 +27,21 @@ public class ComplexItemContainer : MonoBehaviour
             button.onClick.AddListener(() => { this.StopAllCoroutines(); StartCoroutine(DoRotateTowards(fixIndex)); });
             itemTransforms[i] = (RectTransform)go.transform;
             itemTransforms[i].SetParent( this.transform );
-            itemTransforms[i].localPosition = Random.onUnitSphere * radius;
+            //set the position.
+            //itemTransforms[i].localPosition = Random.onUnitSphere * radius;
+            //fibonacci sphere samples based on https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere 
+            float y = 1f - ((float)i / (float)(itemTransforms.Length - 1)) * 2f;
+            float r = Mathf.Sqrt(1f - y * y);//"radius" at y
+            float theta = phi * (float) i;
+
+            float x = Mathf.Cos(theta) * r;
+            float z = Mathf.Sin(theta) * r;
+
+            Vector3 offset = new Vector3(x, y, z) * radius;
+
+            itemTransforms[i].localPosition = offset;
             itemTransforms[i].localScale = Vector3.one;
-            localOffset[i] = itemTransforms[i].localPosition;
+            localOffset[i] = offset;
         }
     }
 
@@ -91,5 +105,6 @@ public class ComplexItemContainer : MonoBehaviour
             localOffset[i] = q * localOffset[i];
             itemTransforms[i].localPosition = localOffset[i];
         }
+        SortItems();
     }
 }
