@@ -21,8 +21,6 @@ namespace LostTime
         private float gravity = 18;
 
         [SerializeField]
-        private bool lockCursor;
-        [SerializeField]
         private float mouseSensitivity = 10;
         [SerializeField]
         private Vector2 pitchMinMax = new Vector2 (-40, 85);
@@ -52,11 +50,6 @@ namespace LostTime
         void Start () 
         {
             cam = Camera.main;
-            if (lockCursor) 
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
 
             controller = GetComponent<CharacterController> ();
 
@@ -70,18 +63,6 @@ namespace LostTime
         {
             MovementAndRotation();
             
-            //Probably remove this aswell
-            if (Input.GetKeyDown (KeyCode.P)) 
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                Debug.Break ();
-            }
-            if (Input.GetKeyDown (KeyCode.O)) 
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
         }
 
         private void MovementAndRotation()

@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 1535381019623673786}
   - component: {fileID: 1535381019623673787}
   - component: {fileID: 1535381019623673733}
-  m_Layer: 10
+  - component: {fileID: 2376647233000134812}
+  m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,11 +53,9 @@ MonoBehaviour:
   smoothMoveTime: 0.15
   jumpForce: 8
   gravity: 18
-  lockCursor: 1
   mouseSensitivity: 11
   pitchMinMax: {x: -40, y: 85}
   rotationSmoothTime: 0.1
-  pauseMenu: {fileID: 0}
 --- !u!143 &1535381019623673733
 CharacterController:
   m_ObjectHideFlags: 0
@@ -75,6 +74,27 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2376647233000134812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535381019623673784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ee4ec7b89392246823214f332ca43b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenu: {fileID: 0}
+  controller: {fileID: 1535381019623673787}
+  ingameOverlay: {fileID: 0}
+  itemInspector: {fileID: 0}
+  camera: {fileID: 1535381020191089681}
+  interactionRange: 2
+  interactionMask:
+    serializedVersion: 2
+    m_Bits: 55
 --- !u!1 &1535381020191089684
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +107,7 @@ GameObject:
   - component: {fileID: 1535381020191089686}
   - component: {fileID: 1535381020191089687}
   - component: {fileID: 7665427741718626423}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -102,7 +122,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535381020191089684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5137899426641865967}
@@ -183,7 +203,7 @@ GameObject:
   - component: {fileID: 7665427741182837593}
   - component: {fileID: 7665427741182837595}
   - component: {fileID: 7665427741182837592}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

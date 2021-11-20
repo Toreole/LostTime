@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using LostTime.UI;
 
@@ -22,6 +22,7 @@ namespace LostTime.Core
         [SerializeField]
         private LayerMask interactionMask;
 
+        private List<Item> inventory = new List<Item>(15); //15 for now, might not need more, but it will adapt to it if needed.
         private ControlMode currentControlMode = ControlMode.Player;
 
         private ControlMode ActiveControlMode
@@ -89,10 +90,21 @@ namespace LostTime.Core
             }
         }
 
+        /// <summary>
+        /// Start inspecting an object with the specified properties.
+        /// </summary>
         public void InspectObject(Mesh mesh, Material[] sharedMaterials, string objectName, string description)
         {
             itemInspector.StartInspecting(mesh, sharedMaterials, objectName, description);
             ActiveControlMode = ControlMode.InspectItem;
+        }
+
+        /// <summary>
+        /// The absolute simplest way to add an item to an inventory lol. so basic rn.
+        /// </summary>
+        public void PickupItem(Item item)
+        {
+            inventory.Add(item);
         }
 
         private enum ControlMode
