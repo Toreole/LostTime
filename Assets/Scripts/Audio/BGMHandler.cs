@@ -21,6 +21,7 @@ namespace LostTime.Audio
         private Collider[] volumeColliders = new Collider[3]; //i assume we're never going to have 3 volumes in a scene. especially not 3 overlapping.
         private MusicVolume currentMusicVolume;
         private bool musicIsPlaying = false;
+        private bool fadingOutMusic = false;
 
         //Current volume is only update by events, and will at the same time also force update the audioSource volume.
         //renamed "loudness" because confusing use of Volume (as in 3D space) and volume (how loud sound is)
@@ -48,11 +49,11 @@ namespace LostTime.Audio
         {
             int n = Physics.OverlapSphereNonAlloc(transform.position, 0.1f, volumeColliders, layerMask);
             //No volumes anymore. Stop playing music.
-            if (n == 0 && musicIsPlaying)
+            if (n == 0 && musicIsPlaying && !fadingOutMusic)
             {
                 coroutine = StartCoroutine(DoStopMusic());
             }
-            else
+            else if(n > 0)
             {
                 int importance = int.MinValue;
                 for (int i = 0; i < n; i++)
@@ -104,6 +105,8 @@ namespace LostTime.Audio
         {
             musicSourceA.clip = currentMusicVolume.MusicTrack;
             musicSourceA.Play();
+            Debug.Log("Start Music");
+            musicIsPlaying = true;
 
             for (float t = 0; t < fadeTime; t += Time.deltaTime)
             {
@@ -112,7 +115,6 @@ namespace LostTime.Audio
                 musicSourceA.volume = ntVolume;
                 yield return null;
             }
-            musicIsPlaying = true;
         }
 
         /// <summary>
@@ -121,6 +123,8 @@ namespace LostTime.Audio
         private IEnumerator DoStopMusic()
         {
             var activeSource = musicSourceA.isPlaying ? musicSourceA : musicSourceB;
+            fadingOutMusic = true;
+            Debug.Log("Stop Music");
             
             for (float t = 0; t < fadeTime; t += Time.deltaTime)
             {
@@ -131,6 +135,8 @@ namespace LostTime.Audio
             }
             activeSource.Stop();
             musicIsPlaying = false;
+            fadingOutMusic = false;
+            currentMusicVolume = null;
             yield break;
         }
 
