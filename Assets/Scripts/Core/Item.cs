@@ -8,5 +8,7 @@ namespace LostTime.Core
     public class Item : ScriptableObject
     {
         public string itemName;
+
+        public Sprite Sprite { get; set; }
     }
 }

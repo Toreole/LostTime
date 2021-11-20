@@ -16,6 +16,8 @@ namespace LostTime.Core
         ItemInspector itemInspector;
         [SerializeField]
         GameObject inventoryUI;
+        [SerializeField]
+        ComplexItemContainer inventoryUIContainer;
 
         [SerializeField]
         private new Transform camera;
@@ -23,6 +25,9 @@ namespace LostTime.Core
         private float interactionRange;
         [SerializeField]
         private LayerMask interactionMask;
+        [SerializeField]
+        private Camera screenshotCamera;
+        private RenderTexture screenshotTexture;
 
         private List<Item> inventory = new List<Item>(15); //15 for now, might not need more, but it will adapt to it if needed.
         private ControlMode currentControlMode = ControlMode.Player;
@@ -44,6 +49,9 @@ namespace LostTime.Core
         void Start()
         {
             PauseMenu.OnMenuClosed += () => ActiveControlMode = ControlMode.Player;
+            screenshotTexture = new RenderTexture(256, 256, 1, RenderTextureFormat.ARGB32);
+            screenshotTexture.useMipMap = false;
+            screenshotCamera.targetTexture = screenshotTexture;
         }
 
         // Update is called once per frame
@@ -124,9 +132,17 @@ namespace LostTime.Core
         /// <summary>
         /// The absolute simplest way to add an item to an inventory lol. so basic rn.
         /// </summary>
-        public void PickupItem(Item item)
+        public void PickupItem(Item item, GameObject obj)
         {
             inventory.Add(item);
+            screenshotCamera.Render();
+            //System.IntPtr texPtr = screenshotTexture.GetNativeTexturePtr();
+            Texture2D texture = new Texture2D(256, 256, TextureFormat.ARGB32, false, false);
+            Graphics.CopyTexture(screenshotTexture, texture);
+            //Texture2D.CreateExternalTexture(256, 256, TextureFormat.ARGB32, false, false, texPtr);
+            item.Sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(texture.width >> 1, texture.height >> 1));
+            inventoryUIContainer.AddItem(item);
+            obj.SetActive(false);
         }
 
         private enum ControlMode

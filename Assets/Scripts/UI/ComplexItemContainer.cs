@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LostTime.Core;
 
 namespace LostTime.UI
 {
@@ -12,6 +13,8 @@ namespace LostTime.UI
         private GameObject itemDisplayPrefab;
 
         List<ItemDisplay> itemDisplayers = new List<ItemDisplay>(20);
+
+        private ItemDisplay focusedItemDisplay;
 
         private bool autoRotate = true;
 
@@ -36,7 +39,14 @@ namespace LostTime.UI
 
                 Vector3 offset = new Vector3(x, y, z) * radius;
                 itemDisplayers.Add(disp);
-                disp.OnClick += (x) => { this.StopAllCoroutines(); StartCoroutine(DoRotateTowards(x)); };
+                disp.OnClick += (x) => { //the only time where this { placement is acceptable.
+                    this.StopAllCoroutines(); 
+                    StartCoroutine(DoRotateTowards(x));
+                    if (focusedItemDisplay)
+                        focusedItemDisplay.Focused = false;
+                    focusedItemDisplay = x;
+                    x.Focused = true;
+                };
                 itemDisplayers[i].LocalPosition = offset;
             }
         }
@@ -73,6 +83,8 @@ namespace LostTime.UI
             }
             yield return new WaitForSeconds(4);
             autoRotate = true;
+            focusedItemDisplay.Focused = false;
+            focusedItemDisplay = null;
         }
 
         private void SortItems()
@@ -102,6 +114,12 @@ namespace LostTime.UI
                 itemDisplayers[i].LocalPosition = q * itemDisplayers[i].LocalPosition;
             }
             SortItems();
+        }
+
+        public void AddItem(Item item)
+        {
+            itemDisplayers[0].Sprite = item.Sprite;
+            itemDisplayers[0].Color = Color.white;
         }
     }
 }

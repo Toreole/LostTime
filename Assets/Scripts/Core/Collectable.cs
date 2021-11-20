@@ -11,8 +11,7 @@ namespace LostTime.Core
 
         public void Interact(Player player)
         {
-            gameObject.SetActive(false);
-            player.PickupItem(item);
+            player.PickupItem(item, this.gameObject);
         }
     }
 }
