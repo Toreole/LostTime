@@ -49,7 +49,7 @@ namespace LostTime.UI
         public void SetScale(float f)
         {
             if (this.Focused)
-                f *= 1.3f;
+                f *= 1.6f;
             transform.localScale = new Vector3(f, f, f);
         }
 

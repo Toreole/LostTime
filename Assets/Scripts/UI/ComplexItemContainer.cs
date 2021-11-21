@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LostTime.Core;
+using LostTime.Audio;
 
 namespace LostTime.UI
 {
@@ -17,10 +18,12 @@ namespace LostTime.UI
         private ItemDisplay focusedItemDisplay;
 
         private bool autoRotate = true;
+        private GameObject rootObject;
 
         // Start is called before the first frame update
         void Start()
         {
+            rootObject = transform.parent.gameObject;
             float phi = Mathf.PI * (3f - Mathf.Sqrt(5f)); //golden angle in rad
 
             for (int i = 0; i < itemDisplayers.Capacity; i++)
@@ -120,6 +123,20 @@ namespace LostTime.UI
         {
             itemDisplayers[0].Sprite = item.Sprite;
             itemDisplayers[0].Color = Color.white;
+        }
+
+        public void Show()
+        {
+            BGMHandler.SuppressBGM();
+            if (rootObject is null)
+                rootObject = transform.parent.gameObject;
+            rootObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            BGMHandler.FreeBGM();
+            rootObject.SetActive(false);
         }
     }
 }

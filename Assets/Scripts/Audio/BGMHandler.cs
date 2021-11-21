@@ -105,7 +105,7 @@ namespace LostTime.Audio
         {
             musicSourceA.clip = currentMusicVolume.MusicTrack;
             musicSourceA.Play();
-            Debug.Log("Start Music");
+            //Debug.Log("Start Music");
             musicIsPlaying = true;
 
             for (float t = 0; t < fadeTime; t += Time.deltaTime)
@@ -124,7 +124,7 @@ namespace LostTime.Audio
         {
             var activeSource = musicSourceA.isPlaying ? musicSourceA : musicSourceB;
             fadingOutMusic = true;
-            Debug.Log("Stop Music");
+            //Debug.Log("Stop Music");
             
             for (float t = 0; t < fadeTime; t += Time.deltaTime)
             {

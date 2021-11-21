@@ -94,11 +94,11 @@ namespace LostTime.Core
                 switch(ActiveControlMode)
                 {
                     case ControlMode.Player:
-                        inventoryUI.SetActive(true);
+                        inventoryUIContainer.Show();
                         ActiveControlMode = ControlMode.Inventory;
                         break;
                     case ControlMode.Inventory:
-                        inventoryUI.SetActive(false);
+                        inventoryUIContainer.Hide();
                         ActiveControlMode = ControlMode.Player;
                         break;
                 }
