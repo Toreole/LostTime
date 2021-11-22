@@ -6,7 +6,7 @@ using LostTime.Core;
 
 namespace LostTime.UI
 {
-    public class PauseMenu : MonoBehaviour
+    public class PauseMenu : LayeredUIMenu
     {
         public static event Action OnMenuOpened;
         public static event Action OnMenuClosed;
@@ -14,14 +14,11 @@ namespace LostTime.UI
         [SerializeField]
         private SettingsPanel settingsPanel;
         [SerializeField]
-        private UIPanel mainPanel;
-        [SerializeField]
         private string titleMenuScene = "MainMenu";
 
-        private Stack<UIPanel> layeredPanels = new Stack<UIPanel>(3); //max of 3 layers.
         private float lastTimeScale = 1;
 
-        void Start()
+        protected override void Start()
         {
             settingsPanel.Initialize();
 
@@ -29,7 +26,7 @@ namespace LostTime.UI
             mainPanel.SetActive(false);
         }
 
-        public void Open()
+        public override void Open()
         {
             lastTimeScale = Time.timeScale;
             Time.timeScale = 0;
@@ -38,38 +35,9 @@ namespace LostTime.UI
         }
 
         ///<summary>
-        ///Adds a UIPanel as a Layer on top of the PauseMenu.
-        ///</summary>
-        public void AddPanelLayer(UIPanel panel)
-        {
-            panel.SetActive(true);
-            panel.Interactable = true;
-            var previousPanel = layeredPanels.Count == 0 ? mainPanel : layeredPanels.Peek();
-            if(panel.DeactivatePrevious)
-                previousPanel.SetActive(false);
-            //activate is just for visibility, interactable is seperate
-            previousPanel.Interactable = false;
-            layeredPanels.Push(panel);
-        }
-
-        public void PopLayer()
-        {
-            if(layeredPanels.Count > 0)
-            {
-                var topPanel = layeredPanels.Pop();
-                topPanel.SetActive(false);
-                var bottompanel = layeredPanels.Count == 0 ? mainPanel : layeredPanels.Peek();
-                if (topPanel.DeactivatePrevious)
-                    bottompanel.SetActive(true);
-                bottompanel.Interactable = true;
-            }
-        }
-
-        ///<summary>
         ///"Closes" the menu in steps/layers.
-        ///Returns true if every aspect of the Menu is closed, and control should be returned to the player.
         ///</summary>
-        public bool Close()
+        public override void Close()
         {
             //if any layered UIPanels are active, pop them.
             if(layeredPanels.Count > 0)
@@ -80,13 +48,12 @@ namespace LostTime.UI
                 if (topPanel.DeactivatePrevious)
                     bottompanel.SetActive(true);
                 bottompanel.Interactable = true;
-                return false;
+                return;
             }
             //menu is fully closed now.
             OnMenuClosed?.Invoke();
             mainPanel.SetActive(false);
             Time.timeScale = lastTimeScale;
-            return true;
         }
 
         public void ClosePauseMenu()

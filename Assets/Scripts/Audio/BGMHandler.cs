@@ -171,7 +171,7 @@ namespace LostTime.Audio
         private void _FreeBGM()
         {
             bgmSuppressorCount -= 1;
-            if (bgmSuppressorCount == 0)
+            if (bgmSuppressorCount <= 0)
             {
                 currentLoudness = 1.0f;
                 musicSourceA.volume = currentLoudness;

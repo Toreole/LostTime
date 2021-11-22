@@ -81,7 +81,7 @@ namespace LostTime.Core
                         ActiveControlMode = ControlMode.Player;
                         break;
                     case ControlMode.Inventory:
-                        inventoryUI.SetActive(false);
+                        inventoryUIContainer.Hide();
                         ActiveControlMode = ControlMode.Player;
                         break;
                     case ControlMode.None:

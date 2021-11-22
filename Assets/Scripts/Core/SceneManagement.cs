@@ -17,6 +17,7 @@ namespace LostTime.Core
             if (instance == null)
                 instance = this;
             else return;
+            DontDestroyOnLoad(this.gameObject);
         }
 
         /// <summary>
@@ -44,11 +45,14 @@ namespace LostTime.Core
                 yield return new WaitUntil(() => operation.progress >= 0.9f);
                 operation.allowSceneActivation = true;
 
-                for (float t = 0; t < 0.5f; t += Time.deltaTime)
+                for (float t = 0; t < 1f; t += Time.deltaTime)
                 {
-                    loadScreen.alpha = 1.0f - t / 0.5f;
+                    loadScreen.alpha = 1.0f - t;
                     yield return null;
                 }
+                loadScreen.alpha = 0;
+                loadScreen.blocksRaycasts = false;
+                loadScreen.interactable = false;
             }
         }
 
