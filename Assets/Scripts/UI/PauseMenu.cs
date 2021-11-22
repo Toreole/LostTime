@@ -65,6 +65,7 @@ namespace LostTime.UI
 
         public void QuitToTitle()
         {
+            Time.timeScale = 1;
             SceneManagement.GotoScene(titleMenuScene);
         }
     }

@@ -30,10 +30,11 @@ namespace LostTime.Core
         }
         private void _GotoScene(string sceneName)
         {
+            Debug.Log("QUIT TO TITLE");
             StartCoroutine(Load());
             IEnumerator Load()
             {
-                for(float t = 0; t < 0.5f; t += Time.deltaTime)
+                for(float t = 0; t < 0.5f; t += Time.unscaledDeltaTime)
                 {
                     loadScreen.alpha = t / 0.5f;
                     yield return null;
@@ -45,7 +46,7 @@ namespace LostTime.Core
                 yield return new WaitUntil(() => operation.progress >= 0.9f);
                 operation.allowSceneActivation = true;
 
-                for (float t = 0; t < 1f; t += Time.deltaTime)
+                for (float t = 0; t < 1f; t += Time.unscaledDeltaTime)
                 {
                     loadScreen.alpha = 1.0f - t;
                     yield return null;
