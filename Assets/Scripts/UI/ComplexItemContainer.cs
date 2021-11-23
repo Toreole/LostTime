@@ -26,8 +26,10 @@ namespace LostTime.UI
         private bool autoRotate = true;
         private GameObject rootObject;
 
-        // Start is called before the first frame update
-        void Start()
+        /// <summary>
+        /// Initializes the UI for everything.
+        /// </summary>
+        public void Initialize()
         {
             rootObject = transform.parent.gameObject;
             for (int i = 0; i < itemDisplayers.Capacity; i++)

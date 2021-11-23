@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using LostTime.UI;
+using LostTime.Audio;
 
 namespace LostTime.Core
 {
@@ -18,6 +19,8 @@ namespace LostTime.Core
         GameObject inventoryUI;
         [SerializeField]
         ComplexItemContainer inventoryUIContainer;
+        [SerializeField]
+        VoiceOverHandler voiceOverHandler;
 
         [SerializeField]
         private new Transform camera;
@@ -41,7 +44,7 @@ namespace LostTime.Core
                 bool playerActive = currentControlMode == ControlMode.Player;
                 if(controller)
                     controller.enabled = playerActive;
-                ingameOverlay.SetActive(playerActive);
+                //ingameOverlay.SetActive(playerActive);
             }
         }
 
@@ -52,6 +55,8 @@ namespace LostTime.Core
             screenshotTexture = new RenderTexture(256, 256, 1, RenderTextureFormat.ARGB32);
             screenshotTexture.useMipMap = false;
             screenshotCamera.targetTexture = screenshotTexture;
+
+            inventoryUIContainer.Initialize();
         }
 
         // Update is called once per frame
@@ -94,6 +99,8 @@ namespace LostTime.Core
                 switch(ActiveControlMode)
                 {
                     case ControlMode.Player:
+                        if (voiceOverHandler.IsPlaying) //block the inventory while playing voiceovers. easy fix
+                            break;
                         inventoryUIContainer.Show();
                         ActiveControlMode = ControlMode.Inventory;
                         break;

@@ -18,13 +18,15 @@ namespace LostTime.Audio
 
         private bool isPlaying = false;
 
-        private void OnEnable()
+        public bool IsPlaying => isPlaying;
+
+        private void Awake()
         {
             PauseMenu.OnMenuOpened += OnGamePaused;
             PauseMenu.OnMenuClosed += OnGameResumed;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             PauseMenu.OnMenuOpened -= OnGamePaused;
             PauseMenu.OnMenuClosed -= OnGameResumed;
@@ -57,6 +59,9 @@ namespace LostTime.Audio
             StartCoroutine(DoPlay());
         }
 
+        //NOTE: Since Coroutines break when the GameObject is disabled (which it would be by the Player, via the HUD)
+        //this gameobject has to ensure that its always active in the hierarchy.
+        //either move this component onto the Camera (always active), or do a massive effort to scale time to 0, and have UI use unscaled for everything.
         /// <summary>
         /// Starts the audioSource, but more importantly displays all the subtitles.
         /// Uses up all VoiceOvers in the "queue".
