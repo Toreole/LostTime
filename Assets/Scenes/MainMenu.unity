@@ -707,7 +707,7 @@ MonoBehaviour:
   mainPanel: {fileID: 1048138355}
   image: {fileID: 247043313}
   settingsPanel: {fileID: 79654062}
-  startScene: UI_Debug
+  startScene: Intro_Beach
 --- !u!1 &273460696
 GameObject:
   m_ObjectHideFlags: 0
