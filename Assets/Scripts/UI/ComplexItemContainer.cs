@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LostTime.Core;
 using LostTime.Audio;
+using TMPro;
 
 namespace LostTime.UI
 {
@@ -12,8 +13,13 @@ namespace LostTime.UI
         private float radius = 350;
         [SerializeField]
         private GameObject itemDisplayPrefab;
+        [SerializeField]
+        private TextMeshProUGUI itemName;
+        [SerializeField]
+        private TextMeshProUGUI itemDescription;
 
-        List<ItemDisplay> itemDisplayers = new List<ItemDisplay>(20);
+        List<ItemDisplay> itemDisplayers = new List<ItemDisplay>(2);
+        Queue<ItemDisplay> emptyDisplays;
 
         private ItemDisplay focusedItemDisplay;
 
@@ -24,34 +30,12 @@ namespace LostTime.UI
         void Start()
         {
             rootObject = transform.parent.gameObject;
-            float phi = Mathf.PI * (3f - Mathf.Sqrt(5f)); //golden angle in rad
-
             for (int i = 0; i < itemDisplayers.Capacity; i++)
             {
-                var item = Instantiate(itemDisplayPrefab, this.transform);
-                var disp = item.GetComponent<ItemDisplay>();
-                disp.Color = Color.HSVToRGB(Random.value, 0.7f, 1);
-                //set the position.
-                //fibonacci sphere samples based on https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere 
-                float y = 1f - ((float)i / (float)(itemDisplayers.Capacity - 1)) * 2f;
-                float r = Mathf.Sqrt(1f - y * y);//"radius" at y
-                float theta = phi * (float)i;
-
-                float x = Mathf.Cos(theta) * r;
-                float z = Mathf.Sin(theta) * r;
-
-                Vector3 offset = new Vector3(x, y, z) * radius;
-                itemDisplayers.Add(disp);
-                disp.OnClick += (x) => { //the only time where this { placement is acceptable.
-                    this.StopAllCoroutines(); 
-                    StartCoroutine(DoRotateTowards(x));
-                    if (focusedItemDisplay)
-                        focusedItemDisplay.Focused = false;
-                    focusedItemDisplay = x;
-                    x.Focused = true;
-                };
-                itemDisplayers[i].LocalPosition = offset;
+                itemDisplayers.Add(this.InstantiateDisplay());
             }
+            DistributeDisplays();
+            emptyDisplays = new Queue<ItemDisplay>(itemDisplayers);
         }
 
         readonly static AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 1, 1);
@@ -65,6 +49,20 @@ namespace LostTime.UI
             if (startOffset == targetOffset)
                 yield break;
 
+            if (disp.Item)//update the text.
+            {
+                itemName.alpha = 1;
+                itemName.text = disp.Item.itemName;
+                itemDescription.alpha = 1;
+                itemDescription.text = disp.Item.itemDescription;
+            }
+            else
+            {
+                itemName.alpha = 0;
+                itemDescription.alpha = 0;
+            }
+
+            //rotate all the items.
             Vector3 axis = Vector3.Cross(startOffset, targetOffset).normalized;
             float angle = Vector3.Angle(startOffset, targetOffset);
             float lastAngle = 0;
@@ -84,7 +82,10 @@ namespace LostTime.UI
                 SortItems();
                 yield return null;
             }
+            //delay before returning to normal. this breaks when closing the inventory.
             yield return new WaitForSeconds(4);
+            itemName.alpha = 0;
+            itemDescription.alpha = 0;
             autoRotate = true;
             focusedItemDisplay.Focused = false;
             focusedItemDisplay = null;
@@ -119,10 +120,69 @@ namespace LostTime.UI
             SortItems();
         }
 
+        /// <summary>
+        /// Creates an instance of the Display prefab and sets it up.
+        /// </summary>
+        /// <returns></returns>
+        private ItemDisplay InstantiateDisplay()
+        {
+            var item = Instantiate(itemDisplayPrefab, this.transform);
+            var disp = item.GetComponent<ItemDisplay>();
+            disp.Color = Color.HSVToRGB(Random.value, 0.7f, 1);
+            disp.OnClick += HandleClick;
+            
+            return disp;
+        }
+
+        void HandleClick(ItemDisplay display)
+        {
+            this.StopAllCoroutines();
+            StartCoroutine(DoRotateTowards(display));
+            if (focusedItemDisplay)
+                focusedItemDisplay.Focused = false;
+            focusedItemDisplay = display;
+            display.Focused = true;
+        }
+
+        //fibonacci sphere samples based on https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere 
+        private static readonly float phi = Mathf.PI * (3f - Mathf.Sqrt(5f)); //golden angle in rad
+        private void DistributeDisplays()
+        {
+            for (int i = 0; i < itemDisplayers.Count; i++)
+            {
+
+                float y = 1f - ((float)i / (float)(itemDisplayers.Capacity - 1)) * 2f;
+                float r = Mathf.Sqrt(1f - y * y);//"radius" at y
+                float theta = phi * (float)i;
+
+                float x = Mathf.Cos(theta) * r;
+                float z = Mathf.Sin(theta) * r;
+
+                Vector3 offset = new Vector3(x, y, z) * radius;
+                itemDisplayers[i].LocalPosition = offset;
+            }
+            SortItems();
+        }
+
         public void AddItem(Item item)
         {
-            itemDisplayers[0].Sprite = item.Sprite;
-            itemDisplayers[0].Color = Color.white;
+            if(emptyDisplays.Count > 0)
+            {
+                SetUpItemDisplay(emptyDisplays.Dequeue(), item);
+            }
+            else
+            {
+                var d = InstantiateDisplay();
+                SetUpItemDisplay(d, item);
+                itemDisplayers.Add(d);
+                DistributeDisplays();
+            }
+        }
+        
+        private void SetUpItemDisplay(ItemDisplay disp, Item item)
+        {
+            disp.Item = item;
+            disp.Color = Color.white;
         }
 
         public void Show()
@@ -137,6 +197,13 @@ namespace LostTime.UI
         {
             BGMHandler.FreeBGM();
             rootObject.SetActive(false);
+            StopAllCoroutines();
+            itemName.alpha = 0;
+            itemDescription.alpha = 0;
+            if (focusedItemDisplay)
+                focusedItemDisplay.Focused = false;
+            focusedItemDisplay = null;
+            autoRotate = true;
         }
     }
 }

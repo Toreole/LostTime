@@ -30,7 +30,7 @@ namespace LostTime.Core
         }
         private void _GotoScene(string sceneName)
         {
-            Debug.Log("QUIT TO TITLE");
+            //Debug.Log("QUIT TO TITLE");
             StartCoroutine(Load());
             IEnumerator Load()
             {

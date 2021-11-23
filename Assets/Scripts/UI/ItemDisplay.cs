@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using LostTime.Core;
 
 namespace LostTime.UI
 {
@@ -17,6 +18,7 @@ namespace LostTime.UI
         private Image borderImage;
 
         private bool isFocused = false;
+        private Item item;
 
         public float LocalZ => localPosition.z;
         public Vector3 LocalPosition { get { return localPosition; } set { localPosition = value; transform.localPosition = value; } }
@@ -42,6 +44,15 @@ namespace LostTime.UI
             get => itemImage.sprite;
             set => itemImage.sprite = value;
         }
+        public Item Item
+        {
+            get => item;
+            set
+            {
+                item = value;
+                Sprite = item.Sprite;
+            }
+        }
 
         public event System.Action<ItemDisplay> OnClick;
 
@@ -52,7 +63,6 @@ namespace LostTime.UI
                 f *= 1.6f;
             transform.localScale = new Vector3(f, f, f);
         }
-
 
         public void OnPointerDown(PointerEventData eventData)
         {

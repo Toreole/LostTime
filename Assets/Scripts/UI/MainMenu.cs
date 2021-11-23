@@ -30,5 +30,10 @@ namespace LostTime.UI
         {
             SceneManagement.GotoScene(startScene);
         }
+
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
     }
 }
