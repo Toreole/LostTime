@@ -152,6 +152,14 @@ namespace LostTime.Core
             obj.SetActive(false);
         }
 
+        /// <summary>
+        /// Causes a VoiceOver to playm or queues it up.
+        /// </summary>
+        public void PlayVoiceOver(VoiceOver vo)
+        {
+            voiceOverHandler.QueueVoiceOver(vo);
+        }
+
         private enum ControlMode
         {
             None = 0,
