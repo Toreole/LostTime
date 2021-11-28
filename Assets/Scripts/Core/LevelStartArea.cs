@@ -11,8 +11,14 @@ namespace LostTime.Core
         private Transform defaultStartingLocation;
         [SerializeField]
         private Animator animator;
+        [SerializeField]
+        private Item completionItem;
+        [SerializeField]
+        private string mySceneName;
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
+
+        private bool levelCompleted = false;
 
         private void Awake()
         {
@@ -23,21 +29,22 @@ namespace LostTime.Core
         /// moves the player to this start area (more or less seamlessly)
         /// </summary>
         /// <param name="playerTransform">the player's transform</param>
-        /// <param name="relativeTo">the transform of the area the player is being teleported away from (elevator)</param>
-        public void MovePlayerHere(Transform playerTransform, Transform relativeTo)
+        /// <param name="relativeOrigin">the transform of the area the player is being teleported away from (elevator)</param>
+        public void MovePlayerToFrom(Transform relativeTarget, Transform playerTransform, Transform relativeOrigin)
         {
             //transform the players position
-            Vector3 relativePosition = playerTransform.position - relativeTo.position;
-            relativePosition = relativeTo.InverseTransformDirection(relativePosition);
-            playerTransform.position = transform.TransformVector(relativePosition);
+            //Vector3 relativePosition = playerTransform.position - relativeOrigin.position;
+            //relativePosition = relativeOrigin.InverseTransformPoint(relativePosition);
+            //playerTransform.position = relativeTarget.TransformPoint(relativePosition);
             //transform the players looking direction
-            Vector3 lookDir = relativeTo.InverseTransformDirection(playerTransform.forward);
-            playerTransform.forward = transform.TransformDirection(lookDir);
+            //Vector3 lookDir = relativeOrigin.InverseTransformDirection(playerTransform.forward);
+            //playerTransform.forward = relativeTarget.TransformDirection(lookDir);
 
             //stolen matrix magic from the Portal script.
-            //Matrix4x4 m = relativeTo.localToWorldMatrix * transform.worldToLocalMatrix * playerTransform.localToWorldMatrix;
-            //playerTransform.position = m.GetColumn(3);
-            //playerTransform.rotation = m.rotation;
+            //            linkedPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * travellerT.localToWorldMatrix;
+            Matrix4x4 m = relativeTarget.localToWorldMatrix * relativeOrigin.worldToLocalMatrix * playerTransform.localToWorldMatrix;
+            playerTransform.position = m.GetColumn(3);
+            playerTransform.rotation = m.rotation;
         }
         public void ResetPlayer(Transform playerTransform)
         {
@@ -45,7 +52,27 @@ namespace LostTime.Core
             playerTransform.rotation = defaultStartingLocation.rotation;
         }
 
-        public void OpenElevatorDoors()
+        public void GoBackToHub()
+        {
+            if (!Player.Instance.HasItem(completionItem) || levelCompleted)
+                return;
+
+            levelCompleted = true;
+            StartCoroutine(DoGoBackToHub());
+
+            IEnumerator DoGoBackToHub()
+            {
+                TriggerDoors();
+                yield return new WaitForSeconds(2);
+                var elevator = MainElevator.Instance;
+                MovePlayerToFrom(elevator.transform, Player.Instance.transform, this.transform);
+                elevator.TriggerDoors();
+                elevator.ReEnableLight();
+                SceneManagement.UnloadScene(mySceneName);
+            }
+        }
+
+        public void TriggerDoors()
         {
             animator.SetTrigger(doorTrigger);
         }

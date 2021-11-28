@@ -6,6 +6,8 @@ namespace LostTime.Core
 {
     public class MainElevator : MonoBehaviour
     {
+        public static MainElevator Instance { get; private set; }
+
         [SerializeField]
         private Animator animator;
         [SerializeField]
@@ -13,6 +15,11 @@ namespace LostTime.Core
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
         private string loadedScene;
+
+        private void Start()
+        {
+            Instance = this;
+        }
 
         public void TriggerDoors()
         {
@@ -33,13 +40,18 @@ namespace LostTime.Core
 
         private IEnumerator DoSceneTeleport()
         {
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSeconds(2f);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(loadedScene));
             directionalLight.SetActive(false);
             //disgusting hack but ok
-            LevelStartArea.Current.MovePlayerHere(FindObjectOfType<Player>().transform, transform);
-            yield return new WaitForSecondsRealtime(1f);
-            LevelStartArea.Current.OpenElevatorDoors();
+            LevelStartArea.Current.MovePlayerToFrom(LevelStartArea.Current.transform, Player.Instance.transform, this.transform);
+            yield return new WaitForSeconds(2f);
+            LevelStartArea.Current.TriggerDoors();
+        }
+
+        public void ReEnableLight()
+        {
+            directionalLight.SetActive(true);
         }
 
     }

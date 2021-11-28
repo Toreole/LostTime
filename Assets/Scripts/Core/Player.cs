@@ -35,6 +35,8 @@ namespace LostTime.Core
         private List<Item> inventory = new List<Item>(15); //15 for now, might not need more, but it will adapt to it if needed.
         private ControlMode currentControlMode = ControlMode.Player;
 
+        public static Player Instance { get; private set; }
+
         private ControlMode ActiveControlMode
         {
             get => currentControlMode;
@@ -51,6 +53,7 @@ namespace LostTime.Core
         // Use this for initialization
         void Start()
         {
+            Instance = this;
             PauseMenu.OnMenuClosed += () => ActiveControlMode = ControlMode.Player;
             screenshotTexture = new RenderTexture(256, 256, 1, RenderTextureFormat.ARGB32);
             screenshotTexture.useMipMap = false;
@@ -159,6 +162,11 @@ namespace LostTime.Core
         {
             voiceOverHandler.QueueVoiceOver(vo);
         }
+
+        /// <summary>
+        /// Checks if the player has a specific item.
+        /// </summary>
+        public bool HasItem(Item item) => inventory.Contains(item);
 
         private enum ControlMode
         {
