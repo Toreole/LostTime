@@ -4204,7 +4204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 59.830986
+      value: 51.35
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4212,11 +4212,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -128.02408
+      value: -107.04
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6863105
+      value: 0.4795143
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4224,7 +4224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.72730875
+      value: -0.87753403
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalRotation.z
@@ -4236,7 +4236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -93.322
+      value: -122.693
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673786, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -5480,8 +5480,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4083647539678436288}
         m_TargetAssemblyTypeName: LostTime.Core.MainElevator, Assembly-CSharp
-        m_MethodName: TransitionToScene
-        m_Mode: 5
+        m_MethodName: StartNextLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5490,7 +5490,7 @@ MonoBehaviour:
           m_StringArgument: Home_Scene
           m_BoolArgument: 0
         m_CallState: 2
-  oneTimeUse: 1
+  oneTimeUse: 0
 --- !u!65 &1521680046
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5740,8 +5740,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535227837}
   m_LocalRotation: {x: -0, y: -0.28961554, z: -0, w: 0.95714307}
-  m_LocalPosition: {x: 58.28073, y: 2.5057714, z: -122.45959}
-  m_LocalScale: {x: 5.1387687, y: 0.91278, z: 0.91278}
+  m_LocalPosition: {x: 43.46, y: 2.5057714, z: -101.23}
+  m_LocalScale: {x: 28.244728, y: 0.91278, z: 1.2639264}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
@@ -7940,6 +7940,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4083647539678436288}
+        m_TargetAssemblyTypeName: LostTime.Core.MainElevator, Assembly-CSharp
+        m_MethodName: AllowLevelProgress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!65 &2032436100
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7961,7 +7973,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2032436098}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.11, y: -237.684, z: 52.85}
+  m_LocalPosition: {x: -1.11, y: -237.684, z: 44.32}
   m_LocalScale: {x: 9.096689, y: 1, z: 3.1619}
   m_Children: []
   m_Father: {fileID: 0}
@@ -8876,6 +8888,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 649452058}
   directionalLight: {fileID: 1547594589}
+  levels:
+  - Home_Scene
+  - School_Scene
 --- !u!33 &4083647539682359937
 MeshFilter:
   m_ObjectHideFlags: 0

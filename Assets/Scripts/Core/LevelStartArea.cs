@@ -39,12 +39,13 @@ namespace LostTime.Core
             //transform the players looking direction
             //Vector3 lookDir = relativeOrigin.InverseTransformDirection(playerTransform.forward);
             //playerTransform.forward = relativeTarget.TransformDirection(lookDir);
-
+            Debug.Log($"placing player at {relativeTarget.gameObject.name}", relativeTarget);
             //stolen matrix magic from the Portal script.
-            //            linkedPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * travellerT.localToWorldMatrix;
+            //linkedPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * travellerT.localToWorldMatrix;
             Matrix4x4 m = relativeTarget.localToWorldMatrix * relativeOrigin.worldToLocalMatrix * playerTransform.localToWorldMatrix;
-            playerTransform.position = m.GetColumn(3);
-            playerTransform.rotation = m.rotation;
+            playerTransform.SetPositionAndRotation(m.GetColumn(3), m.rotation);
+            //playerTransform.position = m.GetColumn(3);
+            //playerTransform.rotation = m.rotation;
         }
         public void ResetPlayer(Transform playerTransform)
         {
@@ -66,10 +67,17 @@ namespace LostTime.Core
                 yield return new WaitForSeconds(2);
                 var elevator = MainElevator.Instance;
                 MovePlayerToFrom(elevator.transform, Player.Instance.transform, this.transform);
+                yield return new WaitForSeconds(2);
                 elevator.TriggerDoors();
                 elevator.ReEnableLight();
+                elevator.CompleteLevel();
                 SceneManagement.UnloadScene(mySceneName);
             }
+        }
+
+        private void OnDestroy()
+        {
+            Current = null;
         }
 
         public void TriggerDoors()
