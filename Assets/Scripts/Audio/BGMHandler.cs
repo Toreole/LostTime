@@ -40,7 +40,8 @@ namespace LostTime.Audio
                 Destroy(gameObject);
                 return;
             }
-
+            musicSourceA.Stop();
+            musicSourceB.Stop();
             instance = this;
         }
 
@@ -56,21 +57,24 @@ namespace LostTime.Audio
             else if(n > 0)
             {
                 int importance = int.MinValue;
+                MusicVolume nextMusicVol = null;
                 for (int i = 0; i < n; i++)
                 {
                     //get the volume, check if it should override the current one.
                     MusicVolume vol = volumeColliders[i].GetComponent<MusicVolume>();
                     if (vol && vol.Importance > importance)
                     {
-                        if (vol != currentMusicVolume)
-                        {
-                            currentMusicVolume = vol;
-                            if (musicIsPlaying)
-                                coroutine = StartCoroutine(DoCrossFade());
-                            else
-                                coroutine= StartCoroutine(DoStartMusic());
-                        }
+                        nextMusicVol = vol;
+                        importance = vol.Importance;
                     }
+                }
+                if (nextMusicVol != currentMusicVolume)
+                {
+                    currentMusicVolume = nextMusicVol;
+                    if (musicIsPlaying)
+                        coroutine = StartCoroutine(DoCrossFade());
+                    else
+                        coroutine = StartCoroutine(DoStartMusic());
                 }
             }
         }
@@ -80,6 +84,7 @@ namespace LostTime.Audio
         /// </summary>
         private IEnumerator DoCrossFade()
         {
+            Debug.Log("Crossfade");
             AudioSource previousSource = (musicSourceA.isPlaying) ? musicSourceA : musicSourceB;
             AudioSource nextSource = (musicSourceA.isPlaying) ? musicSourceB : musicSourceA;
 
@@ -90,8 +95,8 @@ namespace LostTime.Audio
             {
                 float nt = t / fadeTime; //0.....1
                 float ntVolume = nt * currentLoudness; //the current max volume of the audio sources multiplied by the fade nt;
-                previousSource.volume = currentLoudness - ntVolume;
-                nextSource.volume = ntVolume;
+                previousSource.volume = Mathf.Clamp01(currentLoudness - ntVolume);
+                nextSource.volume = Mathf.Clamp01(nt);
                 yield return null;
             }
             previousSource.Stop();

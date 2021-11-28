@@ -15,16 +15,19 @@ namespace SebLague.Portals
 
             for (int i = 0; i < portals.Length; i++) 
             {
-                portals[i].PrePortalRender ();
+                if(portals[i].gameObject.activeInHierarchy)
+                    portals[i].PrePortalRender ();
             }
-            for (int i = 0; i < portals.Length; i++) 
+            for (int i = 0; i < portals.Length; i++)
             {
-                portals[i].Render ();
+                if (portals[i].gameObject.activeInHierarchy)
+                    portals[i].Render ();
             }
 
-            for (int i = 0; i < portals.Length; i++) 
+            for (int i = 0; i < portals.Length; i++)
             {
-                portals[i].PostPortalRender ();
+                if (portals[i].gameObject.activeInHierarchy)
+                    portals[i].PostPortalRender ();
             }
         }
     }
