@@ -8891,6 +8891,7 @@ MonoBehaviour:
   levels:
   - Home_Scene
   - School_Scene
+  - Office_Scene
 --- !u!33 &4083647539682359937
 MeshFilter:
   m_ObjectHideFlags: 0
