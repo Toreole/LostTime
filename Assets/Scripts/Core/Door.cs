@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LostTime.Core
 {
-    public class Door : MonoBehaviour, IInteractable
+    public class Door : Interactable
     {
         [SerializeField]
         private new Transform transform;
@@ -30,7 +30,7 @@ namespace LostTime.Core
             transform.localRotation = Quaternion.Euler(0, rotation, 0);
         }
 
-        public void Interact(Player player)
+        public override void Interact(Player player)
         {
             StopAllCoroutines();
             StartCoroutine(DoOpenClose());

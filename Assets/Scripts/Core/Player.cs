@@ -121,7 +121,7 @@ namespace LostTime.Core
             {
                 if (Physics.SphereCast(camera.position, 0.2f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
                 {
-                    var interactable = hit.collider.GetComponent<IInteractable>();
+                    var interactable = hit.collider.GetComponent<Interactable>();
                     if (interactable != null)
                     {
                         interactable.Interact(this);

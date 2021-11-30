@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace LostTime.Core
 {
-    public class Collectable : MonoBehaviour, IInteractable
+    public class Collectable : Interactable
     {
         [SerializeField]
         private Item item;
 
-        public void Interact(Player player)
+        public override void Interact(Player player)
         {
             player.PickupItem(item, this.gameObject);
         }

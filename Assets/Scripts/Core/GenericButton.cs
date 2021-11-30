@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace LostTime.Core
 {
-    public class GenericButton : MonoBehaviour, IInteractable
+    public class GenericButton : Interactable
     {
         [SerializeField]
         private UnityEvent e;
@@ -13,7 +13,7 @@ namespace LostTime.Core
 
         private bool used = false;
 
-        public void Interact(Player p)
+        public override void Interact(Player p)
         {
             if (used && oneTimeUse)
                 return;
