@@ -46,6 +46,7 @@ namespace LostTime
 
         bool jumping;
         float lastGroundedTime;
+        Vector3 lastGroundedPosition;
 
         void Start () 
         {
@@ -80,11 +81,12 @@ namespace LostTime
             velocity = new Vector3 (velocity.x, verticalVelocity, velocity.z);
 
             var flags = controller.Move (velocity * Time.deltaTime);
-            if (flags == CollisionFlags.Below) 
+            if (flags == CollisionFlags.Below)
             {
                 jumping = false;
                 lastGroundedTime = Time.time;
                 verticalVelocity = 0;
+                lastGroundedPosition = transform.position;
             }
 
             if (Input.GetKeyDown (KeyCode.Space)) 
@@ -127,6 +129,17 @@ namespace LostTime
             transform.eulerAngles = Vector3.up * smoothYaw;
             velocity = toPortal.TransformVector (fromPortal.InverseTransformVector (velocity));
             Physics.SyncTransforms ();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            //hacky way to implement this, but easy to do.
+            if(other.CompareTag("OutOfBounds"))
+            {
+                controller.enabled = false;
+                transform.position = lastGroundedPosition;
+                controller.enabled = true;
+            }
         }
     }
 }

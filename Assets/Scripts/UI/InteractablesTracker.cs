@@ -62,8 +62,7 @@ namespace LostTime.UI
                 anchoredPos.y = Mathf.Lerp(minPos.y, halfResY - halfSize, relativeY);
                 //Debug.Log($"{worldPos.x}:>{screenPos.x}:>{rect.width}:>{anchoredPos.x}");
                 highlighters[i].anchoredPosition = anchoredPos;
-                Debug.Log(screenPos);
-
+                //Debug.Log(screenPos);
             }
             for(; i < highlighters.Count; i++)
             {

@@ -39,11 +39,13 @@ namespace LostTime.Core
             //transform the players looking direction
             //Vector3 lookDir = relativeOrigin.InverseTransformDirection(playerTransform.forward);
             //playerTransform.forward = relativeTarget.TransformDirection(lookDir);
-            Debug.Log($"placing player at {relativeTarget.gameObject.name}", relativeTarget);
+            //Debug.Log($"placing player at {relativeTarget.gameObject.name}", relativeTarget);
+            Player.Instance.CharacterController.enabled = false;
             //stolen matrix magic from the Portal script.
             //linkedPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * travellerT.localToWorldMatrix;
             Matrix4x4 m = relativeTarget.localToWorldMatrix * relativeOrigin.worldToLocalMatrix * playerTransform.localToWorldMatrix;
             playerTransform.SetPositionAndRotation(m.GetColumn(3), m.rotation);
+            Player.Instance.CharacterController.enabled = true;
             //playerTransform.position = m.GetColumn(3);
             //playerTransform.rotation = m.rotation;
         }

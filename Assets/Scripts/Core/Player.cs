@@ -21,6 +21,8 @@ namespace LostTime.Core
         ComplexItemContainer inventoryUIContainer;
         [SerializeField]
         VoiceOverHandler voiceOverHandler;
+        [SerializeField]
+        CharacterController characterController;
 
         [SerializeField]
         private new Transform camera;
@@ -34,6 +36,7 @@ namespace LostTime.Core
 
         private List<Item> inventory = new List<Item>(15); //15 for now, might not need more, but it will adapt to it if needed.
         private ControlMode currentControlMode = ControlMode.Player;
+        public CharacterController CharacterController => characterController;
 
         public static Player Instance { get; private set; }
 
