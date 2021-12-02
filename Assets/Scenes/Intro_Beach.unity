@@ -814,6 +814,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicVolume (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3736781569651560322, guid: 779aac4ead4f2f3449c64e05bce74230, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3736781569651560323, guid: 779aac4ead4f2f3449c64e05bce74230, type: 3}
       propertyPath: importance
       value: 0
@@ -5672,11 +5676,11 @@ GameObject:
   - component: {fileID: 1535227838}
   m_Layer: 0
   m_Name: DEBUG_VoiceOverTrigger
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1535227838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7728,6 +7732,10 @@ PrefabInstance:
     - target: {fileID: 3736781569651560322, guid: 779aac4ead4f2f3449c64e05bce74230, type: 3}
       propertyPath: m_Name
       value: MusicVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736781569651560322, guid: 779aac4ead4f2f3449c64e05bce74230, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3736781569651560323, guid: 779aac4ead4f2f3449c64e05bce74230, type: 3}
       propertyPath: importance
