@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Intro_Beach.unity
     guid: f8f37b9be4ca6ad499d4a2345f657679
+  - enabled: 1
+    path: Assets/Scenes/Home_Scene.unity
+    guid: 37d34baae9af5f541a86b1a2544b7dce
+  - enabled: 1
+    path: Assets/Scenes/School_Scene.unity
+    guid: 667a82ce9f5d42f4fa6c87ac40524c75
+  - enabled: 1
+    path: Assets/Scenes/Office_Scene.unity
+    guid: 21841405442873447ae9a9df6571f8c3
   m_configObjects: {}

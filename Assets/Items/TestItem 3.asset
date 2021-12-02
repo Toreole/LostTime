@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71efc4cedad5f2049ac965f7e10d3d4c, type: 3}
   m_Name: TestItem 3
   m_EditorClassIdentifier: 
-  itemName: Hey you
-  itemDescription: youre finally awake.
+  itemName: Something
+  itemDescription: Yes this is definitely something.

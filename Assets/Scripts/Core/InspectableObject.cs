@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LostTime.Core
 {
-    public class InspectableObject : MonoBehaviour, IInteractable
+    public class InspectableObject : Interactable
     {
         private new MeshRenderer renderer;
         private Mesh mesh;
@@ -17,7 +17,7 @@ namespace LostTime.Core
             renderer = GetComponent<MeshRenderer>();
         }
 
-        public void Interact(Player player)
+        public override void Interact(Player player)
         {
             player.InspectObject(mesh, renderer.sharedMaterials, objectName, description);
         }

@@ -21,6 +21,8 @@ namespace LostTime.Core
         ComplexItemContainer inventoryUIContainer;
         [SerializeField]
         VoiceOverHandler voiceOverHandler;
+        [SerializeField]
+        CharacterController characterController;
 
         [SerializeField]
         private new Transform camera;
@@ -34,6 +36,9 @@ namespace LostTime.Core
 
         private List<Item> inventory = new List<Item>(15); //15 for now, might not need more, but it will adapt to it if needed.
         private ControlMode currentControlMode = ControlMode.Player;
+        public CharacterController CharacterController => characterController;
+
+        public static Player Instance { get; private set; }
 
         private ControlMode ActiveControlMode
         {
@@ -51,6 +56,7 @@ namespace LostTime.Core
         // Use this for initialization
         void Start()
         {
+            Instance = this;
             PauseMenu.OnMenuClosed += () => ActiveControlMode = ControlMode.Player;
             screenshotTexture = new RenderTexture(256, 256, 1, RenderTextureFormat.ARGB32);
             screenshotTexture.useMipMap = false;
@@ -118,7 +124,7 @@ namespace LostTime.Core
             {
                 if (Physics.SphereCast(camera.position, 0.2f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
                 {
-                    var interactable = hit.collider.GetComponent<IInteractable>();
+                    var interactable = hit.collider.GetComponent<Interactable>();
                     if (interactable != null)
                     {
                         interactable.Interact(this);
@@ -151,6 +157,19 @@ namespace LostTime.Core
             inventoryUIContainer.AddItem(item);
             obj.SetActive(false);
         }
+
+        /// <summary>
+        /// Causes a VoiceOver to playm or queues it up.
+        /// </summary>
+        public void PlayVoiceOver(VoiceOver vo)
+        {
+            voiceOverHandler.QueueVoiceOver(vo);
+        }
+
+        /// <summary>
+        /// Checks if the player has a specific item.
+        /// </summary>
+        public bool HasItem(Item item) => inventory.Contains(item);
 
         private enum ControlMode
         {

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71efc4cedad5f2049ac965f7e10d3d4c, type: 3}
   m_Name: TestItem 1
   m_EditorClassIdentifier: 
-  itemName: Hello
-  itemDescription: Hello World
+  itemName: Glass
+  itemDescription: It's an empty glass.

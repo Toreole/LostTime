@@ -39,7 +39,8 @@ namespace LostTime.Audio
 
         private void OnGameResumed()
         {
-            audioSource.Play();
+            if(isPlaying)
+                audioSource.Play();
         }
 
         /// <summary>

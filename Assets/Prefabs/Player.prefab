@@ -175,6 +175,8 @@ MonoBehaviour:
   itemInspector: {fileID: 0}
   inventoryUI: {fileID: 0}
   inventoryUIContainer: {fileID: 0}
+  voiceOverHandler: {fileID: 0}
+  characterController: {fileID: 1535381019623673733}
   camera: {fileID: 1535381020191089681}
   interactionRange: 2
   interactionMask:
@@ -208,7 +210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535381020191089684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0.672, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5137899426641865967}
