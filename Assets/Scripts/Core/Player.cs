@@ -49,6 +49,8 @@ namespace LostTime.Core
                 bool playerActive = currentControlMode == ControlMode.Player;
                 if(controller)
                     controller.enabled = playerActive;
+                Cursor.lockState = playerActive ? CursorLockMode.Locked : CursorLockMode.None;
+                Cursor.visible = !playerActive;
                 //ingameOverlay.SetActive(playerActive);
             }
         }
@@ -57,6 +59,7 @@ namespace LostTime.Core
         void Start()
         {
             Instance = this;
+            ActiveControlMode = ControlMode.Player;
             PauseMenu.OnMenuClosed += () => ActiveControlMode = ControlMode.Player;
             screenshotTexture = new RenderTexture(256, 256, 1, RenderTextureFormat.ARGB32);
             screenshotTexture.useMipMap = false;
