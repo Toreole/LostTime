@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LostTime.Core;
+using UnityEngine.UI;
 
 namespace LostTime.UI
 {
@@ -18,17 +19,25 @@ namespace LostTime.UI
             interactables.Remove(interactable);
         }
 
-        private readonly List<RectTransform> highlighters = new List<RectTransform>(10);
+        private readonly List<InteractableHighlighter> highlighters = new List<InteractableHighlighter>(10);
 
         [SerializeField]
         private GameObject highlighterPrefab;
+        [SerializeField]
+        private float interactionRange = 1.75f;
+        [SerializeField]
+        private float highlightRange = 6f;
 
         // Start is called before the first frame update
         void Start()
         {
             for(int i = 0; i < highlighters.Capacity; i++)
             {
-                highlighters.Add(Instantiate(highlighterPrefab, this.transform).transform as RectTransform);
+                var instantiatedObject = Instantiate(highlighterPrefab, this.transform);
+                highlighters.Add(new InteractableHighlighter() {
+                    image = instantiatedObject.GetComponent<Image>(),
+                    transform = instantiatedObject.transform as RectTransform 
+                });
             }
         }
 
@@ -49,25 +58,48 @@ namespace LostTime.UI
                 //get world position
                 var worldPos = interactables[i].transform.position;
                 var screenPos = camera.WorldToScreenPoint(worldPos);
-                if (screenPos.x < 0 || screenPos.x > resolution.x || screenPos.y < 0 || screenPos.y > resolution.y || screenPos.z < 0 || screenPos.z > 8)
+                //more accurate-ish distance than screenPos.z
+                //interactables[i].GetComponent<Collider>().ClosestPoint(camera.transform.position);
+                //float colDistance = Vector3.Distance(camera.transform.position, worldPos);
+                //^not used because honestly, screenPos.z is a good-enough estimate of the distance.
+
+                //do not highlight this interactable if: outside of screen OR behind camera OR out of range.
+                if (screenPos.x < 0 || screenPos.x > resolution.x || screenPos.y < 0 || screenPos.y > resolution.y || screenPos.z < 0 || screenPos.z > highlightRange)
                 {
-                    highlighters[i].gameObject.SetActive(false);
+                    highlighters[i].GameObject.SetActive(false);
                     continue;
                 }
-                highlighters[i].gameObject.SetActive(true);
+                //make highlighters outside of the interaction range semi-transparent.
+                highlighters[i].Alpha = screenPos.z <= interactionRange ? 1.0f : 0.4f;
+                //linear scale from interactionRange to highlightRange
+                float scale = 1.0f - ((screenPos.z - interactionRange) / (highlightRange - interactionRange));
+                highlighters[i].transform.localScale = new Vector3(scale, scale, scale);
+                //enable the gameObject.
+                highlighters[i].GameObject.SetActive(true);
                 float relativeX = screenPos.x / resolution.x;
                 float relativeY = screenPos.y / resolution.y;
                 Vector2 anchoredPos;
                 anchoredPos.x = Mathf.Lerp(minPos.x, halfResX - halfSize, relativeX);
                 anchoredPos.y = Mathf.Lerp(minPos.y, halfResY - halfSize, relativeY);
                 //Debug.Log($"{worldPos.x}:>{screenPos.x}:>{rect.width}:>{anchoredPos.x}");
-                highlighters[i].anchoredPosition = anchoredPos;
+                highlighters[i].transform.anchoredPosition = anchoredPos;
                 //Debug.Log(screenPos);
             }
             for(; i < highlighters.Count; i++)
             {
-                highlighters[i].gameObject.SetActive(false);
+                highlighters[i].GameObject.SetActive(false);
             }
+        }
+
+        private class InteractableHighlighter
+        {
+            public RectTransform transform;
+            public Image image;
+
+            public Color Color { get => image.color; set => image.color = value; }
+            public float Alpha { get => image.color.a; set { var col = Color;  col.a = value;  image.color = col; } }
+            public GameObject GameObject => transform.gameObject;
+
         }
 
     }

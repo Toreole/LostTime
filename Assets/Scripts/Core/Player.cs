@@ -125,7 +125,7 @@ namespace LostTime.Core
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (Physics.SphereCast(camera.position, 0.2f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
+                if (Physics.SphereCast(camera.position, 0.1f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
                 {
                     var interactable = hit.collider.GetComponent<Interactable>();
                     if (interactable != null)

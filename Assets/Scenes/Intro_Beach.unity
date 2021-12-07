@@ -4333,6 +4333,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 54624633}
     - target: {fileID: 2376647233000134812, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
+      propertyPath: interactionRange
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376647233000134812, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: voiceOverHandler
       value: 
       objectReference: {fileID: 1294267341}
@@ -4349,6 +4353,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1040165951}
     m_Modifications:
+    - target: {fileID: 4787235735270438459, guid: 46907afd137174c45a6abfe073e4fdb5, type: 3}
+      propertyPath: highlightRange
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4787235735270438459, guid: 46907afd137174c45a6abfe073e4fdb5, type: 3}
+      propertyPath: interactionRange
+      value: 1.9
+      objectReference: {fileID: 0}
     - target: {fileID: 7398305069246026532, guid: 46907afd137174c45a6abfe073e4fdb5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8343,10 +8355,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2095059627}
   - component: {fileID: 2095059630}
-  - component: {fileID: 2095059629}
   - component: {fileID: 2095059628}
   m_Layer: 0
-  m_Name: Cube (9)
+  m_Name: Stair_Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8359,13 +8370,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2095059626}
-  m_LocalRotation: {x: -0, y: -0, z: 0.0111600775, w: 0.9999378}
-  m_LocalPosition: {x: 0.32, y: -2.72, z: 4.78}
-  m_LocalScale: {x: 3.9192364, y: 2.4489198, z: 0.8826282}
+  m_LocalRotation: {x: -0.39485267, y: -0.0044068615, z: 0.010253142, w: 0.91867673}
+  m_LocalPosition: {x: 0.32, y: -2.36, z: 5.66}
+  m_LocalScale: {x: 3.9192364, y: 4.0659413, z: 0.8826282}
   m_Children: []
   m_Father: {fileID: 490289910}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.279}
+  m_LocalEulerAnglesHint: {x: -46.502, y: -1.348, z: 1.858}
 --- !u!65 &2095059628
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8379,48 +8390,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &2095059629
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095059626}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a7c4e4ab54d3945f294f10d0a62ac9dd, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &2095059630
 MeshFilter:
   m_ObjectHideFlags: 0
