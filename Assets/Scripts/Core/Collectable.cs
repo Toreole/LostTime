@@ -8,7 +8,10 @@ namespace LostTime.Core
     {
         [SerializeField]
         private Item item;
-
+        public override UI.CrosshairType GetCrosshairType()
+        {
+            return UI.CrosshairType.Pickup;
+        }
         public override void Interact(Player player)
         {
             player.PickupItem(item, this.gameObject);

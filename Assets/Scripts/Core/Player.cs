@@ -14,6 +14,8 @@ namespace LostTime.Core
         [SerializeField]
         GameObject ingameOverlay;
         [SerializeField]
+        Crosshair crosshair;
+        [SerializeField]
         ItemInspector itemInspector;
         [SerializeField]
         GameObject inventoryUI;
@@ -123,17 +125,23 @@ namespace LostTime.Core
 
         private void CheckInteraction()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Physics.SphereCast(camera.position, 0.1f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
             {
-                if (Physics.SphereCast(camera.position, 0.1f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
+                var interactable = hit.collider.GetComponent<Interactable>();
+                if (interactable != null)
                 {
-                    var interactable = hit.collider.GetComponent<Interactable>();
-                    if (interactable != null)
+                    if (Input.GetKeyDown(KeyCode.E))
                     {
                         interactable.Interact(this);
                     }
+                    crosshair.Set(interactable.GetCrosshairType());
                 }
+                else
+                    crosshair.Set(CrosshairType.Default);
             }
+            else
+                crosshair.Set(CrosshairType.Default);
+
         }
 
         /// <summary>

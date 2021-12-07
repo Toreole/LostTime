@@ -16,6 +16,10 @@ namespace LostTime.Core
             mesh = GetComponent<MeshFilter>().mesh;
             renderer = GetComponent<MeshRenderer>();
         }
+        public override UI.CrosshairType GetCrosshairType()
+        {
+            return UI.CrosshairType.LookAt;
+        }
 
         public override void Interact(Player player)
         {
