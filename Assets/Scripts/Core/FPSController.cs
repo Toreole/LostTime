@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SebLague.Portals;
+using LostTime.UI;
 
 namespace LostTime
 {
@@ -20,8 +21,8 @@ namespace LostTime
         [SerializeField]
         private float gravity = 18;
 
-        [SerializeField]
-        private float mouseSensitivity = 10;
+        [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("mouseSensitivity")]
+        private float lookSpeed = 10;
         [SerializeField]
         private Vector2 pitchMinMax = new Vector2 (-40, 85);
         [SerializeField]
@@ -48,8 +49,11 @@ namespace LostTime
         float lastGroundedTime;
         Vector3 lastGroundedPosition;
 
+        float mouseSensitivity = 1;
+
         void Start () 
         {
+            mouseSensitivity = PlayerPrefs.GetFloat(nameof(mouseSensitivity), 1);
             cam = Camera.main;
 
             controller = GetComponent<CharacterController> ();
@@ -58,13 +62,23 @@ namespace LostTime
             pitch = cam.transform.localEulerAngles.x;
             smoothYaw = yaw;
             smoothPitch = pitch;
+
+            //prepare to get changed settings.
+            SettingsPanel.OnMouseSensitivityChanged += SetMouseSensitivity;
+        }
+
+        private void OnDestroy()
+        {
+            //unbind the event to be clean.
+            SettingsPanel.OnMouseSensitivityChanged -= SetMouseSensitivity;
         }
 
         void Update () 
         {
             MovementAndRotation();
-            
         }
+
+        private void SetMouseSensitivity(float value) => mouseSensitivity = value;
 
         private void MovementAndRotation()
         {
@@ -108,9 +122,9 @@ namespace LostTime
                 mX = 0;
                 mY = 0;
             }
-
-            yaw += mX * mouseSensitivity;
-            pitch -= mY * mouseSensitivity;
+            float rotationSpeed = lookSpeed * mouseSensitivity;
+            yaw += mX * rotationSpeed;
+            pitch -= mY * rotationSpeed;
             pitch = Mathf.Clamp (pitch, pitchMinMax.x, pitchMinMax.y);
             smoothPitch = Mathf.SmoothDampAngle (smoothPitch, pitch, ref pitchSmoothV, rotationSmoothTime);
             smoothYaw = Mathf.SmoothDampAngle (smoothYaw, yaw, ref yawSmoothV, rotationSmoothTime);
