@@ -1,9 +1,9 @@
+using LostTime.Audio;
+using LostTime.Core;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using LostTime.Core;
-using LostTime.Audio;
 using TMPro;
+using UnityEngine;
 
 namespace LostTime.UI
 {
@@ -17,14 +17,18 @@ namespace LostTime.UI
         private TextMeshProUGUI itemName;
         [SerializeField]
         private TextMeshProUGUI itemDescription;
+        [SerializeField]
+        private float focusDuration = 4.0f;
 
         List<ItemDisplay> itemDisplayers = new List<ItemDisplay>(2);
         Queue<ItemDisplay> emptyDisplays;
 
         private ItemDisplay focusedItemDisplay;
 
-        private bool autoRotate = true;
         private GameObject rootObject;
+        private float lastFocusTime = 0;
+        //just a buffer to check state change from rotating to not rotating.
+        private bool rotating = true;
 
         /// <summary>
         /// Initializes the UI for everything.
@@ -44,7 +48,6 @@ namespace LostTime.UI
 
         IEnumerator DoRotateTowards(ItemDisplay disp)
         {
-            autoRotate = false;
             Vector3 startOffset = disp.LocalPosition.normalized;
             Vector3 targetOffset = new Vector3(0, 0, -1);
 
@@ -81,19 +84,15 @@ namespace LostTime.UI
                 {
                     itemDisplayers[i].LocalPosition = rotation * itemDisplayers[i].LocalPosition;
                 }
-                SortItems();
+                SortDisplays();
                 yield return null;
             }
-            //delay before returning to normal. this breaks when closing the inventory.
-            yield return new WaitForSeconds(4);
-            itemName.alpha = 0;
-            itemDescription.alpha = 0;
-            autoRotate = true;
-            focusedItemDisplay.Focused = false;
-            focusedItemDisplay = null;
         }
 
-        private void SortItems()
+        /// <summary>
+        /// Sorts the ItemDisplays by their local Z position. farther away items appear behind closer ones.
+        /// </summary>
+        private void SortDisplays()
         {
             itemDisplayers.Sort((a, b) =>
             {
@@ -111,15 +110,24 @@ namespace LostTime.UI
         // Update is called once per frame
         void Update()
         {
-            if (autoRotate is false)
+            //instead of autorotate, check the last time an itemdisplay was focused.
+            if (Time.time <= lastFocusTime + focusDuration)
                 return;
+            //should rotate otherwise:
+            if(rotating is false)
+            {
+                rotating = true;
+                //"deactivate" the description and name displays for the items.
+                itemDescription.alpha = 0;
+                itemName.alpha = 0;
+            }
 
             Quaternion q = Quaternion.Euler(0, 15 * Time.deltaTime, 0);
             for (int i = 0; i < itemDisplayers.Count; i++)
             {
                 itemDisplayers[i].LocalPosition = q * itemDisplayers[i].LocalPosition;
             }
-            SortItems();
+            SortDisplays();
         }
 
         /// <summary>
@@ -136,14 +144,41 @@ namespace LostTime.UI
             return disp;
         }
 
+        /// <summary>
+        /// switch Focus to the given ItemDisplay.
+        /// </summary>
+        /// <param name="display"></param>
+        private void FocusDisplay(ItemDisplay display)
+        {
+            if (focusedItemDisplay != null)
+                focusedItemDisplay.Focused = false;
+            display.Focused = true;
+            focusedItemDisplay = display;
+            lastFocusTime = Time.time;
+            //set buffer
+            rotating = false;
+        }
+
+        /// <summary>
+        /// Removes the current active display from focus.
+        /// </summary>
+        public void UnfocusCurrentDisplay()
+        {
+            if(focusedItemDisplay)
+            {
+                focusedItemDisplay.Focused = false;
+                focusedItemDisplay = null;
+                lastFocusTime = float.NegativeInfinity;
+            }
+        }
+
         void HandleClick(ItemDisplay display)
         {
             this.StopAllCoroutines();
             StartCoroutine(DoRotateTowards(display));
-            if (focusedItemDisplay)
-                focusedItemDisplay.Focused = false;
-            focusedItemDisplay = display;
-            display.Focused = true;
+            FocusDisplay(display);
+            itemDescription.text = display.Item.itemDescription;
+            itemName.text = display.Item.itemName;
         }
 
         //fibonacci sphere samples based on https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere 
@@ -163,7 +198,7 @@ namespace LostTime.UI
                 Vector3 offset = new Vector3(x, y, z) * radius;
                 itemDisplayers[i].LocalPosition = offset;
             }
-            SortItems();
+            SortDisplays();
         }
 
         public void AddItem(Item item)
@@ -174,19 +209,55 @@ namespace LostTime.UI
             }
             else
             {
+                //instantiate a new display in the UI
                 var d = InstantiateDisplay();
                 SetUpItemDisplay(d, item);
                 itemDisplayers.Add(d);
                 DistributeDisplays();
             }
         }
-        
+
+        /// <summary>
+        /// Adds the item to the displayed items, then immediately focuses it.
+        /// </summary>
+        /// <param name="item"></param>
+        public void AddItemAndShow(Item item)
+        {
+            ItemDisplay display = null;
+            if (emptyDisplays.Count > 0)
+            {
+                display = emptyDisplays.Dequeue();
+                SetUpItemDisplay(display, item);
+            }
+            else
+            {
+                //instantiate a new display in the UI
+                display = InstantiateDisplay();
+                SetUpItemDisplay(display, item);
+                itemDisplayers.Add(display);
+                DistributeDisplays();
+            }
+            //focus it.
+            FocusDisplay(display);
+            //now rotate the fictional sphere so the focused one is in front.
+            Vector3 startOffset = display.LocalPosition.normalized;
+            Vector3 targetOffset = new Vector3(0, 0, -1);
+            Vector3 axis = Vector3.Cross(startOffset, targetOffset).normalized;
+            float angle = Vector3.Angle(startOffset, targetOffset);
+            Quaternion rotation = Quaternion.AngleAxis(angle, axis);
+            //apply the rotation to every vector.
+            for (int i = 0; i < itemDisplayers.Count; i++)
+                itemDisplayers[i].LocalPosition = rotation * itemDisplayers[i].LocalPosition;
+            SortDisplays();
+        }
+
         private void SetUpItemDisplay(ItemDisplay disp, Item item)
         {
             disp.Item = item;
             disp.Color = Color.white;
         }
 
+        //Show the Inventory UI.
         public void Show()
         {
             BGMHandler.SuppressBGM();
@@ -202,10 +273,8 @@ namespace LostTime.UI
             StopAllCoroutines();
             itemName.alpha = 0;
             itemDescription.alpha = 0;
-            if (focusedItemDisplay)
-                focusedItemDisplay.Focused = false;
-            focusedItemDisplay = null;
-            autoRotate = true;
+            UnfocusCurrentDisplay();
+            rotating = true;
         }
     }
 }

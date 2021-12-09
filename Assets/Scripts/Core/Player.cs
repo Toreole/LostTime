@@ -2,6 +2,7 @@
 using UnityEngine;
 using LostTime.UI;
 using LostTime.Audio;
+using System;
 
 namespace LostTime.Core
 {
@@ -110,13 +111,12 @@ namespace LostTime.Core
                 switch(ActiveControlMode)
                 {
                     case ControlMode.Player:
-                        if (voiceOverHandler.IsPlaying) //block the inventory while playing voiceovers. easy fix
-                            break;
-                        inventoryUIContainer.Show();
-                        ActiveControlMode = ControlMode.Inventory;
+                        OpenInventory();
                         break;
                     case ControlMode.Inventory:
+                        //close inventory and resume voiceover playing.
                         inventoryUIContainer.Hide();
+                        voiceOverHandler.Resume();
                         ActiveControlMode = ControlMode.Player;
                         break;
                 }
@@ -165,8 +165,19 @@ namespace LostTime.Core
             Graphics.CopyTexture(screenshotTexture, texture);
             //Texture2D.CreateExternalTexture(256, 256, TextureFormat.ARGB32, false, false, texPtr);
             item.Sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(texture.width >> 1, texture.height >> 1));
-            inventoryUIContainer.AddItem(item);
+            inventoryUIContainer.AddItemAndShow(item);
+            OpenInventory();
             obj.SetActive(false);
+        }
+
+        /// <summary>
+        /// Open the inventory.
+        /// </summary>
+        private void OpenInventory()
+        {
+            ActiveControlMode = ControlMode.Inventory;
+            inventoryUIContainer.Show();
+            voiceOverHandler.Pause();
         }
 
         /// <summary>
