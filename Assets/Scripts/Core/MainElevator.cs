@@ -11,8 +11,6 @@ namespace LostTime.Core
         [SerializeField]
         private Animator animator;
         [SerializeField]
-        private GameObject directionalLight;
-        [SerializeField]
         private string[] levels;
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
@@ -69,7 +67,7 @@ namespace LostTime.Core
         {
             yield return new WaitForSeconds(2f);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(loadedScene));
-            directionalLight.SetActive(false);
+            UnityEngine.LightProbes.Tetrahedralize();
             //disgusting hack but ok
             var levelStart = LevelStartArea.Current;
             levelStart.MovePlayerToFrom(levelStart.transform, Player.Instance.transform, this.transform);
@@ -82,11 +80,5 @@ namespace LostTime.Core
             levelInProgress = false;
             levelIndex++;
         }
-
-        public void ReEnableLight()
-        {
-            directionalLight.SetActive(true);
-        }
-
     }
 }

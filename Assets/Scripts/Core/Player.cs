@@ -98,8 +98,7 @@ namespace LostTime.Core
                         ActiveControlMode = ControlMode.Player;
                         break;
                     case ControlMode.Inventory:
-                        inventoryUIContainer.Hide();
-                        ActiveControlMode = ControlMode.Player;
+                        CloseInventory();
                         break;
                     case ControlMode.None:
                         break;
@@ -114,10 +113,7 @@ namespace LostTime.Core
                         OpenInventory();
                         break;
                     case ControlMode.Inventory:
-                        //close inventory and resume voiceover playing.
-                        inventoryUIContainer.Hide();
-                        voiceOverHandler.Resume();
-                        ActiveControlMode = ControlMode.Player;
+                        CloseInventory();
                         break;
                 }
             }
@@ -178,6 +174,14 @@ namespace LostTime.Core
             ActiveControlMode = ControlMode.Inventory;
             inventoryUIContainer.Show();
             voiceOverHandler.Pause();
+        }
+
+        private void CloseInventory()
+        {
+            //close inventory and resume voiceover playing.
+            inventoryUIContainer.Hide();
+            voiceOverHandler.Resume();
+            ActiveControlMode = ControlMode.Player;
         }
 
         /// <summary>

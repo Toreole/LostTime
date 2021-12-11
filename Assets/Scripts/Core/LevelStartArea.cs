@@ -71,9 +71,9 @@ namespace LostTime.Core
                 MovePlayerToFrom(elevator.transform, Player.Instance.transform, this.transform);
                 yield return new WaitForSeconds(2);
                 elevator.TriggerDoors();
-                elevator.ReEnableLight();
                 elevator.CompleteLevel();
                 SceneManagement.UnloadScene(mySceneName);
+                UnityEngine.LightProbes.Tetrahedralize();
             }
         }
 

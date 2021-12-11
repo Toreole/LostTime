@@ -120,6 +120,7 @@ namespace LostTime.UI
                 //"deactivate" the description and name displays for the items.
                 itemDescription.alpha = 0;
                 itemName.alpha = 0;
+                UnfocusCurrentDisplay();
             }
 
             Quaternion q = Quaternion.Euler(0, 15 * Time.deltaTime, 0);
@@ -157,6 +158,19 @@ namespace LostTime.UI
             lastFocusTime = Time.time;
             //set buffer
             rotating = false;
+            //update item description text
+            if (display.Item)
+            {
+                itemDescription.text = display.Item.itemDescription;
+                itemName.text = display.Item.itemName;
+                itemDescription.alpha = 1;
+                itemName.alpha = 1;
+            }
+            else
+            {
+                itemDescription.alpha = 0;
+                itemName.alpha = 0;
+            }
         }
 
         /// <summary>
@@ -172,35 +186,49 @@ namespace LostTime.UI
             }
         }
 
+        /// <summary>
+        /// Handles OnPointerDown events for the ItemDisplays. Since no additional data is necessary, it just needs the target of the click.
+        /// </summary>
+        /// <param name="display"></param>
         void HandleClick(ItemDisplay display)
         {
             this.StopAllCoroutines();
             StartCoroutine(DoRotateTowards(display));
             FocusDisplay(display);
-            itemDescription.text = display.Item.itemDescription;
-            itemName.text = display.Item.itemName;
         }
 
         //fibonacci sphere samples based on https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere 
         private static readonly float phi = Mathf.PI * (3f - Mathf.Sqrt(5f)); //golden angle in rad
         private void DistributeDisplays()
         {
-            for (int i = 0; i < itemDisplayers.Count; i++)
+            if (itemDisplayers.Count == 2)
             {
+                itemDisplayers[0].LocalPosition = new Vector3(radius, 0, 0);
+                itemDisplayers[1].LocalPosition = Vector3.ClampMagnitude(new Vector3(-radius, 0, radius * 0.5f), radius);
+            }
+            else
+            {
+                for (int i = 0; i < itemDisplayers.Count; i++)
+                {
 
-                float y = 1f - ((float)i / (float)(itemDisplayers.Capacity - 1)) * 2f;
-                float r = Mathf.Sqrt(1f - y * y);//"radius" at y
-                float theta = phi * (float)i;
+                    float y = 1f - ((float)i / (float)(itemDisplayers.Capacity - 1)) * 2f;
+                    float r = Mathf.Sqrt(1f - y * y);//"radius" at y
+                    float theta = phi * (float)i;
 
-                float x = Mathf.Cos(theta) * r;
-                float z = Mathf.Sin(theta) * r;
+                    float x = Mathf.Cos(theta) * r;
+                    float z = Mathf.Sin(theta) * r;
 
-                Vector3 offset = new Vector3(x, y, z) * radius;
-                itemDisplayers[i].LocalPosition = offset;
+                    Vector3 offset = new Vector3(x, y, z) * radius;
+                    itemDisplayers[i].LocalPosition = offset;
+                }
             }
             SortDisplays();
         }
 
+        /// <summary>
+        /// Silently adds the item to the inventory.
+        /// </summary>
+        /// <param name="item"></param>
         public void AddItem(Item item)
         {
             if(emptyDisplays.Count > 0)
@@ -239,6 +267,7 @@ namespace LostTime.UI
             }
             //focus it.
             FocusDisplay(display);
+            Debug.Log("fuck me", display.gameObject);
             //now rotate the fictional sphere so the focused one is in front.
             Vector3 startOffset = display.LocalPosition.normalized;
             Vector3 targetOffset = new Vector3(0, 0, -1);
