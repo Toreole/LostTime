@@ -19,14 +19,18 @@ namespace LostTime.Core
         private bool levelInProgress = false;
         private bool canStartNextLevel = true;
 
+        private float startY = 0;
+
         private void Start()
         {
             Instance = this;
+            startY = transform.position.y;
         }
 
         public void TriggerDoors()
         {
-            animator.SetTrigger(doorTrigger);
+            if(animator)
+                animator.SetTrigger(doorTrigger);
         }
 
         public void StartNextLevel()
@@ -55,12 +59,40 @@ namespace LostTime.Core
 
         private void SceneTeleport()
         {
-            StartCoroutine(DoSceneTeleport());
+            //StartCoroutine(DoSceneTeleport());
+            StartCoroutine(DoMoveElevator());
         }
 
         public void AllowLevelProgress()
         {
             canStartNextLevel = true;
+        }
+
+        private IEnumerator DoMoveElevator()
+        {
+            yield return new WaitForSeconds(2f);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(loadedScene));
+            UnityEngine.LightProbes.Tetrahedralize();
+
+            var startArea = LevelStartArea.Current;
+            float targetY = startArea.transform.position.y;
+            Vector3 position = transform.position;
+            Transform player = Player.Instance.transform;
+            player.SetParent(this.transform);
+
+            //Lerp it!. is probably incredibly fast, but doesnt matter to the player.
+            for (float t = 0; t < 2f; t += Time.deltaTime)
+            {
+                position.y = Mathf.Lerp(startY, targetY, t / 2f);
+                transform.position = position;
+                Physics.SyncTransforms();
+                yield return null;
+            }
+            position.y = targetY;
+            transform.position = position;
+            Physics.SyncTransforms();
+
+            player.SetParent(null);
         }
 
         private IEnumerator DoSceneTeleport()
