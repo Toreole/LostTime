@@ -177,10 +177,11 @@ namespace LostTime.Core
             levelStart.TriggerDoors();
         }
 
+        //called when placing key items in the hub.
         public void CompleteLevel()
         {
-            levelInProgress = false;
             levelIndex++;
+            AllowLevelProgress();
         }
     }
 }
