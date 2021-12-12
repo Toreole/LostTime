@@ -31,11 +31,12 @@ namespace LostTime.Core
             Vector3 labelPos = transform.position;
             for (int i = 0; i < onItemDelivered.GetPersistentEventCount(); i++)
             {
-                var target = onItemDelivered.GetPersistentTarget(i);
-                if (target != null && target is Component)
+                Object target = onItemDelivered.GetPersistentTarget(i);
+                var tTransform = target.GetType().GetProperty("transform");
+                if (target != null && tTransform != null)
                 {
                     Gizmos.color = Color.blue;
-                    Gizmos.DrawLine(transform.position, (target as Component).transform.position);
+                    Gizmos.DrawLine(transform.position, (tTransform.GetValue(target) as Transform).position);
                     string methodName = onItemDelivered.GetPersistentMethodName(i);
                     if (string.IsNullOrEmpty(methodName) is false)
                     {
