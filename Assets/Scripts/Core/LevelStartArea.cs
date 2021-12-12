@@ -16,6 +16,8 @@ namespace LostTime.Core
         [SerializeField]
         private string mySceneName;
 
+        public Item CompletionItem => completionItem;
+
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
 
         private bool levelCompleted = false;
