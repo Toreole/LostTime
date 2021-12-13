@@ -26,7 +26,7 @@ public class GenericTrigger : MonoBehaviour
                 if (string.IsNullOrEmpty(methodName) is false)
                 {
 #if UNITY_EDITOR
-                    UnityEditor.Handles.color = Color.green;
+                    GUI.color = Color.green;
                     UnityEditor.Handles.Label(labelPos, methodName);
                     labelPos += new Vector3(0, 0.2f, 0);
 #endif

@@ -19,18 +19,27 @@ namespace SebLague.Portals
         RenderTexture viewTexture;
         Camera portalCam;
         Camera playerCam;
-        Material firstRecursionMat;
         List<PortalTraveller> trackedTravellers;
         MeshFilter screenMeshFilter;
 
-        void Awake () 
+        void Start () 
         {
-            playerCam = Camera.main;
+            playerCam = MainCamera.Instance.Camera;
             portalCam = GetComponentInChildren<Camera> ();
             portalCam.enabled = false;
             trackedTravellers = new List<PortalTraveller> ();
             screenMeshFilter = screen.GetComponent<MeshFilter> ();
             screen.material.SetInt ("displayMask", 1);
+        }
+
+        private void OnEnable()
+        {
+            MainCamera.Instance.RegisterPortal(this);
+        }
+
+        private void OnDisable()
+        {
+            MainCamera.Instance.UnregisterPortal(this);
         }
 
         void LateUpdate () 
@@ -98,8 +107,10 @@ namespace SebLague.Portals
 
             int startIndex = 0;
             portalCam.projectionMatrix = playerCam.projectionMatrix;
-            for (int i = 0; i < recursionLimit; i++) {
-                if (i > 0) {
+            for (int i = 0; i < recursionLimit; i++) 
+            {
+                if (i > 0) 
+                {
                     // No need for recursive rendering if linked portal is not visible through this portal
                     if (!CameraUtility.BoundsOverlap (screenMeshFilter, linkedPortal.screenMeshFilter, portalCam)) 
                     {
@@ -150,7 +161,8 @@ namespace SebLague.Portals
 
             foreach (var traveller in trackedTravellers) 
             {
-                if (SameSideOfPortal (traveller.transform.position, portalCamPos)) {
+                if (SameSideOfPortal (traveller.transform.position, portalCamPos)) 
+                {
                     // Addresses issue 1
                     traveller.SetSliceOffsetDst (hideDst, false);
                 } 
@@ -256,7 +268,8 @@ namespace SebLague.Portals
             float screenThickness = screen.transform.localScale.z;
 
             bool playerSameSideAsTraveller = SameSideOfPortal (playerCam.transform.position, traveller.transform.position);
-            if (!playerSameSideAsTraveller) {
+            if (!playerSameSideAsTraveller) 
+            {
                 sliceOffsetDst = -screenThickness;
             }
             bool playerSameSideAsCloneAppearing = side != linkedPortal.SideOfPortal (playerCam.transform.position);
