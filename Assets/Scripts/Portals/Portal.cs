@@ -15,19 +15,20 @@ namespace SebLague.Portals
         public float nearClipOffset = 0.05f;
         public float nearClipLimit = 0.2f;
 
+        [SerializeField]
+        MeshFilter screenMeshFilter;
+        [SerializeField]
+        Camera portalCam;
         // Private variables
         RenderTexture viewTexture;
-        Camera portalCam;
         Camera playerCam;
-        List<PortalTraveller> trackedTravellers;
-        MeshFilter screenMeshFilter;
+        List<PortalTraveller> trackedTravellers = new List<PortalTraveller>();
 
         void Start () 
         {
             playerCam = MainCamera.Instance.Camera;
             portalCam = GetComponentInChildren<Camera> ();
             portalCam.enabled = false;
-            trackedTravellers = new List<PortalTraveller> ();
             screenMeshFilter = screen.GetComponent<MeshFilter> ();
             screen.material.SetInt ("displayMask", 1);
         }
@@ -213,8 +214,9 @@ namespace SebLague.Portals
         }
 
         // Called once all portals have been rendered, but before the player camera renders
-        public void PostPortalRender () 
+        public void PostPortalRender ()
         {
+            if (!playerCam) playerCam = MainCamera.Instance.Camera;
             foreach (var traveller in trackedTravellers) 
             {
                 UpdateSliceParams (traveller);
@@ -239,6 +241,7 @@ namespace SebLague.Portals
         // Sets the thickness of the portal screen so as not to clip with camera near plane when player goes through
         float ProtectScreenFromClipping (Vector3 viewPoint) 
         {
+            if (!playerCam) playerCam = MainCamera.Instance.Camera;
             float halfHeight = playerCam.nearClipPlane * Mathf.Tan (playerCam.fieldOfView * 0.5f * Mathf.Deg2Rad);
             float halfWidth = halfHeight * playerCam.aspect;
             float dstToNearClipPlaneCorner = new Vector3 (halfWidth, halfHeight, playerCam.nearClipPlane).magnitude;

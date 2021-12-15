@@ -121,6 +121,8 @@ namespace LostTime.Core
 
         private void CheckInteraction()
         {
+            if (!crosshair) //temp: remove
+                return;
             if (Physics.SphereCast(camera.position, 0.1f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
             {
                 var interactable = hit.collider.GetComponent<Interactable>();
