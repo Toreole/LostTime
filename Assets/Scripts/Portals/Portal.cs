@@ -95,7 +95,7 @@ namespace SebLague.Portals
         public void Render () 
         {
             // Skip rendering the view from this portal if player is not looking at the linked portal
-            if (!CameraUtility.VisibleFromCamera (linkedPortal.screen, playerCam)) 
+            if (!CameraUtility.VisibleFromCamera (this.screen, playerCam)) 
             {
                 return;
             }
@@ -113,12 +113,12 @@ namespace SebLague.Portals
                 if (i > 0) 
                 {
                     // No need for recursive rendering if linked portal is not visible through this portal
-                    if (!CameraUtility.BoundsOverlap (screenMeshFilter, linkedPortal.screenMeshFilter, portalCam)) 
+                    if (!CameraUtility.BoundsOverlap (screenMeshFilter, this.screenMeshFilter, portalCam)) 
                     {
                         break;
                     }
                 }
-                localToWorldMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * localToWorldMatrix;
+                localToWorldMatrix = linkedPortal.transform.localToWorldMatrix * this.transform.worldToLocalMatrix * localToWorldMatrix;
                 int renderOrderIndex = recursionLimit - i - 1;
                 renderPositions[renderOrderIndex] = localToWorldMatrix.GetColumn (3);
                 renderRotations[renderOrderIndex] = localToWorldMatrix.rotation;
@@ -140,7 +140,7 @@ namespace SebLague.Portals
 
                 if (i == startIndex) 
                 {
-                    linkedPortal.screen.material.SetInt ("displayMask", 1);
+                    this.screen.material.SetInt ("displayMask", 1);
                 }
             }
 
@@ -234,7 +234,7 @@ namespace SebLague.Portals
                 // Render the view from the portal camera to the view texture
                 portalCam.targetTexture = viewTexture;
                 // Display the view texture on the screen of the linked portal
-                linkedPortal.screen.material.SetTexture ("_MainTex", viewTexture);
+                this.screen.material.SetTexture ("_MainTex", viewTexture);
             }
         }
 
@@ -247,7 +247,7 @@ namespace SebLague.Portals
             float dstToNearClipPlaneCorner = new Vector3 (halfWidth, halfHeight, playerCam.nearClipPlane).magnitude;
             float screenThickness = dstToNearClipPlaneCorner;
 
-            Transform screenT = screen.transform;
+            Transform screenT = linkedPortal.screen.transform; //might not be needed?
             bool camFacingSameDirAsPortal = Vector3.Dot (transform.forward, transform.position - viewPoint) > 0;
             screenT.localScale = new Vector3 (screenT.localScale.x, screenT.localScale.y, screenThickness);
             screenT.localPosition = Vector3.forward * screenThickness * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f);
@@ -300,8 +300,8 @@ namespace SebLague.Portals
         {
             // Learning resource:
             // http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
-            Transform clipPlane = transform;
-            int dot = System.Math.Sign (Vector3.Dot (clipPlane.forward, transform.position - portalCam.transform.position));
+            Transform clipPlane = linkedPortal.transform;
+            int dot = System.Math.Sign (Vector3.Dot (clipPlane.forward, linkedPortal.transform.position - portalCam.transform.position));
 
             Vector3 camSpacePos = portalCam.worldToCameraMatrix.MultiplyPoint (clipPlane.position);
             Vector3 camSpaceNormal = portalCam.worldToCameraMatrix.MultiplyVector (clipPlane.forward) * dot;
