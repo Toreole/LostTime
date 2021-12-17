@@ -94,7 +94,7 @@ namespace SebLague.Portals
         // Called after PrePortalRender, and before PostPortalRender
         public void Render () 
         {
-            // Skip rendering the view from this portal if player is not looking at the linked portal
+            // Skip rendering the view through this portal if player is not looking at it
             if (!CameraUtility.VisibleFromCamera (this.screen, playerCam)) 
             {
                 return;
@@ -112,12 +112,14 @@ namespace SebLague.Portals
             {
                 if (i > 0) 
                 {
-                    // No need for recursive rendering if linked portal is not visible through this portal
+                    // No need for recursive rendering if this portal is not visible through the linked portal
                     if (!CameraUtility.BoundsOverlap (screenMeshFilter, this.screenMeshFilter, portalCam)) 
                     {
                         break;
                     }
                 }
+                //EDIT: swapped this.transform with linkedPortal.transform.
+                //Portals are no longer responsible for rendering views for other portals, but their only their own display.
                 localToWorldMatrix = linkedPortal.transform.localToWorldMatrix * this.transform.worldToLocalMatrix * localToWorldMatrix;
                 int renderOrderIndex = recursionLimit - i - 1;
                 renderPositions[renderOrderIndex] = localToWorldMatrix.GetColumn (3);
@@ -197,7 +199,8 @@ namespace SebLague.Portals
                 {
                     // Addresses issue 1
                     linkedTraveller.SetSliceOffsetDst (hideDst, true);
-                } else {
+                } else 
+                {
                     // Addresses issue 2
                     linkedTraveller.SetSliceOffsetDst (showDst, true);
                 }
@@ -207,7 +210,8 @@ namespace SebLague.Portals
                 if (camSameSideAsTraveller) 
                 {
                     linkedTraveller.SetSliceOffsetDst (screenThickness, false);
-                } else {
+                } else 
+                {
                     linkedTraveller.SetSliceOffsetDst (-screenThickness, false);
                 }
             }
@@ -223,6 +227,8 @@ namespace SebLague.Portals
             }
             ProtectScreenFromClipping (playerCam.transform.position);
         }
+
+        //Creates / Updates the RenderTexture for the portalCam.
         void CreateViewTexture () 
         {
             if ( viewTexture == null || viewTexture.width != Screen.width || viewTexture.height != Screen.height) 
@@ -233,7 +239,7 @@ namespace SebLague.Portals
                 viewTexture = new RenderTexture (Screen.width, Screen.height, 0);
                 // Render the view from the portal camera to the view texture
                 portalCam.targetTexture = viewTexture;
-                // Display the view texture on the screen of the linked portal
+                // Display the view texture on the screen of the portal
                 this.screen.material.SetTexture ("_MainTex", viewTexture);
             }
         }
