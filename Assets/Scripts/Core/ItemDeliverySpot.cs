@@ -19,6 +19,8 @@ namespace LostTime.Core
 
         public override void Interact(Player player)
         {
+            if(requiredItem is null)
+                return;
             if(player.HasItem(requiredItem))
             {
                 gameObject.SetActive(false);

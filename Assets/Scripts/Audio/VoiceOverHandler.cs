@@ -12,6 +12,8 @@ namespace LostTime.Audio
         private AudioSource audioSource;
         [SerializeField]
         private TextMeshProUGUI textElement;
+        [SerializeField]
+        private UnityEngine.UI.Image backgroundImage;
 
         //this behaves more like a stack innit
         private Queue<VoiceOver> voiceOverQueue = new Queue<VoiceOver>(4); //not expecting more than 4 voiceovers to be queued at any time.
@@ -32,10 +34,13 @@ namespace LostTime.Audio
                 if(isPlaying is true && value is false)
                 {
                     BGMHandler.FreeBGM();
+                    backgroundImage.CrossFadeAlpha(0, 0.25f, true);
                 }
                 if(isPlaying is false && value is true)
                 {
                     BGMHandler.SuppressBGM();
+                    Debug.Log("Started playing.");
+                    backgroundImage.CrossFadeAlpha(0.7f, 0.5f, true);
                 }
                 isPlaying = value;
             }
@@ -45,6 +50,7 @@ namespace LostTime.Audio
         {
             PauseMenu.OnMenuOpened += this.Pause;
             PauseMenu.OnMenuClosed += this.Resume;
+            backgroundImage.GetComponent<CanvasRenderer>().SetAlpha(0);
         }
 
         private void OnDestroy()
