@@ -4,7 +4,7 @@ using UnityEngine;
 using SebLague.Portals;
 using LostTime.UI;
 
-namespace LostTime
+namespace LostTime.Core
 {
     [RequireComponent(typeof(CharacterController))]
     public class FPSController : PortalTraveller 
@@ -42,8 +42,6 @@ namespace LostTime
         float verticalVelocity;
         Vector3 velocity;
         Vector3 smoothV;
-        Vector3 rotationSmoothVelocity;
-        Vector3 currentRotation;
 
         bool jumping;
         float lastGroundedTime;
@@ -73,21 +71,20 @@ namespace LostTime
             SettingsPanel.OnMouseSensitivityChanged -= SetMouseSensitivity;
         }
 
-        void Update () 
-        {
-            MovementAndRotation();
-        }
-
         private void SetMouseSensitivity(float value) => mouseSensitivity = value;
 
-        private void MovementAndRotation()
+        internal void MovementAndRotation(AbilityUnlocks abilities)
         {
             Vector2 input = new Vector2 (Input.GetAxisRaw ("Horizontal"), Input.GetAxisRaw ("Vertical"));
 
             Vector3 inputDir = new Vector3 (input.x, 0, input.y).normalized;
             Vector3 worldInputDir = transform.TransformDirection (inputDir);
 
-            float currentSpeed = (Input.GetKey (KeyCode.LeftShift)) ? runSpeed : walkSpeed;
+            float currentSpeed;
+            if (abilities.HasFlag(AbilityUnlocks.SPRINT))
+                currentSpeed = (Input.GetKey(KeyCode.LeftShift)) ? runSpeed : walkSpeed;
+            else
+                currentSpeed = walkSpeed;
             Vector3 targetVelocity = worldInputDir * currentSpeed;
             velocity = Vector3.SmoothDamp (velocity, targetVelocity, ref smoothV, smoothMoveTime);
 
@@ -103,7 +100,8 @@ namespace LostTime
                 lastGroundedPosition = transform.position;
             }
 
-            if (Input.GetKeyDown (KeyCode.Space)) 
+            //if the JUMP flag is set, check for key input
+            if (abilities.HasFlag(AbilityUnlocks.JUMP) && Input.GetKeyDown (KeyCode.Space)) 
             {
                 float timeSinceLastTouchedGround = Time.time - lastGroundedTime;
                 if (controller.isGrounded || (!jumping && timeSinceLastTouchedGround < 0.15f)) 

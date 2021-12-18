@@ -15,11 +15,11 @@ namespace LostTime.Core
         [SerializeField]
         GameObject ingameOverlay;
         [SerializeField]
+        GameObject inventoryIcon;
+        [SerializeField]
         Crosshair crosshair;
         [SerializeField]
         ItemInspector itemInspector;
-        [SerializeField]
-        GameObject inventoryUI;
         [SerializeField]
         ComplexItemContainer inventoryUIContainer;
         [SerializeField]
@@ -37,6 +37,7 @@ namespace LostTime.Core
         private Camera screenshotCamera;
         private RenderTexture screenshotTexture;
 
+        private AbilityUnlocks unlockedAbilities = AbilityUnlocks.NONE;
         private List<Item> inventory = new List<Item>(15); //15 for now, might not need more, but it will adapt to it if needed.
         private ControlMode currentControlMode = ControlMode.Player;
         public CharacterController CharacterController => characterController;
@@ -64,10 +65,12 @@ namespace LostTime.Core
             Instance = this;
             ActiveControlMode = ControlMode.Player;
             PauseMenu.OnMenuClosed += () => ActiveControlMode = ControlMode.Player;
+            //set up the screenshot stuff.
             screenshotTexture = new RenderTexture(256, 256, 1, RenderTextureFormat.ARGB32);
             screenshotTexture.useMipMap = false;
             screenshotCamera.targetTexture = screenshotTexture;
-
+            //inventory stuff
+            inventoryIcon.SetActive(false);
             inventoryUIContainer.Initialize();
         }
 
@@ -75,8 +78,16 @@ namespace LostTime.Core
         void Update()
         {
             MenuFunctionality();
-            if(ActiveControlMode is ControlMode.Player)
+            if (ActiveControlMode is ControlMode.Player)
+            {
                 CheckInteraction();
+                //make the controller update based on the unlocked abilities.
+                controller.MovementAndRotation(unlockedAbilities);
+            }
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.F7))
+                this.SetAbilityUnlocked(AbilityUnlocks.ALL);
+#endif
         }
 
         private void MenuFunctionality()
@@ -105,7 +116,7 @@ namespace LostTime.Core
                 }
             }
             //I: inventory keybind.
-            if(Input.GetKeyDown(KeyCode.I))
+            if(unlockedAbilities.HasFlag(AbilityUnlocks.INVENTORY) && Input.GetKeyDown(KeyCode.I))
             {
                 switch(ActiveControlMode)
                 {
@@ -199,6 +210,11 @@ namespace LostTime.Core
         /// </summary>
         public bool HasItem(Item item) => inventory.Contains(item);
 
+        /// <summary>
+        /// Grants an ability to the player.
+        /// </summary>
+        public void SetAbilityUnlocked(AbilityUnlocks ability) => unlockedAbilities |= ability;
+
         private enum ControlMode
         {
             None = 0,
@@ -207,5 +223,19 @@ namespace LostTime.Core
             InspectItem = 3,
             Inventory = 4
         }
+    }
+
+    /// <summary>
+    /// The "abilities" that the player has unlocked.
+    /// </summary>
+    [System.Flags]
+    public enum AbilityUnlocks
+    {
+        NONE = 0,
+        INVENTORY = 1 << 0,
+        JUMP = 1 << 1,
+        SPRINT = 1 << 2,
+
+        ALL = int.MaxValue //should be all 1s, every flag set
     }
 }
