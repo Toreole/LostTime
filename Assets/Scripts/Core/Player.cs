@@ -167,6 +167,9 @@ namespace LostTime.Core
         /// </summary>
         public void PickupItem(Item item, GameObject obj)
         {
+            //the first time picking up an item allows permanent access to the inventory.
+            if (unlockedAbilities.HasFlag(AbilityUnlocks.INVENTORY) is false)
+                this.SetAbilityUnlocked(AbilityUnlocks.INVENTORY);
             inventory.Add(item);
             screenshotCamera.Render();
             //System.IntPtr texPtr = screenshotTexture.GetNativeTexturePtr();
@@ -213,8 +216,14 @@ namespace LostTime.Core
         /// <summary>
         /// Grants an ability to the player.
         /// </summary>
-        public void SetAbilityUnlocked(AbilityUnlocks ability) => unlockedAbilities |= ability;
+        public void SetAbilityUnlocked(AbilityUnlocks ability)
+        {
+            unlockedAbilities |= ability;
+            if (unlockedAbilities.HasFlag(AbilityUnlocks.INVENTORY))
+                inventoryIcon.SetActive(true);
+        }
 
+        public AbilityUnlocks GetAbilityUnlocks() => unlockedAbilities;
         private enum ControlMode
         {
             None = 0,
