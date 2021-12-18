@@ -164,19 +164,6 @@ namespace LostTime.Core
             TriggerDoors();
         }
 
-        //obsolete: no longer teleporting between scenes, and actually physically moving the elevator instead.
-        private IEnumerator DoSceneTeleport()
-        {
-            yield return new WaitForSeconds(2f);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(loadedScene));
-            UnityEngine.LightProbes.Tetrahedralize();
-            //disgusting hack but ok
-            var levelStart = LevelStartArea.Current;
-            levelStart.MovePlayerToFrom(levelStart.transform, Player.Instance.transform, this.transform);
-            yield return new WaitForSeconds(2f);
-            levelStart.TriggerDoors();
-        }
-
         //called when placing key items in the hub.
         public void CompleteLevel()
         {

@@ -31,6 +31,8 @@ namespace SebLague.Portals
             portalCam.enabled = false;
             screenMeshFilter = screen.GetComponent<MeshFilter> ();
             screen.material.SetInt ("displayMask", 1);
+            if (linkedPortal == null)
+                this.enabled = false;
         }
 
         private void OnEnable()
@@ -381,10 +383,10 @@ namespace SebLague.Portals
 
         void OnValidate () 
         {
-            if (linkedPortal != null) 
-            {
-                linkedPortal.linkedPortal = this;
-            }
+            //if (linkedPortal != null) 
+            //{
+            //    linkedPortal.linkedPortal = this;
+            //}
         }
     }
 }
