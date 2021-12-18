@@ -12,6 +12,8 @@ namespace LostTime.Core
         private Animator animator;
         [SerializeField]
         private string[] levels;
+        [SerializeField]
+        private AudioSource audioSource;
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
         private string loadedScene;
@@ -126,6 +128,7 @@ namespace LostTime.Core
             player.SetParent(null);
             //open the doors of the elevator.
             yield return new WaitForSeconds(0.5f);
+            audioSource.Play();
             TriggerDoors();
         }
 
@@ -161,6 +164,7 @@ namespace LostTime.Core
             //unparent player, open the doors.
             player.SetParent(null);
             yield return new WaitForSeconds(0.5f);
+            audioSource.Play();
             TriggerDoors();
         }
 
