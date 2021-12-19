@@ -21858,9 +21858,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultStartingLocation: {fileID: 0}
-  animator: {fileID: 0}
   completionItem: {fileID: 0}
-  mySceneName: Home_Scene
 --- !u!4 &1518755830
 Transform:
   m_ObjectHideFlags: 0
@@ -28951,6 +28949,92 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 552ca0aeaf931164787cb1c4d992e7cd, type: 3}
   m_PrefabInstance: {fileID: 2119436923}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2120849635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2120849639}
+  - component: {fileID: 2120849638}
+  - component: {fileID: 2120849637}
+  - component: {fileID: 2120849636}
+  m_Layer: 0
+  m_Name: GRANT_ABILITY_JUMP
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2120849636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120849635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49739b3b8a4087c4ebf6ba3d2a204ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voiceOver: {fileID: 11400000, guid: 049e537f203fd9c488d28f9ac64b2cbb, type: 2}
+--- !u!114 &2120849637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120849635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00197e11e746b0a49b6c19fbf5cab3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  e:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2120849637}
+        m_TargetAssemblyTypeName: GenericTrigger, Assembly-CSharp
+        m_MethodName: UnlockSprint
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: New Trigger
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &2120849638
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120849635}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &2120849639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120849635}
+  m_LocalRotation: {x: -0, y: -0.66800183, z: -0, w: 0.74415964}
+  m_LocalPosition: {x: -1.101, y: 1.36, z: 49.549}
+  m_LocalScale: {x: 1.4388, y: 1, z: 4.65212}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: -83.826, z: 0}
 --- !u!1 &2131515694
 GameObject:
   m_ObjectHideFlags: 0
