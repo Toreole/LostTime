@@ -42,7 +42,7 @@ namespace LostTime.UI
             }
         }
 
-        public void StartInspecting(Mesh mesh, Material[] sharedMaterials, string itemName, string description)
+        public void StartInspecting(Mesh mesh, Material[] sharedMaterials, string itemName, string description, Quaternion rotation)
         {
             if(renderTexture is null)
             {
@@ -61,7 +61,7 @@ namespace LostTime.UI
             nameDisplay.text = itemName;
             descriptionDisplay.text = description;
 
-            itemTransform.rotation = Quaternion.identity;
+            itemTransform.rotation = rotation;
             itemMesh.mesh = mesh;
             itemRenderer.sharedMaterials = sharedMaterials;
 

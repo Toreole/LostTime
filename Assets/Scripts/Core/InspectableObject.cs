@@ -23,7 +23,7 @@ namespace LostTime.Core
 
         public override void Interact(Player player)
         {
-            player.InspectObject(mesh, renderer.sharedMaterials, objectName, description);
+            player.InspectObject(mesh, renderer.sharedMaterials, objectName, description, transform);
         }
 
     }

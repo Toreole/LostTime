@@ -156,9 +156,10 @@ namespace LostTime.Core
         /// <summary>
         /// Start inspecting an object with the specified properties.
         /// </summary>
-        public void InspectObject(Mesh mesh, Material[] sharedMaterials, string objectName, string description)
+        public void InspectObject(Mesh mesh, Material[] sharedMaterials, string objectName, string description, Transform t)
         {
-            itemInspector.StartInspecting(mesh, sharedMaterials, objectName, description);
+            Matrix4x4 transformationMatrix = t.localToWorldMatrix * camera.worldToLocalMatrix;
+            itemInspector.StartInspecting(mesh, sharedMaterials, objectName, description, transformationMatrix.rotation);
             ActiveControlMode = ControlMode.InspectItem;
         }
 
