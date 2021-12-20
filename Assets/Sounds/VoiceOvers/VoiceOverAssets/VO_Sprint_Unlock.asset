@@ -14,5 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClip: {fileID: 0}
   transcription:
+  - line: '[ding dong]'
+    duration: 2
+  - line: Good Morning Students, it's 8am and time to get to class!
+    duration: 4
+  - line: Today's lunch will be fried potato with bacon and some veggies.
+    duration: 4
+  - line: Have a nice day.
+    duration: 2
   - line: Hold [Shift] while moving to run.
     duration: 4
