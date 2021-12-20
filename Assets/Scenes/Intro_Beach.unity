@@ -294,9 +294,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1040165951}
     m_Modifications:
-    - target: {fileID: 1765318597302258044, guid: ef4f05c88f374e747ab00c35a71c20fb, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294967176
+    - target: {fileID: 1765318597422223447, guid: ef4f05c88f374e747ab00c35a71c20fb, type: 3}
+      propertyPath: preferredItemSize
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1765318597422223466, guid: ef4f05c88f374e747ab00c35a71c20fb, type: 3}
       propertyPath: m_Pivot.x
@@ -9062,6 +9062,10 @@ PrefabInstance:
     - target: {fileID: 3796559506239601515, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
       propertyPath: m_Name
       value: Ingame Pause Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3796559506239601515, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3796559506497823796, guid: d2da5a6dda72f774282f54d268190d57, type: 3}
       propertyPath: m_AnchorMax.y
