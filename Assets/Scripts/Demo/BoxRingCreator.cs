@@ -28,6 +28,7 @@ public class BoxRingCreator : MonoBehaviour
         for(int i = 0; i < boxCount; i++)
         {
             var b = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
+            b.GetComponent<Collider>().enabled = false; //disable collision. 
             boxes[i] = b;
             b.parent = t;
             b.localPosition = localPos;
