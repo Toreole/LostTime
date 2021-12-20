@@ -2,6 +2,7 @@ using LostTime.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static LostTime.Utility.GizmoExtensions;
 
 namespace LostTime.Core
 {
@@ -30,26 +31,8 @@ namespace LostTime.Core
 
         private void OnDrawGizmos()
         {
-            Vector3 labelPos = transform.position;
-            for (int i = 0; i < onItemDelivered.GetPersistentEventCount(); i++)
-            {
-                Object target = onItemDelivered.GetPersistentTarget(i);
-                var tTransform = target.GetType().GetProperty("transform");
-                if (target != null && tTransform != null)
-                {
-                    Gizmos.color = Color.blue;
-                    Gizmos.DrawLine(transform.position, (tTransform.GetValue(target) as Transform).position);
-                    string methodName = onItemDelivered.GetPersistentMethodName(i);
-                    if (string.IsNullOrEmpty(methodName) is false)
-                    {
-#if UNITY_EDITOR
-                        GUI.color = Color.blue;
-                        UnityEditor.Handles.Label(labelPos, methodName);
-                        labelPos += new Vector3(0, 0.2f, 0);
-#endif
-                    }
-                }
-            }
+            Vector3 offset = new Vector3(0, 0, 0);
+            onItemDelivered.DrawDescriptors(transform, Color.blue, ref offset, 0.2f);
         }
     }
 }

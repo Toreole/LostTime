@@ -237,7 +237,7 @@ namespace LostTime.Core
     /// <summary>
     /// The "abilities" that the player has unlocked.
     /// </summary>
-    [System.Flags]
+    [System.Flags, Serializable]
     public enum AbilityUnlocks
     {
         NONE = 0,
