@@ -6170,6 +6170,10 @@ PrefabInstance:
       propertyPath: inventoryUIContainer
       value: 
       objectReference: {fileID: 362651313}
+    - target: {fileID: 7665427741182837592, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
 --- !u!1001 &1083075781
@@ -6724,6 +6728,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onlyActivateOnce: 1
 --- !u!65 &1169355122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11256,6 +11261,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onlyActivateOnce: 1
 --- !u!65 &2032436100
 BoxCollider:
   m_ObjectHideFlags: 0
