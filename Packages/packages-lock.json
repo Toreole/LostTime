@@ -1,5 +1,19 @@
 {
   "dependencies": {
+    "com.dbrizov.naughtyattributes": {
+      "version": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "6ff42768879f6d3721f27c1fc1ba0c1d145a3f27"
+    },
+    "com.laurenth.lightingtools-lightprobesvolumes": {
+      "version": "https://github.com/laurenth-personal/LightingTools.LightProbesVolumes.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "27b34f653614b1eff9437d449446956fe5ad42a9"
+    },
     "com.unity.collab-proxy": {
       "version": "1.13.5",
       "depth": 0,

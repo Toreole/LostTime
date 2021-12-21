@@ -12,35 +12,51 @@ namespace LostTime.Audio
         private AudioSource audioSource;
         [SerializeField]
         private TextMeshProUGUI textElement;
+        [SerializeField]
+        private UnityEngine.UI.Image backgroundImage;
 
-        private VoiceOver[] voiceOverQueue = new VoiceOver[4]; //not expecting more than 4 voiceovers to be queued at any time.
-        private int queueLength = 0;
+        //this behaves more like a stack innit
+        private Queue<VoiceOver> voiceOverQueue = new Queue<VoiceOver>(4); //not expecting more than 4 voiceovers to be queued at any time.
 
         private bool isPlaying = false;
+        private bool isPaused = false;
+        private float localTime = 0;
+        private float nextLineTime;
+        private int lineIndex = 0;
 
-        public bool IsPlaying => isPlaying;
+        private VoiceOver currentVoiceOver;
+
+        public bool IsPlaying
+        {
+            get => isPlaying; 
+            private set
+            {
+                if(isPlaying is true && value is false)
+                {
+                    BGMHandler.FreeBGM();
+                    backgroundImage.CrossFadeAlpha(0, 0.25f, true);
+                }
+                if(isPlaying is false && value is true)
+                {
+                    BGMHandler.SuppressBGM();
+                    Debug.Log("Started playing.");
+                    backgroundImage.CrossFadeAlpha(0.7f, 0.5f, true);
+                }
+                isPlaying = value;
+            }
+        }
 
         private void Awake()
         {
-            PauseMenu.OnMenuOpened += OnGamePaused;
-            PauseMenu.OnMenuClosed += OnGameResumed;
+            PauseMenu.OnMenuOpened += this.Pause;
+            PauseMenu.OnMenuClosed += this.Resume;
+            backgroundImage.GetComponent<CanvasRenderer>().SetAlpha(0);
         }
 
         private void OnDestroy()
         {
-            PauseMenu.OnMenuOpened -= OnGamePaused;
-            PauseMenu.OnMenuClosed -= OnGameResumed;
-        }
-
-        private void OnGamePaused()
-        {
-            audioSource.Pause();
-        }
-
-        private void OnGameResumed()
-        {
-            if(isPlaying)
-                audioSource.Play();
+            PauseMenu.OnMenuOpened -= this.Pause;
+            PauseMenu.OnMenuClosed -= this.Resume;
         }
 
         /// <summary>
@@ -48,45 +64,78 @@ namespace LostTime.Audio
         /// </summary>
         public void QueueVoiceOver(VoiceOver vo)
         {
-            voiceOverQueue[queueLength] = vo;
-            queueLength++;
-            if(!isPlaying)
-                Play();
+            if(!IsPlaying)
+                Play(vo);
+            else
+                voiceOverQueue.Enqueue(vo);
         }
 
-        private void Play()
-        {
-            isPlaying = true;
-            StartCoroutine(DoPlay());
-        }
-
-        //NOTE: Since Coroutines break when the GameObject is disabled (which it would be by the Player, via the HUD)
-        //this gameobject has to ensure that its always active in the hierarchy.
-        //either move this component onto the Camera (always active), or do a massive effort to scale time to 0, and have UI use unscaled for everything.
         /// <summary>
-        /// Starts the audioSource, but more importantly displays all the subtitles.
-        /// Uses up all VoiceOvers in the "queue".
+        /// Start to play audio and make the subtitles appear please, thanks.
         /// </summary>
-        private IEnumerator DoPlay()
+        private void Play(VoiceOver vo)
         {
-            BGMHandler.SuppressBGM();
-            while(queueLength > 0)
-            {
-                VoiceOver vo = voiceOverQueue[queueLength-1];
-                queueLength--;
-                audioSource.clip = vo.AudioClip;
+            lineIndex = 0;
+            IsPlaying = true;
+            currentVoiceOver = vo;
+            audioSource.clip = vo.AudioClip;
+            var activeLine = vo.Transcription[0];
+            textElement.text = activeLine.line;
+            nextLineTime = localTime + activeLine.duration;
+            if(isPaused is false)
                 audioSource.Play();
-                foreach(var transcript in vo.Transcription)
+        }
+
+        //WIP: turn DoPlay coroutine into standard Update method.
+        private void Update()
+        {
+            //if its not playing anything, or is just paused, do nothing.
+            if (isPaused || IsPlaying is false)
+                return;
+            //step localTime.
+            localTime += Time.deltaTime;
+
+            //check whether to advance to the next line of subtitles.
+            if(localTime > nextLineTime)
+            {
+                //increase lineIndex.
+                lineIndex++;
+                //check for out of array bounds.
+                //make sure that the audioClip on the audioSource has stopped playing aswell:
+                if (lineIndex >= currentVoiceOver.Transcription.Length && audioSource.isPlaying is false)
                 {
-                    textElement.text = transcript.line;
-                    //uses scaled time => is automatically "stopped" by the PauseMenu when it sets the timeScale to 0.
-                    yield return new WaitForSeconds(transcript.duration); 
+                    //try to advance to the next voiceOver in the queue.
+                    if (voiceOverQueue.Count > 0)
+                    {
+                        Play(voiceOverQueue.Dequeue());
+                    }
+                    else //no more queued. stop playing. hide subtitles.
+                    {
+                        textElement.text = "";
+                        IsPlaying = false;
+                    }
+                }
+                //lineIndex still within bounds -> set up next line
+                else if(lineIndex < currentVoiceOver.Transcription.Length)
+                {
+                    var nextLine = currentVoiceOver.Transcription[lineIndex];
+                    textElement.text = nextLine.line;
+                    nextLineTime = localTime + nextLine.duration;
                 }
             }
-            BGMHandler.FreeBGM();
-            //everything has been "dequeued" / handled.
-            textElement.text = "";
-            isPlaying = false;
+        }
+
+        public void Pause()
+        {
+            isPaused = true;
+            audioSource.Pause();
+        }
+
+        public void Resume()
+        {
+            isPaused = false;
+            if(IsPlaying) //only play audio if we should play something.
+                audioSource.Play();
         }
 
     }

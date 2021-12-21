@@ -2,6 +2,7 @@
 using UnityEngine;
 using LostTime.UI;
 using LostTime.Audio;
+using System;
 
 namespace LostTime.Core
 {
@@ -14,9 +15,11 @@ namespace LostTime.Core
         [SerializeField]
         GameObject ingameOverlay;
         [SerializeField]
-        ItemInspector itemInspector;
+        GameObject inventoryIcon;
         [SerializeField]
-        GameObject inventoryUI;
+        Crosshair crosshair;
+        [SerializeField]
+        ItemInspector itemInspector;
         [SerializeField]
         ComplexItemContainer inventoryUIContainer;
         [SerializeField]
@@ -34,6 +37,7 @@ namespace LostTime.Core
         private Camera screenshotCamera;
         private RenderTexture screenshotTexture;
 
+        private AbilityUnlocks unlockedAbilities = AbilityUnlocks.NONE;
         private List<Item> inventory = new List<Item>(15); //15 for now, might not need more, but it will adapt to it if needed.
         private ControlMode currentControlMode = ControlMode.Player;
         public CharacterController CharacterController => characterController;
@@ -49,6 +53,8 @@ namespace LostTime.Core
                 bool playerActive = currentControlMode == ControlMode.Player;
                 if(controller)
                     controller.enabled = playerActive;
+                Cursor.lockState = playerActive ? CursorLockMode.Locked : CursorLockMode.None;
+                Cursor.visible = !playerActive;
                 //ingameOverlay.SetActive(playerActive);
             }
         }
@@ -57,11 +63,14 @@ namespace LostTime.Core
         void Start()
         {
             Instance = this;
+            ActiveControlMode = ControlMode.Player;
             PauseMenu.OnMenuClosed += () => ActiveControlMode = ControlMode.Player;
+            //set up the screenshot stuff.
             screenshotTexture = new RenderTexture(256, 256, 1, RenderTextureFormat.ARGB32);
             screenshotTexture.useMipMap = false;
             screenshotCamera.targetTexture = screenshotTexture;
-
+            //inventory stuff
+            inventoryIcon.SetActive(false);
             inventoryUIContainer.Initialize();
         }
 
@@ -69,8 +78,16 @@ namespace LostTime.Core
         void Update()
         {
             MenuFunctionality();
-            if(ActiveControlMode is ControlMode.Player)
+            if (ActiveControlMode is ControlMode.Player)
+            {
                 CheckInteraction();
+                //make the controller update based on the unlocked abilities.
+                controller.MovementAndRotation(unlockedAbilities);
+            }
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.F7))
+                this.SetAbilityUnlocked(AbilityUnlocks.ALL);
+#endif
         }
 
         private void MenuFunctionality()
@@ -92,27 +109,22 @@ namespace LostTime.Core
                         ActiveControlMode = ControlMode.Player;
                         break;
                     case ControlMode.Inventory:
-                        inventoryUIContainer.Hide();
-                        ActiveControlMode = ControlMode.Player;
+                        CloseInventory();
                         break;
                     case ControlMode.None:
                         break;
                 }
             }
             //I: inventory keybind.
-            if(Input.GetKeyDown(KeyCode.I))
+            if(unlockedAbilities.HasFlag(AbilityUnlocks.INVENTORY) && Input.GetKeyDown(KeyCode.I))
             {
                 switch(ActiveControlMode)
                 {
                     case ControlMode.Player:
-                        if (voiceOverHandler.IsPlaying) //block the inventory while playing voiceovers. easy fix
-                            break;
-                        inventoryUIContainer.Show();
-                        ActiveControlMode = ControlMode.Inventory;
+                        OpenInventory();
                         break;
                     case ControlMode.Inventory:
-                        inventoryUIContainer.Hide();
-                        ActiveControlMode = ControlMode.Player;
+                        CloseInventory();
                         break;
                 }
             }
@@ -120,25 +132,34 @@ namespace LostTime.Core
 
         private void CheckInteraction()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (!crosshair) //temp: remove
+                return;
+            if (Physics.SphereCast(camera.position, 0.1f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
             {
-                if (Physics.SphereCast(camera.position, 0.2f, camera.forward, out RaycastHit hit, interactionRange, interactionMask))
+                var interactable = hit.collider.GetComponent<Interactable>();
+                if (interactable != null)
                 {
-                    var interactable = hit.collider.GetComponent<Interactable>();
-                    if (interactable != null)
+                    if (Input.GetKeyDown(KeyCode.E))
                     {
                         interactable.Interact(this);
                     }
+                    crosshair.Set(interactable.GetCrosshairType());
                 }
+                else
+                    crosshair.Set(CrosshairType.Default);
             }
+            else
+                crosshair.Set(CrosshairType.Default);
+
         }
 
         /// <summary>
         /// Start inspecting an object with the specified properties.
         /// </summary>
-        public void InspectObject(Mesh mesh, Material[] sharedMaterials, string objectName, string description)
+        public void InspectObject(Mesh mesh, Material[] sharedMaterials, string objectName, string description, Transform t)
         {
-            itemInspector.StartInspecting(mesh, sharedMaterials, objectName, description);
+            Matrix4x4 transformationMatrix = t.localToWorldMatrix * camera.worldToLocalMatrix;
+            itemInspector.StartInspecting(mesh, sharedMaterials, objectName, description, transformationMatrix.rotation);
             ActiveControlMode = ControlMode.InspectItem;
         }
 
@@ -147,6 +168,9 @@ namespace LostTime.Core
         /// </summary>
         public void PickupItem(Item item, GameObject obj)
         {
+            //the first time picking up an item allows permanent access to the inventory.
+            if (unlockedAbilities.HasFlag(AbilityUnlocks.INVENTORY) is false)
+                this.SetAbilityUnlocked(AbilityUnlocks.INVENTORY);
             inventory.Add(item);
             screenshotCamera.Render();
             //System.IntPtr texPtr = screenshotTexture.GetNativeTexturePtr();
@@ -154,8 +178,27 @@ namespace LostTime.Core
             Graphics.CopyTexture(screenshotTexture, texture);
             //Texture2D.CreateExternalTexture(256, 256, TextureFormat.ARGB32, false, false, texPtr);
             item.Sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(texture.width >> 1, texture.height >> 1));
-            inventoryUIContainer.AddItem(item);
+            inventoryUIContainer.AddItemAndShow(item);
+            OpenInventory();
             obj.SetActive(false);
+        }
+
+        /// <summary>
+        /// Open the inventory.
+        /// </summary>
+        private void OpenInventory()
+        {
+            ActiveControlMode = ControlMode.Inventory;
+            inventoryUIContainer.Show();
+            voiceOverHandler.Pause();
+        }
+
+        private void CloseInventory()
+        {
+            //close inventory and resume voiceover playing.
+            inventoryUIContainer.Hide();
+            voiceOverHandler.Resume();
+            ActiveControlMode = ControlMode.Player;
         }
 
         /// <summary>
@@ -171,6 +214,17 @@ namespace LostTime.Core
         /// </summary>
         public bool HasItem(Item item) => inventory.Contains(item);
 
+        /// <summary>
+        /// Grants an ability to the player.
+        /// </summary>
+        public void SetAbilityUnlocked(AbilityUnlocks ability)
+        {
+            unlockedAbilities |= ability;
+            if (unlockedAbilities.HasFlag(AbilityUnlocks.INVENTORY))
+                inventoryIcon.SetActive(true);
+        }
+
+        public AbilityUnlocks GetAbilityUnlocks() => unlockedAbilities;
         private enum ControlMode
         {
             None = 0,
@@ -179,5 +233,19 @@ namespace LostTime.Core
             InspectItem = 3,
             Inventory = 4
         }
+    }
+
+    /// <summary>
+    /// The "abilities" that the player has unlocked.
+    /// </summary>
+    [System.Flags, Serializable]
+    public enum AbilityUnlocks
+    {
+        NONE = 0,
+        INVENTORY = 1 << 0,
+        JUMP = 1 << 1,
+        SPRINT = 1 << 2,
+
+        ALL = int.MaxValue //should be all 1s, every flag set
     }
 }

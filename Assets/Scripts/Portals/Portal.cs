@@ -15,22 +15,35 @@ namespace SebLague.Portals
         public float nearClipOffset = 0.05f;
         public float nearClipLimit = 0.2f;
 
+        [SerializeField]
+        MeshFilter screenMeshFilter;
+        [SerializeField]
+        Camera portalCam;
         // Private variables
         RenderTexture viewTexture;
-        Camera portalCam;
         Camera playerCam;
-        Material firstRecursionMat;
-        List<PortalTraveller> trackedTravellers;
-        MeshFilter screenMeshFilter;
+        List<PortalTraveller> trackedTravellers = new List<PortalTraveller>();
 
-        void Awake () 
+        void Start () 
         {
-            playerCam = Camera.main;
+            playerCam = MainCamera.Instance.Camera;
             portalCam = GetComponentInChildren<Camera> ();
             portalCam.enabled = false;
-            trackedTravellers = new List<PortalTraveller> ();
             screenMeshFilter = screen.GetComponent<MeshFilter> ();
             screen.material.SetInt ("displayMask", 1);
+            if (linkedPortal == null)
+                this.enabled = false;
+        }
+
+        private void OnEnable()
+        {
+            Debug.Log("Enable Portal");
+            MainCamera.Instance.RegisterPortal(this);
+        }
+
+        private void OnDisable()
+        {
+            MainCamera.Instance.UnregisterPortal(this);
         }
 
         void LateUpdate () 
@@ -55,7 +68,7 @@ namespace SebLague.Portals
                     var positionOld = travellerT.position;
                     var rotOld = travellerT.rotation;
                     traveller.Teleport (transform, linkedPortal.transform, m.GetColumn (3), m.rotation);
-                    traveller.graphicsClone.transform.SetPositionAndRotation (positionOld, rotOld);
+                    //traveller.graphicsClone.transform.SetPositionAndRotation (positionOld, rotOld);
                     // Can't rely on OnTriggerEnter/Exit to be called next frame since it depends on when FixedUpdate runs
                     linkedPortal.OnTravellerEnterPortal (traveller);
                     trackedTravellers.RemoveAt (i);
@@ -64,7 +77,7 @@ namespace SebLague.Portals
                 } 
                 else 
                 {
-                    traveller.graphicsClone.transform.SetPositionAndRotation (m.GetColumn (3), m.rotation);
+                    //traveller.graphicsClone.transform.SetPositionAndRotation (m.GetColumn (3), m.rotation);
                     //UpdateSliceParams (traveller);
                     traveller.previousOffsetFromPortal = offsetFromPortal;
                 }
@@ -84,8 +97,8 @@ namespace SebLague.Portals
         // Called after PrePortalRender, and before PostPortalRender
         public void Render () 
         {
-            // Skip rendering the view from this portal if player is not looking at the linked portal
-            if (!CameraUtility.VisibleFromCamera (linkedPortal.screen, playerCam)) 
+            // Skip rendering the view through this portal if player is not looking at it
+            if (!CameraUtility.VisibleFromCamera (this.screen, playerCam)) 
             {
                 return;
             }
@@ -98,15 +111,19 @@ namespace SebLague.Portals
 
             int startIndex = 0;
             portalCam.projectionMatrix = playerCam.projectionMatrix;
-            for (int i = 0; i < recursionLimit; i++) {
-                if (i > 0) {
-                    // No need for recursive rendering if linked portal is not visible through this portal
-                    if (!CameraUtility.BoundsOverlap (screenMeshFilter, linkedPortal.screenMeshFilter, portalCam)) 
+            for (int i = 0; i < recursionLimit; i++) 
+            {
+                if (i > 0) 
+                {
+                    // No need for recursive rendering if this portal is not visible through the linked portal
+                    if (!CameraUtility.BoundsOverlap (screenMeshFilter, this.screenMeshFilter, portalCam)) 
                     {
                         break;
                     }
                 }
-                localToWorldMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * localToWorldMatrix;
+                //EDIT: swapped this.transform with linkedPortal.transform.
+                //Portals are no longer responsible for rendering views for other portals, but their only their own display.
+                localToWorldMatrix = linkedPortal.transform.localToWorldMatrix * this.transform.worldToLocalMatrix * localToWorldMatrix;
                 int renderOrderIndex = recursionLimit - i - 1;
                 renderPositions[renderOrderIndex] = localToWorldMatrix.GetColumn (3);
                 renderRotations[renderOrderIndex] = localToWorldMatrix.rotation;
@@ -128,7 +145,7 @@ namespace SebLague.Portals
 
                 if (i == startIndex) 
                 {
-                    linkedPortal.screen.material.SetInt ("displayMask", 1);
+                    this.screen.material.SetInt ("displayMask", 1);
                 }
             }
 
@@ -150,7 +167,8 @@ namespace SebLague.Portals
 
             foreach (var traveller in trackedTravellers) 
             {
-                if (SameSideOfPortal (traveller.transform.position, portalCamPos)) {
+                if (SameSideOfPortal (traveller.transform.position, portalCamPos)) 
+                {
                     // Addresses issue 1
                     traveller.SetSliceOffsetDst (hideDst, false);
                 } 
@@ -177,14 +195,15 @@ namespace SebLague.Portals
             foreach (var linkedTraveller in linkedPortal.trackedTravellers) 
             {
                 var travellerPos = linkedTraveller.graphicsObject.transform.position;
-                var clonePos = linkedTraveller.graphicsClone.transform.position;
+                //var clonePos = linkedTraveller.graphicsClone.transform.position;
                 // Handle clone of linked portal coming through this portal:
                 bool cloneOnSameSideAsCam = linkedPortal.SideOfPortal (travellerPos) != SideOfPortal (portalCamPos);
                 if (cloneOnSameSideAsCam) 
                 {
                     // Addresses issue 1
                     linkedTraveller.SetSliceOffsetDst (hideDst, true);
-                } else {
+                } else 
+                {
                     // Addresses issue 2
                     linkedTraveller.SetSliceOffsetDst (showDst, true);
                 }
@@ -194,21 +213,25 @@ namespace SebLague.Portals
                 if (camSameSideAsTraveller) 
                 {
                     linkedTraveller.SetSliceOffsetDst (screenThickness, false);
-                } else {
+                } else 
+                {
                     linkedTraveller.SetSliceOffsetDst (-screenThickness, false);
                 }
             }
         }
 
         // Called once all portals have been rendered, but before the player camera renders
-        public void PostPortalRender () 
+        public void PostPortalRender ()
         {
+            if (!playerCam) playerCam = MainCamera.Instance.Camera;
             foreach (var traveller in trackedTravellers) 
             {
                 UpdateSliceParams (traveller);
             }
             ProtectScreenFromClipping (playerCam.transform.position);
         }
+
+        //Creates / Updates the RenderTexture for the portalCam.
         void CreateViewTexture () 
         {
             if ( viewTexture == null || viewTexture.width != Screen.width || viewTexture.height != Screen.height) 
@@ -219,20 +242,21 @@ namespace SebLague.Portals
                 viewTexture = new RenderTexture (Screen.width, Screen.height, 0);
                 // Render the view from the portal camera to the view texture
                 portalCam.targetTexture = viewTexture;
-                // Display the view texture on the screen of the linked portal
-                linkedPortal.screen.material.SetTexture ("_MainTex", viewTexture);
+                // Display the view texture on the screen of the portal
+                this.screen.material.SetTexture ("_MainTex", viewTexture);
             }
         }
 
         // Sets the thickness of the portal screen so as not to clip with camera near plane when player goes through
         float ProtectScreenFromClipping (Vector3 viewPoint) 
         {
+            if (!playerCam) playerCam = MainCamera.Instance.Camera;
             float halfHeight = playerCam.nearClipPlane * Mathf.Tan (playerCam.fieldOfView * 0.5f * Mathf.Deg2Rad);
             float halfWidth = halfHeight * playerCam.aspect;
             float dstToNearClipPlaneCorner = new Vector3 (halfWidth, halfHeight, playerCam.nearClipPlane).magnitude;
             float screenThickness = dstToNearClipPlaneCorner;
 
-            Transform screenT = screen.transform;
+            Transform screenT = linkedPortal.screen.transform; //might not be needed?
             bool camFacingSameDirAsPortal = Vector3.Dot (transform.forward, transform.position - viewPoint) > 0;
             screenT.localScale = new Vector3 (screenT.localScale.x, screenT.localScale.y, screenThickness);
             screenT.localPosition = Vector3.forward * screenThickness * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f);
@@ -256,7 +280,8 @@ namespace SebLague.Portals
             float screenThickness = screen.transform.localScale.z;
 
             bool playerSameSideAsTraveller = SameSideOfPortal (playerCam.transform.position, traveller.transform.position);
-            if (!playerSameSideAsTraveller) {
+            if (!playerSameSideAsTraveller) 
+            {
                 sliceOffsetDst = -screenThickness;
             }
             bool playerSameSideAsCloneAppearing = side != linkedPortal.SideOfPortal (playerCam.transform.position);
@@ -272,9 +297,9 @@ namespace SebLague.Portals
                 traveller.originalMaterials[i].SetVector ("sliceNormal", sliceNormal);
                 traveller.originalMaterials[i].SetFloat ("sliceOffsetDst", sliceOffsetDst);
 
-                traveller.cloneMaterials[i].SetVector ("sliceCentre", cloneSlicePos);
-                traveller.cloneMaterials[i].SetVector ("sliceNormal", cloneSliceNormal);
-                traveller.cloneMaterials[i].SetFloat ("sliceOffsetDst", cloneSliceOffsetDst);
+                //traveller.cloneMaterials[i].SetVector ("sliceCentre", cloneSlicePos);
+                //traveller.cloneMaterials[i].SetVector ("sliceNormal", cloneSliceNormal);
+                //traveller.cloneMaterials[i].SetFloat ("sliceOffsetDst", cloneSliceOffsetDst);
             }
         }
 
@@ -284,8 +309,8 @@ namespace SebLague.Portals
         {
             // Learning resource:
             // http://www.terathon.com/lengyel/Lengyel-Oblique.pdf
-            Transform clipPlane = transform;
-            int dot = System.Math.Sign (Vector3.Dot (clipPlane.forward, transform.position - portalCam.transform.position));
+            Transform clipPlane = linkedPortal.transform;
+            int dot = System.Math.Sign (Vector3.Dot (clipPlane.forward, linkedPortal.transform.position - portalCam.transform.position));
 
             Vector3 camSpacePos = portalCam.worldToCameraMatrix.MultiplyPoint (clipPlane.position);
             Vector3 camSpaceNormal = portalCam.worldToCameraMatrix.MultiplyVector (clipPlane.forward) * dot;
@@ -359,10 +384,10 @@ namespace SebLague.Portals
 
         void OnValidate () 
         {
-            if (linkedPortal != null) 
-            {
-                linkedPortal.linkedPortal = this;
-            }
+            //if (linkedPortal != null) 
+            //{
+            //    linkedPortal.linkedPortal = this;
+            //}
         }
     }
 }

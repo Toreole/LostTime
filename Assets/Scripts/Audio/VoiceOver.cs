@@ -15,6 +15,18 @@ namespace LostTime.Audio
         public AudioClip AudioClip => audioClip;
         public TranscriptionLine[] Transcription => transcription;
 
+        public float GetTotalDuration()
+        {
+            //the duration based on the sum of durations of the transcription.
+            float duration = 0;
+            for (int i = 0; i < transcription.Length; i++)
+                duration += transcription[i].duration;
+
+            if (audioClip is null)
+                return duration;
+            return Mathf.Max(duration, audioClip.length);
+        }
+
     }
 
     [System.Serializable]

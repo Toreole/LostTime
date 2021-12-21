@@ -7,7 +7,7 @@ namespace SebLague.Portals
     {
 
         public GameObject graphicsObject;
-        public GameObject graphicsClone { get; set; }
+        //public GameObject graphicsClone { get; set; }
         public Vector3 previousOffsetFromPortal { get; set; }
 
         public Material[] originalMaterials { get; set; }
@@ -19,9 +19,15 @@ namespace SebLague.Portals
             transform.rotation = rot;
         }
 
+        protected virtual void Start()
+        {
+            originalMaterials = GetMaterials(graphicsObject);
+        }
+
         // Called when first touches portal
         public virtual void EnterPortalThreshold () 
         {
+            /**
             if (graphicsClone == null) 
             {
                 graphicsClone = Instantiate (graphicsObject);
@@ -33,13 +39,13 @@ namespace SebLague.Portals
             else 
             {
                 graphicsClone.SetActive (true);
-            }
+            }*/ //EDIT: DONT WANT THIS IT SUCKS
         }
 
         // Called once no longer touching portal (excluding when teleporting)
         public virtual void ExitPortalThreshold () 
         {
-            graphicsClone.SetActive (false);
+            //graphicsClone.SetActive (false);
             // Disable slicing
             for (int i = 0; i < originalMaterials.Length; i++) 
             {
@@ -51,14 +57,14 @@ namespace SebLague.Portals
         {
             for (int i = 0; i < originalMaterials.Length; i++) 
             {
-                if (clone) 
-                {
-                    cloneMaterials[i].SetFloat ("sliceOffsetDst", dst);
-                } 
-                else 
-                {
+                //if (clone) 
+                //{
+                    //cloneMaterials[i].SetFloat ("sliceOffsetDst", dst);
+                //} 
+                //else 
+                //{
                     originalMaterials[i].SetFloat ("sliceOffsetDst", dst);
-                }
+                //}
 
             }
         }

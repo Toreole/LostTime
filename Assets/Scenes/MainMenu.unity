@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 27ecd2e67cd030b43b2833105e309160, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -130,10 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 247043312}
     m_Modifications:
-    - target: {fileID: 548716053532905409, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.9876543
-      objectReference: {fileID: 0}
     - target: {fileID: 548716053532905409, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -268,7 +264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2565695386436402442, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 500
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 2565695386436402442, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
       propertyPath: m_LocalPosition.x
@@ -367,16 +363,8 @@ PrefabInstance:
       value: -245
       objectReference: {fileID: 0}
     - target: {fileID: 4434287153388470315, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.9876543
-      objectReference: {fileID: 0}
-    - target: {fileID: 4434287153388470315, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4434287153388470315, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.9876543
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d0cf061a10c88849bab33ee625fee71, type: 3}
@@ -2989,6 +2977,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3187,6 +3176,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3246,6 +3236,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3349,6 +3340,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3439,6 +3431,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

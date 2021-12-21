@@ -11,9 +11,11 @@ namespace LostTime.Core
         [SerializeField]
         private Animator animator;
         [SerializeField]
-        private GameObject directionalLight;
-        [SerializeField]
         private string[] levels;
+        [SerializeField]
+        private AudioSource audioSource;
+        [SerializeField]
+        private GameObject whiteroomCeiling;
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
         private string loadedScene;
@@ -21,21 +23,51 @@ namespace LostTime.Core
         private bool levelInProgress = false;
         private bool canStartNextLevel = true;
 
+        private float startY = 0;
+
         private void Start()
         {
             Instance = this;
+            startY = transform.position.y;
         }
 
         public void TriggerDoors()
         {
-            animator.SetTrigger(doorTrigger);
+            if(animator)
+                animator.SetTrigger(doorTrigger);
         }
 
-        public void StartNextLevel()
+        //Called from button in scene
+        public void OnElevatorButtonPress()
+        {
+            if(levelInProgress) //currently in level. check return-to-hub condition.
+            {
+                var level = LevelStartArea.Current;
+                if(level) //check if the level exists.
+                {
+                    //check if the player has the required item to complete the level.
+                    if(Player.Instance.HasItem(level.CompletionItem))
+                    {
+                        //go back to the hub.
+                        levelInProgress = false;
+                        StartCoroutine(DoReturnToHub());
+                    }
+                }
+            }
+            else if(canStartNextLevel) //in hub. check if player should be able to go to level.
+            {
+                StartNextLevel();
+            }
+            else //cant interact.
+            {
+
+            }
+        }
+
+        //Start the next level or finish the game, whichever it is depends on you state of the game.
+        private void StartNextLevel()
         {
             Debug.Log("Start Next Level");
-            if (levelInProgress || !canStartNextLevel)
-                return;
             levelInProgress = true;
             canStartNextLevel = false;
             if (levelIndex < levels.Length)
@@ -50,14 +82,17 @@ namespace LostTime.Core
 
         private void TransitionToScene(string sceneName)
         {
+            //close elevator doors.
             TriggerDoors();
+            whiteroomCeiling.SetActive(false);
             loadedScene = sceneName;
             SceneManagement.LoadScene(sceneName, SceneTeleport);
         }
 
         private void SceneTeleport()
         {
-            StartCoroutine(DoSceneTeleport());
+            //StartCoroutine(DoSceneTeleport());
+            StartCoroutine(DoMoveElevator());
         }
 
         public void AllowLevelProgress()
@@ -65,28 +100,83 @@ namespace LostTime.Core
             canStartNextLevel = true;
         }
 
-        private IEnumerator DoSceneTeleport()
+        /// <summary>
+        /// Moves the elevator (including player) from the hub to the new scene that was loaded.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator DoMoveElevator()
         {
             yield return new WaitForSeconds(2f);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(loadedScene));
-            directionalLight.SetActive(false);
-            //disgusting hack but ok
-            var levelStart = LevelStartArea.Current;
-            levelStart.MovePlayerToFrom(levelStart.transform, Player.Instance.transform, this.transform);
-            yield return new WaitForSeconds(2f);
-            levelStart.TriggerDoors();
+            UnityEngine.LightProbes.Tetrahedralize();
+
+            var startArea = LevelStartArea.Current;
+            float targetY = startArea.transform.position.y;
+            Vector3 position = transform.position;
+            Transform player = Player.Instance.transform;
+            player.SetParent(this.transform);
+
+            //Lerp it!. is probably incredibly fast, but doesnt matter to the player.
+            for (float t = 0; t < 4f; t += Time.deltaTime)
+            {
+                position.y = Mathf.Lerp(startY, targetY, t / 4f);
+                transform.position = position;
+                Physics.SyncTransforms();
+                yield return null;
+            }
+            position.y = targetY;
+            transform.position = position;
+            Physics.SyncTransforms();
+
+            player.SetParent(null);
+            //open the doors of the elevator.
+            yield return new WaitForSeconds(0.5f);
+            audioSource.Play();
+            TriggerDoors();
         }
 
+        private IEnumerator DoReturnToHub()
+        {
+            //Close the elevator doors and wait for the animation to finish
+            TriggerDoors();
+            yield return new WaitForSeconds(2f);
+            //unload the level.
+            SceneManagement.UnloadScene(loadedScene);
+
+            //make sure the player follows along.
+            Transform player = Player.Instance.transform;
+            player.SetParent(transform);
+
+            //buffer the position, save the starting y for lerp
+            Vector3 position = transform.position;
+            float previousY = position.y;
+
+            //do the actual moving.
+            for(float t = 0; t < 4f; t += Time.deltaTime)
+            {
+                position.y = Mathf.Lerp(previousY, startY, t / 4f);
+                transform.position = position;
+                Physics.SyncTransforms();
+                yield return null;
+            }
+            //finalize movement
+            position.y = startY;
+            transform.position = position;
+            Physics.SyncTransforms();
+
+            //unparent player, open the doors.
+            player.SetParent(null);
+            yield return new WaitForSeconds(0.5f);
+            audioSource.Play();
+            whiteroomCeiling.SetActive(true);
+            TriggerDoors();
+        }
+
+        //called when placing key items in the hub.
         public void CompleteLevel()
         {
-            levelInProgress = false;
             levelIndex++;
+            AllowLevelProgress();
         }
-
-        public void ReEnableLight()
-        {
-            directionalLight.SetActive(true);
-        }
-
     }
 }

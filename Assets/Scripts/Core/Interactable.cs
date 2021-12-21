@@ -15,5 +15,7 @@ namespace LostTime.Core
         }
 
         public abstract void Interact(Player player);
+
+        public abstract CrosshairType GetCrosshairType();
     }
 }

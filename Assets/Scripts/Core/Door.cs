@@ -29,6 +29,10 @@ namespace LostTime.Core
             currentAngle = rotation;
             transform.localRotation = Quaternion.Euler(0, rotation, 0);
         }
+        public override UI.CrosshairType GetCrosshairType()
+        {
+            return UI.CrosshairType.Door;
+        }
 
         public override void Interact(Player player)
         {
