@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71efc4cedad5f2049ac965f7e10d3d4c, type: 3}
   m_Name: itm_CORE_graduation
   m_EditorClassIdentifier: 
-  itemName: 
-  itemDescription: 
+  itemName: Graduation Cap
+  itemDescription: I remember graduating from a law school... But what's next?
