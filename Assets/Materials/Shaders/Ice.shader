@@ -67,7 +67,7 @@ Shader "Spheya/Ice"
 
                 float grayscale = (o.Albedo.r + o.Albedo.g + o.Albedo.b) / 3.0;
 
-                o.Alpha = clamp(grayscale, min(0.75, saturate(1.0 - pow(_BlendDepth, (depth - dist)))), 1);
+                o.Alpha = clamp(grayscale, min(0.85, saturate(1.0 - pow(_BlendDepth, (depth - dist)))), 1);
             }
             ENDCG
         }
