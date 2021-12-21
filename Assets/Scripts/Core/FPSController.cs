@@ -49,8 +49,9 @@ namespace LostTime.Core
 
         float mouseSensitivity = 1;
 
-        void Start () 
+        protected override void Start () 
         {
+            base.Start();
             mouseSensitivity = PlayerPrefs.GetFloat(nameof(mouseSensitivity), 1);
             cam = Camera.main;
 

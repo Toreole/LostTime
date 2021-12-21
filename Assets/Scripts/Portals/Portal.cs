@@ -37,6 +37,7 @@ namespace SebLague.Portals
 
         private void OnEnable()
         {
+            Debug.Log("Enable Portal");
             MainCamera.Instance.RegisterPortal(this);
         }
 
@@ -67,7 +68,7 @@ namespace SebLague.Portals
                     var positionOld = travellerT.position;
                     var rotOld = travellerT.rotation;
                     traveller.Teleport (transform, linkedPortal.transform, m.GetColumn (3), m.rotation);
-                    traveller.graphicsClone.transform.SetPositionAndRotation (positionOld, rotOld);
+                    //traveller.graphicsClone.transform.SetPositionAndRotation (positionOld, rotOld);
                     // Can't rely on OnTriggerEnter/Exit to be called next frame since it depends on when FixedUpdate runs
                     linkedPortal.OnTravellerEnterPortal (traveller);
                     trackedTravellers.RemoveAt (i);
@@ -76,7 +77,7 @@ namespace SebLague.Portals
                 } 
                 else 
                 {
-                    traveller.graphicsClone.transform.SetPositionAndRotation (m.GetColumn (3), m.rotation);
+                    //traveller.graphicsClone.transform.SetPositionAndRotation (m.GetColumn (3), m.rotation);
                     //UpdateSliceParams (traveller);
                     traveller.previousOffsetFromPortal = offsetFromPortal;
                 }
@@ -194,7 +195,7 @@ namespace SebLague.Portals
             foreach (var linkedTraveller in linkedPortal.trackedTravellers) 
             {
                 var travellerPos = linkedTraveller.graphicsObject.transform.position;
-                var clonePos = linkedTraveller.graphicsClone.transform.position;
+                //var clonePos = linkedTraveller.graphicsClone.transform.position;
                 // Handle clone of linked portal coming through this portal:
                 bool cloneOnSameSideAsCam = linkedPortal.SideOfPortal (travellerPos) != SideOfPortal (portalCamPos);
                 if (cloneOnSameSideAsCam) 
@@ -296,9 +297,9 @@ namespace SebLague.Portals
                 traveller.originalMaterials[i].SetVector ("sliceNormal", sliceNormal);
                 traveller.originalMaterials[i].SetFloat ("sliceOffsetDst", sliceOffsetDst);
 
-                traveller.cloneMaterials[i].SetVector ("sliceCentre", cloneSlicePos);
-                traveller.cloneMaterials[i].SetVector ("sliceNormal", cloneSliceNormal);
-                traveller.cloneMaterials[i].SetFloat ("sliceOffsetDst", cloneSliceOffsetDst);
+                //traveller.cloneMaterials[i].SetVector ("sliceCentre", cloneSlicePos);
+                //traveller.cloneMaterials[i].SetVector ("sliceNormal", cloneSliceNormal);
+                //traveller.cloneMaterials[i].SetFloat ("sliceOffsetDst", cloneSliceOffsetDst);
             }
         }
 
