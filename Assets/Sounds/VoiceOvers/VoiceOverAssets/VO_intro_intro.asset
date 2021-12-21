@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90048de95d7d7e49ab0886483de1f32, type: 3}
+  m_Name: VO_intro_intro
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: bc7e319c881239d4d9403efc018e6fab, type: 3}
+  transcription:
+  - line: '[sirens]'
+    duration: 5
+  - line: (use [W/A/S/D] to move, and the Mouse to look around)
+    duration: 3

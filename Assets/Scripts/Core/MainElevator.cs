@@ -14,6 +14,8 @@ namespace LostTime.Core
         private string[] levels;
         [SerializeField]
         private AudioSource audioSource;
+        [SerializeField]
+        private GameObject whiteroomCeiling;
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
         private string loadedScene;
@@ -82,6 +84,7 @@ namespace LostTime.Core
         {
             //close elevator doors.
             TriggerDoors();
+            whiteroomCeiling.SetActive(false);
             loadedScene = sceneName;
             SceneManagement.LoadScene(sceneName, SceneTeleport);
         }
@@ -165,6 +168,7 @@ namespace LostTime.Core
             player.SetParent(null);
             yield return new WaitForSeconds(0.5f);
             audioSource.Play();
+            whiteroomCeiling.SetActive(true);
             TriggerDoors();
         }
 
