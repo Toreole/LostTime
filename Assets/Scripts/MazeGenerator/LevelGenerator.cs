@@ -4,6 +4,9 @@ using UnityEngine;
 using System.Diagnostics;
 using Random = System.Random;
 using Debug = UnityEngine.Debug;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 using static Celestial.Levels.Util;
 
@@ -36,10 +39,20 @@ namespace Celestial.Levels
 
         public void GenerateLevelComplete() 
         {
+            DestroyInstances();
             InitializeGeneration();
             GenerateLevelLayout();
             PlaceLevel();
             //PlaceDebugLevel();
+        }
+
+        //Destroys active tileInstances before regenerating the level.
+        private void DestroyInstances()
+        {
+            if(tiles != null)
+                foreach (var tile in tiles)
+                    if(tile != null && tile.instance)
+                        DestroyImmediate(tile.instance);
         }
 
         ///<summary>Initialize parameters for the actual generation of the level.</summary>
@@ -235,7 +248,7 @@ namespace Celestial.Levels
                 if(flags.HasFlag(TileFlags.BossRoom))
                 {
                     //Boss rooms always only have one entrance, so we can immediately get a room to spawn.
-                    SpawnInstanceTile(gridTile, tileSet.GetBossTile(rng)); //!!!GameObject is implicitly cast to Tile!!!
+                    //SpawnInstanceTile(gridTile, tileSet.GetBossTile(rng)); //!!!GameObject is implicitly cast to Tile!!!
                 }
                 else if(flags.HasFlag(TileFlags.Entrance))//Entrance can vary a lot.
                 {
@@ -347,4 +360,19 @@ namespace Celestial.Levels
             }
         }
     }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(LevelGenerator))]
+    public class LevelGeneratorEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            if(GUILayout.Button("Generate Level"))
+            {
+                (target as LevelGenerator).GenerateLevelComplete();
+            }
+        }
+    }
+#endif
 }
