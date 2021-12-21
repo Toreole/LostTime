@@ -849,7 +849,7 @@ GameObject:
   - component: {fileID: 133495403}
   - component: {fileID: 133495402}
   m_Layer: 0
-  m_Name: Plane (4)
+  m_Name: Whiteroom_Ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13276,6 +13276,7 @@ MonoBehaviour:
   - School_Scene
   - Office_Scene
   audioSource: {fileID: 7096117013088065063}
+  whiteroomCeiling: {fileID: 133495400}
 --- !u!95 &7096117013088065062
 Animator:
   serializedVersion: 3
