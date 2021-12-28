@@ -103,7 +103,6 @@ namespace LostTime.Core
         /// <summary>
         /// Moves the elevator (including player) from the hub to the new scene that was loaded.
         /// </summary>
-        /// <returns></returns>
         private IEnumerator DoMoveElevator()
         {
             yield return new WaitForSeconds(2f);
@@ -140,6 +139,15 @@ namespace LostTime.Core
             //Close the elevator doors and wait for the animation to finish
             TriggerDoors();
             yield return new WaitForSeconds(2f);
+            //4 seconds is the minimum amount of time it takes to transition.
+            float moveTime = 4f;
+            //if the scene has a on complete voice over set, play it, and dont let the elevator finish until it has fully played.
+            var vo = LevelStartArea.Current.OnLevelCompleteVoiceOver;
+            if (vo)
+            {
+                moveTime += vo.GetTotalDuration();
+                Player.Instance.PlayVoiceOver(vo);
+            }
             //unload the level.
             SceneManagement.UnloadScene(loadedScene);
 
@@ -152,9 +160,9 @@ namespace LostTime.Core
             float previousY = position.y;
 
             //do the actual moving.
-            for(float t = 0; t < 4f; t += Time.deltaTime)
+            for(float t = 0; t < moveTime; t += Time.deltaTime)
             {
-                position.y = Mathf.Lerp(previousY, startY, t / 4f);
+                position.y = Mathf.Lerp(previousY, startY, t / moveTime);
                 transform.position = position;
                 Physics.SyncTransforms();
                 yield return null;

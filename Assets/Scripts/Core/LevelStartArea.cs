@@ -11,8 +11,11 @@ namespace LostTime.Core
         private Transform defaultStartingLocation;
         [SerializeField]
         private Item completionItem;
+        [SerializeField]
+        Audio.VoiceOver onLevelCompleteVO;
 
         public Item CompletionItem => completionItem;
+        public Audio.VoiceOver OnLevelCompleteVoiceOver => onLevelCompleteVO;
 
         private void Awake()
         {
