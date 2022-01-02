@@ -829,7 +829,7 @@ Transform:
   m_LocalScale: {x: 4.5274, y: 0.4476524, z: 0.087845}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 47
+  m_RootOrder: 48
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &160016151
 GameObject:
@@ -2641,7 +2641,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 53
+  m_RootOrder: 54
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &629967137
 MonoBehaviour:
@@ -2965,7 +2965,7 @@ Transform:
   m_LocalScale: {x: 4.5274, y: 0.39771265, z: 0.087845}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 49
+  m_RootOrder: 50
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1001 &677561094
 PrefabInstance:
@@ -4924,7 +4924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673784, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673784, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_TagString
@@ -6328,6 +6328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultStartingLocation: {fileID: 0}
   completionItem: {fileID: 11400000, guid: 1e93ce6091ef575499e35c11a785a89f, type: 2}
+  onLevelCompleteVO: {fileID: 0}
 --- !u!4 &1518755830
 Transform:
   m_ObjectHideFlags: 0
@@ -8902,7 +8903,7 @@ Transform:
   m_LocalScale: {x: 5, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 51
+  m_RootOrder: 52
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2128480221
 PrefabInstance:
