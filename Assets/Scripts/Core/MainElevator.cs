@@ -16,6 +16,8 @@ namespace LostTime.Core
         private AudioSource audioSource;
         [SerializeField]
         private GameObject whiteroomCeiling;
+        [SerializeField]
+        private GameObject creditsScreen;
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
         private string loadedScene;
@@ -77,6 +79,7 @@ namespace LostTime.Core
             else 
             {
                 //ALL LEVELS COMPLETED; END GAME
+                StartCoroutine(FinishGame());
             }
         }
 
@@ -178,6 +181,16 @@ namespace LostTime.Core
             audioSource.Play();
             whiteroomCeiling.SetActive(true);
             TriggerDoors();
+        }
+
+        private IEnumerator FinishGame()
+        {
+            TriggerDoors();
+            yield return new WaitForSeconds(2f);
+
+            creditsScreen.SetActive(true);
+            Player.Instance.CharacterController.enabled = false;
+            Player.Instance.enabled = false;
         }
 
         //called when placing key items in the hub.
