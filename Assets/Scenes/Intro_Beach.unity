@@ -14400,9 +14400,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7096117013088065062}
   levels:
-  - Office_Scene
   - Home_Scene
   - School_Scene
+  - Office_Scene
   audioSource: {fileID: 7096117013088065063}
   whiteroomCeiling: {fileID: 133495400}
   creditsScreen: {fileID: 676175061}
