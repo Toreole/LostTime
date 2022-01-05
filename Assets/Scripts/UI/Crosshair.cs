@@ -36,6 +36,7 @@ namespace LostTime.UI
         Door = 1,
         Press = 2,
         Pickup = 3,
-        LookAt = 4
+        LookAt = 4,
+        PlaceItem = 5
     }
 }

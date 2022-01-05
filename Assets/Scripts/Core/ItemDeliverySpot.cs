@@ -15,7 +15,7 @@ namespace LostTime.Core
 
         public override CrosshairType GetCrosshairType()
         {
-            return CrosshairType.Default; //TODO: Make crosshair type for deliveries
+            return CrosshairType.PlaceItem; //TODO: Make crosshair type for deliveries
         }
 
         public override void Interact(Player player)

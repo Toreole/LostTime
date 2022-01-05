@@ -140,7 +140,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &91380174
 Transform:
@@ -230,12 +230,13 @@ GameObject:
   - component: {fileID: 240141234}
   - component: {fileID: 240141236}
   - component: {fileID: 240141235}
+  - component: {fileID: 240141237}
   m_Layer: 0
   m_Name: Office
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &240141234
 Transform:
@@ -303,6 +304,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240141233}
   m_Mesh: {fileID: 360588917386024263, guid: 5d6c4247514a023499491f1dcdbcd0fd, type: 3}
+--- !u!64 &240141237
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240141233}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 360588917386024263, guid: 5d6c4247514a023499491f1dcdbcd0fd, type: 3}
 --- !u!1 &300751722
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +381,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1470070123
 Transform:
@@ -548,11 +563,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1581848714}
   m_Layer: 0
-  m_Name: OfficeRooms(Clone)
+  m_Name: OfficeRooms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1581848714
 Transform:
