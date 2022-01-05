@@ -93,7 +93,7 @@ namespace LostTime.Core
             if (abilities.HasFlag(AbilityUnlocks.SPRINT))
             {
                 currentSpeed = (Input.GetKey(KeyCode.LeftShift)) ? runSpeed : walkSpeed;
-                camera.fieldOfView = Mathf.Lerp(normalFov, sprintFov, input.sqrMagnitude);
+                camera.fieldOfView = Mathf.Lerp(normalFov, sprintFov, Input.GetAxis("Sprint") * Mathf.Min(1, input.magnitude));
             }
             else
             {
