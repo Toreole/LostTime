@@ -3085,6 +3085,61 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469524926}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &478103654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 478103655}
+  - component: {fileID: 478103656}
+  m_Layer: 0
+  m_Name: Audio Reverb Zone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &478103655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478103654}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11, y: 14.5, z: 5.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 752840771}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!167 &478103656
+AudioReverbZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478103654}
+  m_Enabled: 1
+  m_MinDistance: 50
+  m_MaxDistance: 200
+  m_ReverbPreset: 26
+  m_Room: -1000
+  m_RoomHF: -151
+  m_DecayTime: 7.56
+  m_DecayHFRatio: 0.91
+  m_Reflections: -626
+  m_ReflectionsDelay: 0.02
+  m_Reverb: 774
+  m_ReverbDelay: 0.03
+  m_HFReference: 5000
+  m_Diffusion: 100
+  m_Density: 100
+  m_LFReference: 250
+  m_RoomLF: 0
 --- !u!1 &490289909
 GameObject:
   m_ObjectHideFlags: 0
@@ -4846,6 +4901,7 @@ Transform:
   - {fileID: 98926939}
   - {fileID: 380394787}
   - {fileID: 263020619}
+  - {fileID: 478103655}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7739,8 +7795,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1196633109}
-  minInterval: 0.9
-  maxInterval: 1.05
+  minInterval: 1.03
+  maxInterval: 1.14
   upScaleSize: 1.05
   scaleFadeTime: 0.44
   fadeCurve:
@@ -13436,6 +13492,8 @@ MonoBehaviour:
   audioSource: {fileID: 7096117013088065063}
   whiteroomCeiling: {fileID: 133495400}
   creditsScreen: {fileID: 676175061}
+  doorSound: {fileID: 8300000, guid: 13b65fd128a23e144b03fb029a5dd06b, type: 3}
+  dingSound: {fileID: 8300000, guid: 71334ca96db01a746956637ce4eb7161, type: 3}
 --- !u!95 &7096117013088065062
 Animator:
   serializedVersion: 3

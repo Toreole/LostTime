@@ -18,6 +18,10 @@ namespace LostTime.Core
         private GameObject whiteroomCeiling;
         [SerializeField]
         private GameObject creditsScreen;
+        [SerializeField]
+        private AudioClip doorSound;
+        [SerializeField]
+        private AudioClip dingSound;
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
         private string loadedScene;
@@ -35,8 +39,11 @@ namespace LostTime.Core
 
         public void TriggerDoors()
         {
-            if(animator)
+            if (animator)
+            {
+                audioSource.PlayOneShot(doorSound);
                 animator.SetTrigger(doorTrigger);
+            }
         }
 
         //Called from button in scene
@@ -133,7 +140,7 @@ namespace LostTime.Core
             player.SetParent(null);
             //open the doors of the elevator.
             yield return new WaitForSeconds(0.5f);
-            audioSource.Play();
+            audioSource.PlayOneShot(dingSound);
             TriggerDoors();
         }
 
@@ -178,7 +185,7 @@ namespace LostTime.Core
             //unparent player, open the doors.
             player.SetParent(null);
             yield return new WaitForSeconds(0.5f);
-            audioSource.Play();
+            audioSource.PlayOneShot(dingSound);
             whiteroomCeiling.SetActive(true);
             TriggerDoors();
         }
