@@ -20,6 +20,15 @@ namespace LostTime.Core
         private float jumpForce = 8;
         [SerializeField]
         private float gravity = 18;
+        [SerializeField]
+        private new Camera camera;
+        [SerializeField]
+        private float normalFov = 60f, sprintFov = 64f;
+
+        [SerializeField]
+        private float stepLength;
+        [SerializeField]
+        private AudioSource stepAudio;
 
         [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("mouseSensitivity")]
         private float lookSpeed = 10;
@@ -31,7 +40,6 @@ namespace LostTime.Core
     #endregion
 
         CharacterController controller;
-        Camera cam;
         float yaw;
         float pitch;
         float smoothYaw;
@@ -48,17 +56,17 @@ namespace LostTime.Core
         Vector3 lastGroundedPosition;
 
         float mouseSensitivity = 1;
+        float travelledDist = 0f;
 
         protected override void Start () 
         {
             base.Start();
             mouseSensitivity = PlayerPrefs.GetFloat(nameof(mouseSensitivity), 1);
-            cam = Camera.main;
 
             controller = GetComponent<CharacterController> ();
 
             yaw = transform.eulerAngles.y;
-            pitch = cam.transform.localEulerAngles.x;
+            pitch = camera.transform.localEulerAngles.x;
             smoothYaw = yaw;
             smoothPitch = pitch;
 
@@ -83,11 +91,27 @@ namespace LostTime.Core
 
             float currentSpeed;
             if (abilities.HasFlag(AbilityUnlocks.SPRINT))
+            {
                 currentSpeed = (Input.GetKey(KeyCode.LeftShift)) ? runSpeed : walkSpeed;
+                camera.fieldOfView = Mathf.Lerp(normalFov, sprintFov, Input.GetAxis("Sprint") * Mathf.Min(1, input.magnitude));
+            }
             else
+            {
                 currentSpeed = walkSpeed;
+                camera.fieldOfView = normalFov;
+            }
             Vector3 targetVelocity = worldInputDir * currentSpeed;
             velocity = Vector3.SmoothDamp (velocity, targetVelocity, ref smoothV, smoothMoveTime);
+
+            //calculate the horizontal distance that will be travelled in this frame.
+            if(!jumping) //while not on ground, disregard this
+                travelledDist += new Vector3(velocity.x, 0, velocity.z).magnitude * Time.deltaTime;
+            if(travelledDist >= stepLength)
+            {
+                travelledDist -= stepLength;
+                stepAudio.pitch = Random.Range(0.95f, 1.05f);
+                stepAudio.Play();
+            }
 
             verticalVelocity -= gravity * Time.deltaTime;
             velocity = new Vector3 (velocity.x, verticalVelocity, velocity.z);
@@ -129,7 +153,7 @@ namespace LostTime.Core
             smoothYaw = Mathf.SmoothDampAngle (smoothYaw, yaw, ref yawSmoothV, rotationSmoothTime);
 
             transform.eulerAngles = Vector3.up * smoothYaw;
-            cam.transform.localEulerAngles = Vector3.right * smoothPitch;
+            camera.transform.localEulerAngles = Vector3.right * smoothPitch;
         }
 
         public override void Teleport (Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot) 

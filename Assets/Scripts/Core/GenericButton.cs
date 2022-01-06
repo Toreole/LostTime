@@ -17,7 +17,7 @@ namespace LostTime.Core
 
         public override CrosshairType GetCrosshairType()
         {
-            return oneTimeUse&&used? CrosshairType.Default : CrosshairType.Press;
+            return oneTimeUse && used? CrosshairType.Default : CrosshairType.Press;
         }
 
         public override void Interact(Player p)

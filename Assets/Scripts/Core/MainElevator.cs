@@ -16,6 +16,12 @@ namespace LostTime.Core
         private AudioSource audioSource;
         [SerializeField]
         private GameObject whiteroomCeiling;
+        [SerializeField]
+        private GameObject creditsScreen;
+        [SerializeField]
+        private AudioClip doorSound;
+        [SerializeField]
+        private AudioClip dingSound;
 
         readonly int doorTrigger = Animator.StringToHash("doorOpen");
         private string loadedScene;
@@ -33,8 +39,11 @@ namespace LostTime.Core
 
         public void TriggerDoors()
         {
-            if(animator)
+            if (animator)
+            {
+                audioSource.PlayOneShot(doorSound);
                 animator.SetTrigger(doorTrigger);
+            }
         }
 
         //Called from button in scene
@@ -77,6 +86,7 @@ namespace LostTime.Core
             else 
             {
                 //ALL LEVELS COMPLETED; END GAME
+                StartCoroutine(FinishGame());
             }
         }
 
@@ -103,7 +113,6 @@ namespace LostTime.Core
         /// <summary>
         /// Moves the elevator (including player) from the hub to the new scene that was loaded.
         /// </summary>
-        /// <returns></returns>
         private IEnumerator DoMoveElevator()
         {
             yield return new WaitForSeconds(2f);
@@ -131,7 +140,7 @@ namespace LostTime.Core
             player.SetParent(null);
             //open the doors of the elevator.
             yield return new WaitForSeconds(0.5f);
-            audioSource.Play();
+            audioSource.PlayOneShot(dingSound);
             TriggerDoors();
         }
 
@@ -140,6 +149,15 @@ namespace LostTime.Core
             //Close the elevator doors and wait for the animation to finish
             TriggerDoors();
             yield return new WaitForSeconds(2f);
+            //4 seconds is the minimum amount of time it takes to transition.
+            float moveTime = 4f;
+            //if the scene has a on complete voice over set, play it, and dont let the elevator finish until it has fully played.
+            var vo = LevelStartArea.Current.OnLevelCompleteVoiceOver;
+            if (vo)
+            {
+                moveTime += vo.GetTotalDuration();
+                Player.Instance.PlayVoiceOver(vo);
+            }
             //unload the level.
             SceneManagement.UnloadScene(loadedScene);
 
@@ -152,9 +170,9 @@ namespace LostTime.Core
             float previousY = position.y;
 
             //do the actual moving.
-            for(float t = 0; t < 4f; t += Time.deltaTime)
+            for(float t = 0; t < moveTime; t += Time.deltaTime)
             {
-                position.y = Mathf.Lerp(previousY, startY, t / 4f);
+                position.y = Mathf.Lerp(previousY, startY, t / moveTime);
                 transform.position = position;
                 Physics.SyncTransforms();
                 yield return null;
@@ -167,9 +185,19 @@ namespace LostTime.Core
             //unparent player, open the doors.
             player.SetParent(null);
             yield return new WaitForSeconds(0.5f);
-            audioSource.Play();
+            audioSource.PlayOneShot(dingSound);
             whiteroomCeiling.SetActive(true);
             TriggerDoors();
+        }
+
+        private IEnumerator FinishGame()
+        {
+            TriggerDoors();
+            yield return new WaitForSeconds(2f);
+
+            creditsScreen.SetActive(true);
+            Player.Instance.CharacterController.enabled = false;
+            Player.Instance.enabled = false;
         }
 
         //called when placing key items in the hub.
