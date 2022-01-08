@@ -34,10 +34,5 @@ namespace LostTime.Core
             Vector3 offset = new Vector3(0, 0, 0);
             onItemDelivered.DrawDescriptors(transform, Color.blue, ref offset, 0.2f);
         }
-
-        public void PlayVoiceOver(LostTime.Audio.VoiceOver vo)
-        {
-            Player.Instance.PlayVoiceOver(vo);
-        }
     }
 }
