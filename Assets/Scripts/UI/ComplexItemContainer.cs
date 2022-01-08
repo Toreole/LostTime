@@ -19,6 +19,8 @@ namespace LostTime.UI
         private TextMeshProUGUI itemDescription;
         [SerializeField]
         private float focusDuration = 4.0f;
+        [SerializeField]
+        private GameObject itemInfo;
 
         List<ItemDisplay> itemDisplayers = new List<ItemDisplay>(2);
         Queue<ItemDisplay> emptyDisplays;
@@ -42,6 +44,7 @@ namespace LostTime.UI
             }
             DistributeDisplays();
             emptyDisplays = new Queue<ItemDisplay>(itemDisplayers);
+            itemInfo.SetActive(false);
         }
 
         readonly static AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 1, 1);
@@ -165,11 +168,13 @@ namespace LostTime.UI
                 itemName.text = display.Item.itemName;
                 itemDescription.alpha = 1;
                 itemName.alpha = 1;
+                itemInfo.SetActive(true);
             }
             else
             {
                 itemDescription.alpha = 0;
                 itemName.alpha = 0;
+                itemInfo.SetActive(false);
             }
         }
 
@@ -183,6 +188,7 @@ namespace LostTime.UI
                 focusedItemDisplay.Focused = false;
                 focusedItemDisplay = null;
                 lastFocusTime = float.NegativeInfinity;
+                itemInfo.SetActive(false);
             }
         }
 
@@ -267,7 +273,6 @@ namespace LostTime.UI
             }
             //focus it.
             FocusDisplay(display);
-            Debug.Log("fuck me", display.gameObject);
             //now rotate the fictional sphere so the focused one is in front.
             Vector3 startOffset = display.LocalPosition.normalized;
             Vector3 targetOffset = new Vector3(0, 0, -1);
