@@ -6909,6 +6909,10 @@ PrefabInstance:
       propertyPath: stepLength
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1535381019623673787, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
+      propertyPath: fovTransitionTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2376647233000134812, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: crosshair
       value: 
