@@ -91,6 +91,8 @@ namespace SebLague.Portals
             {
                 UpdateSliceParams (traveller);
             }
+            //update the FOV!
+            portalCam.fieldOfView = playerCam.fieldOfView;
         }
 
         // Manually render the camera attached to this portal

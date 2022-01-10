@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90048de95d7d7e49ab0886483de1f32, type: 3}
   m_Name: VO_Sprint_Unlock
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: 1ad85761a9f07fa4c813bef865b9a8bc, type: 3}
   transcription:
   - line: '[ding dong]'
     duration: 2
   - line: Good Morning Students, it's 8am and time to get to class!
-    duration: 4
+    duration: 3
   - line: Today's lunch will be fried potato with bacon and some veggies.
     duration: 4
   - line: Have a nice day.
