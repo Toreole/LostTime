@@ -65,8 +65,8 @@ namespace SebLague.Portals
                 // Teleport the traveller if it has crossed from one side of the portal to the other
                 if (portalSide != portalSideOld) 
                 {
-                    var positionOld = travellerT.position;
-                    var rotOld = travellerT.rotation;
+                    //var positionOld = travellerT.position;
+                    //var rotOld = travellerT.rotation;
                     traveller.Teleport (transform, linkedPortal.transform, m.GetColumn (3), m.rotation);
                     //traveller.graphicsClone.transform.SetPositionAndRotation (positionOld, rotOld);
                     // Can't rely on OnTriggerEnter/Exit to be called next frame since it depends on when FixedUpdate runs
@@ -278,7 +278,7 @@ namespace SebLague.Portals
 
             // Adjust slice offset so that when player standing on other side of portal to the object, the slice doesn't clip through
             float sliceOffsetDst = 0;
-            float cloneSliceOffsetDst = 0;
+            //float cloneSliceOffsetDst = 0;
             float screenThickness = screen.transform.localScale.z;
 
             bool playerSameSideAsTraveller = SameSideOfPortal (playerCam.transform.position, traveller.transform.position);
@@ -289,7 +289,7 @@ namespace SebLague.Portals
             bool playerSameSideAsCloneAppearing = side != linkedPortal.SideOfPortal (playerCam.transform.position);
             if (!playerSameSideAsCloneAppearing) 
             {
-                cloneSliceOffsetDst = -screenThickness;
+                //cloneSliceOffsetDst = -screenThickness;
             }
 
             // Apply parameters
