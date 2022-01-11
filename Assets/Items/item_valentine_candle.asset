@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71efc4cedad5f2049ac965f7e10d3d4c, type: 3}
-  m_Name: itm_CORE_teddy_bear
+  m_Name: item_valentine_candle
   m_EditorClassIdentifier: 
-  itemName: My Teddy
-  itemDescription: "This was my favourite teddy as a kid... \nI think I remember
-    now... \nI had a younger sister that i was very close with. And we lived here
-    with both our parents. \nIt was a small but welcoming home."
+  itemName: Red Candle
+  itemDescription: '"Lovely Valentine''s Day"
+
+    I think I gave this to someone.
+    But who?'
