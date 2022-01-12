@@ -302,6 +302,10 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1765318597302258044, guid: ef4f05c88f374e747ab00c35a71c20fb, type: 3}
+      propertyPath: m_AllowMSAA
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1765318597422223447, guid: ef4f05c88f374e747ab00c35a71c20fb, type: 3}
       propertyPath: preferredItemSize
       value: 1.5
@@ -5553,7 +5557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &859590654
 Transform:
   m_ObjectHideFlags: 0
@@ -6981,6 +6985,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 9a7ea3cebc713674a9dc55bf2b5f600b, type: 3}
+    - target: {fileID: 2052320105, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
+      propertyPath: m_AllowMSAA
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1535381019623673784, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: m_Name
       value: Player
@@ -7048,6 +7056,14 @@ PrefabInstance:
     - target: {fileID: 1535381019623673787, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: fovTransitionTime
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535381020191089686, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
+      propertyPath: m_AllowMSAA
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535381020191089686, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
+      propertyPath: m_RenderingPath
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2376647233000134812, guid: 5101aee443b6c4e028aae23d799c5fa4, type: 3}
       propertyPath: crosshair
@@ -7122,6 +7138,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: 903f5411b9f17124d89f76975cfc7ae3, type: 2}
+    - target: {fileID: 7398305068312324084, guid: 46907afd137174c45a6abfe073e4fdb5, type: 3}
+      propertyPath: fallbackVoiceOver
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b64917bb28910946a174c0862de790f, type: 2}
     - target: {fileID: 7398305069246026532, guid: 46907afd137174c45a6abfe073e4fdb5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

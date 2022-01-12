@@ -27,6 +27,10 @@ namespace LostTime.Core
                 gameObject.SetActive(false);
                 onItemDelivered?.Invoke();
             }
+            else
+            {
+                player.PlayVoiceOver(null); //play the fallback voiceover.
+            }
         }
 
         private void OnDrawGizmos()
