@@ -9490,7 +9490,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultStartingLocation: {fileID: 0}
   completionItem: {fileID: 11400000, guid: f6cbc02d7ec535f419c9f695934c73d7, type: 2}
-  onLevelCompleteVO: {fileID: 0}
+  onLevelCompleteVO: {fileID: 11400000, guid: 20daa6fbdb45fba418c70b99bffb99fc, type: 2}
 --- !u!1001 &1313260177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13652,7 +13652,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8396226, g: 0.7247686, b: 0.7400999, a: 1}
+  m_Color: {r: 1, g: 0.9630805, b: 0.9481132, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -13710,13 +13710,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815844297}
-  m_LocalRotation: {x: 0.8875282, y: 0.37300235, z: -0.26769164, w: 0.03878456}
+  m_LocalRotation: {x: 0.75238067, y: 0.11991945, z: 0.5215067, w: 0.3841527}
   m_LocalPosition: {x: 23.15, y: 16.7, z: 40.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 15.578, y: 207.597, z: 138.257}
+  m_LocalEulerAnglesHint: {x: 26.935, y: 100.399, z: 139.32}
 --- !u!114 &1815844300
 MonoBehaviour:
   m_ObjectHideFlags: 0

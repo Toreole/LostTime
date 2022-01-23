@@ -148,11 +148,13 @@ namespace LostTime.Core
         {
             //Close the elevator doors and wait for the animation to finish
             TriggerDoors();
+            //stash the voiceover before anything else happens idk
+            var vo = LevelStartArea.Current.OnLevelCompleteVoiceOver;
             yield return new WaitForSeconds(2f);
             //4 seconds is the minimum amount of time it takes to transition.
             float moveTime = 4f;
             //if the scene has a on complete voice over set, play it, and dont let the elevator finish until it has fully played.
-            var vo = LevelStartArea.Current.OnLevelCompleteVoiceOver;
+            
             if (vo)
             {
                 moveTime += vo.GetTotalDuration();
