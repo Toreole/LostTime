@@ -21,8 +21,10 @@ namespace LostTime.Core
         //Add: check if the door is unlocked.
         public override void Interact(Player player)
         {
-            if(isLocked is false)
+            if (isLocked is false)
                 base.Interact(player);
+            else
+                player.PlayVoiceOver(null); //"Impossible"
         }
 
     }
