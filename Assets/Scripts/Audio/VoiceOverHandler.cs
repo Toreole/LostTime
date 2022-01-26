@@ -145,7 +145,7 @@ namespace LostTime.Audio
         {
             isPaused = false;
             if(IsPlaying) //only play audio if we should play something.
-                audioSource.Play();
+                audioSource.UnPause();
         }
 
     }
