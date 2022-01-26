@@ -28,6 +28,7 @@ namespace LostTime.UI
         private float endPositionY;
 
         private bool fullyInitialized = false;
+        private bool mayLoadScene = true;
 
         private IEnumerator Start()
         {
@@ -73,8 +74,9 @@ namespace LostTime.UI
             {
                 if (menu)
                     menu.PopLayer();
-                if(!string.IsNullOrEmpty(menuSceneName) && loadSceneOnFinish)
+                if(!string.IsNullOrEmpty(menuSceneName) && loadSceneOnFinish && mayLoadScene)
                 {
+                    mayLoadScene = false;
                     LostTime.Core.SceneManagement.GotoScene(menuSceneName);
                 }
             }
