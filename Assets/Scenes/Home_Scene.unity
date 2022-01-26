@@ -3096,6 +3096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: b7da5f6b9682cd5439df3abe6310aee3, type: 2}
+  disableObject: 1
 --- !u!65 &318186602
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5517,6 +5518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: f6cbc02d7ec535f419c9f695934c73d7, type: 2}
+  disableObject: 1
 --- !u!65 &785712460
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8306,7 +8308,7 @@ MonoBehaviour:
         m_MethodName: PlayVoiceOver
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 11400000, guid: 6f198a2666a108945b3f6396baefb7a9, type: 2}
           m_ObjectArgumentAssemblyTypeName: LostTime.Audio.VoiceOver, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -13760,6 +13762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: b7da5f6b9682cd5439df3abe6310aee3, type: 2}
+  disableObject: 1
 --- !u!65 &1823847179
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15832,6 +15835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 73a4bfe034730f247a5a1402aa0dc9f9, type: 2}
+  disableObject: 1
 --- !u!65 &2064666847
 BoxCollider:
   m_ObjectHideFlags: 0

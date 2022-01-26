@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90048de95d7d7e49ab0886483de1f32, type: 3}
+  m_Name: VO_school_ending
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 0}
+  transcription:
+  - line: Hey son, sit down, let me tell you something.
+    duration: 2.6
+  - line: <i>What is it?</i>
+    duration: 1.9
+  - line: It is important that you always try and help others.
+    duration: 2.8
+  - line: And I know you can, and want to.
+    duration: 2.5
+  - line: I see the connection that you and your sister have
+    duration: 3
+  - line: You have a good heart
+    duration: 2.4
+  - line: Spread that positivity, even if people dislike you for it.
+    duration: 3.2
+  - line: <i>I will, dad.</i>
+    duration: 1.8
+  - line: I'm proud of you, son.
+    duration: 2.5

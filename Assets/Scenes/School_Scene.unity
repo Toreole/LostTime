@@ -3358,7 +3358,7 @@ Transform:
   m_LocalScale: {x: 5.899, y: 4.2562, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 51
+  m_RootOrder: 52
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &140537457
 PrefabInstance:
@@ -5840,6 +5840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: f2a695727b3dd6448b46432d35e2d4d4, type: 2}
+  disableObject: 1
 --- !u!1001 &245220388
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17993,6 +17994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: b0d916765655bfc46906fd17e10e0094, type: 2}
+  disableObject: 1
 --- !u!65 &746857863
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19011,7 +19013,7 @@ Transform:
   m_LocalScale: {x: 4.266169, y: 0.32251766, z: 0.087845}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 48
+  m_RootOrder: 49
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &795497467
 PrefabInstance:
@@ -19787,7 +19789,7 @@ Transform:
   m_LocalScale: {x: 0.49586, y: 0.49586, z: 0.49586}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 40
+  m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 29.534, y: -267.971, z: -90.778}
 --- !u!1001 &834807346
 PrefabInstance:
@@ -26544,6 +26546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 1e93ce6091ef575499e35c11a785a89f, type: 2}
+  disableObject: 1
 --- !u!65 &1207715294
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30862,7 +30865,7 @@ Transform:
   m_LocalScale: {x: 5.899, y: 4.2562, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 62
+  m_RootOrder: 63
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!1001 &1387842190
 PrefabInstance:
@@ -33084,7 +33087,7 @@ GameObject:
   m_Layer: 0
   m_Name: CHAMBER:SCENE_POSITION
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -33102,7 +33105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultStartingLocation: {fileID: 0}
   completionItem: {fileID: 11400000, guid: 1e93ce6091ef575499e35c11a785a89f, type: 2}
-  onLevelCompleteVO: {fileID: 0}
+  onLevelCompleteVO: {fileID: 11400000, guid: 2cbe68eb33c286f458f5e5e723e0f8d1, type: 2}
 --- !u!4 &1518755830
 Transform:
   m_ObjectHideFlags: 0
@@ -39759,7 +39762,7 @@ Transform:
   m_LocalScale: {x: 3.6904466, y: 1, z: 1.1926}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 53
+  m_RootOrder: 54
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1883897432
 MonoBehaviour:
@@ -42271,6 +42274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 28c7f3cf6b31a904d8f656c71497f7cb, type: 2}
+  disableObject: 1
 --- !u!1001 &1957947911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48527,7 +48531,7 @@ Transform:
   - {fileID: 1259888456}
   - {fileID: 503064476}
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &8556801537015443092
 MeshFilter:

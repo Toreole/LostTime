@@ -166,7 +166,7 @@ namespace LostTime.Core
         /// <summary>
         /// The absolute simplest way to add an item to an inventory lol. so basic rn.
         /// </summary>
-        public void PickupItem(Item item, GameObject obj)
+        public void PickupItem(Item item, GameObject obj, bool disableObject)
         {
             //the first time picking up an item allows permanent access to the inventory.
             if (unlockedAbilities.HasFlag(AbilityUnlocks.INVENTORY) is false)
@@ -180,7 +180,8 @@ namespace LostTime.Core
             item.Sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(texture.width >> 1, texture.height >> 1));
             inventoryUIContainer.AddItemAndShow(item);
             OpenInventory();
-            obj.SetActive(false);
+            if(disableObject)
+                obj.SetActive(false);
         }
 
         /// <summary>
