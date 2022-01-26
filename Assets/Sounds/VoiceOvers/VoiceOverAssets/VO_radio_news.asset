@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90048de95d7d7e49ab0886483de1f32, type: 3}
+  m_Name: VO_radio_news
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 9e169d1d342d8c54c8de0d70e7c1d182, type: 3}
+  transcription:
+  - line: Goooooood Afternoon everybody!
+    duration: 1.8
+  - line: This is Radio 16 coming to you in the last week of Pride Month!
+    duration: 3.2
+  - line: The city is active, and the weather is <i>amazing</i>!
+    duration: 2.4
+  - line: The protests all around the city are already showing effect as it seems.
+    duration: 3.8
+  - line: Yeah, our current political leaders are backed into a corner here
+    duration: 3.2
+  - line: so I think we can expect some changes coming very soon!
+    duration: 2.8
+  - line: That's certainly exciting news!
+    duration: 1.9
+  - line: Alright then, so until we have something to report on that
+    duration: 2.5
+  - line: time to get back to our regular scheduled program!
+    duration: 2.4
+  - line: '[music]'
+    duration: 1

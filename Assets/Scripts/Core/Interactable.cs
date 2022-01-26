@@ -16,6 +16,8 @@ namespace LostTime.Core
 
         public abstract void Interact(Player player);
 
+        public void PlayVoiceOver(Audio.VoiceOver vo) => Player.Instance.PlayVoiceOver(vo);
+
         public abstract CrosshairType GetCrosshairType();
     }
 }

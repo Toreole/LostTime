@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: itm_CORE_teddy_bear
   m_EditorClassIdentifier: 
   itemName: My Teddy
-  itemDescription: 'This was my favourite teddy as a kid... I think I remember now... '
+  itemDescription: "This was my favourite teddy as a kid... \nI think I remember
+    now... \nI had a younger sister that i was very close with. And we lived here
+    with both our parents. \nIt was a small but welcoming home."

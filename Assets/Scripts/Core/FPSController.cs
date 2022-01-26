@@ -24,6 +24,8 @@ namespace LostTime.Core
         private new Camera camera;
         [SerializeField]
         private float normalFov = 60f, sprintFov = 64f;
+        [SerializeField]
+        private float fovTransitionTime = 0.5f;
 
         [SerializeField]
         private float stepLength;
@@ -57,6 +59,7 @@ namespace LostTime.Core
 
         float mouseSensitivity = 1;
         float travelledDist = 0f;
+        private float activeSprintTime01 = 0f;
 
         protected override void Start () 
         {
@@ -90,16 +93,21 @@ namespace LostTime.Core
             Vector3 worldInputDir = transform.TransformDirection (inputDir);
 
             float currentSpeed;
-            if (abilities.HasFlag(AbilityUnlocks.SPRINT))
+            if (abilities.HasFlag(AbilityUnlocks.SPRINT) && Input.GetKey(KeyCode.LeftShift) && input.sqrMagnitude > 0.2f)
             {
-                currentSpeed = (Input.GetKey(KeyCode.LeftShift)) ? runSpeed : walkSpeed;
-                camera.fieldOfView = Mathf.Lerp(normalFov, sprintFov, Input.GetAxis("Sprint") * Mathf.Min(1, input.magnitude));
+                currentSpeed = runSpeed;
+                activeSprintTime01 += Time.deltaTime / fovTransitionTime;
             }
             else
             {
                 currentSpeed = walkSpeed;
-                camera.fieldOfView = normalFov;
+                activeSprintTime01 -= Time.deltaTime / fovTransitionTime;
             }
+            //clamp the sprinttime between 0 and 1
+            activeSprintTime01 = Mathf.Clamp01(activeSprintTime01);
+            //adjust fov
+            camera.fieldOfView = Mathf.Lerp(normalFov, sprintFov, activeSprintTime01);
+
             Vector3 targetVelocity = worldInputDir * currentSpeed;
             velocity = Vector3.SmoothDamp (velocity, targetVelocity, ref smoothV, smoothMoveTime);
 

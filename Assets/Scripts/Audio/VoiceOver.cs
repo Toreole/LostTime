@@ -22,7 +22,7 @@ namespace LostTime.Audio
             for (int i = 0; i < transcription.Length; i++)
                 duration += transcription[i].duration;
 
-            if (audioClip is null)
+            if (audioClip == null)
                 return duration;
             return Mathf.Max(duration, audioClip.length);
         }

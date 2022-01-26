@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: itm_glass_drink
   m_EditorClassIdentifier: 
   itemName: Glass
-  itemDescription: It's an empty glass.
+  itemDescription: This glass is falling off the counter, yet completely stationary...
+    It shouldn't be here...

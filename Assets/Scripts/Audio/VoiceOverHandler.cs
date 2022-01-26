@@ -14,6 +14,8 @@ namespace LostTime.Audio
         private TextMeshProUGUI textElement;
         [SerializeField]
         private UnityEngine.UI.Image backgroundImage;
+        [SerializeField]
+        private VoiceOver fallbackVoiceOver;
 
         //this behaves more like a stack innit
         private Queue<VoiceOver> voiceOverQueue = new Queue<VoiceOver>(4); //not expecting more than 4 voiceovers to be queued at any time.
@@ -64,6 +66,13 @@ namespace LostTime.Audio
         /// </summary>
         public void QueueVoiceOver(VoiceOver vo)
         {
+            if (vo is null)
+            {
+                //dont queue it multiple times.
+                if (voiceOverQueue.Contains(fallbackVoiceOver) || currentVoiceOver == fallbackVoiceOver)
+                    return;
+                vo = fallbackVoiceOver;
+            }
             if(!IsPlaying)
                 Play(vo);
             else
@@ -111,6 +120,7 @@ namespace LostTime.Audio
                     }
                     else //no more queued. stop playing. hide subtitles.
                     {
+                        currentVoiceOver = null; //clear out buffer.
                         textElement.text = "";
                         IsPlaying = false;
                     }
@@ -135,7 +145,7 @@ namespace LostTime.Audio
         {
             isPaused = false;
             if(IsPlaying) //only play audio if we should play something.
-                audioSource.Play();
+                audioSource.UnPause();
         }
 
     }
